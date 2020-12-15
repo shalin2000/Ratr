@@ -1,5 +1,7 @@
 import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert } from "react-native";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
 const Separator = () => (
   <View style={styles.separator} />
@@ -8,10 +10,10 @@ const Separator = () => (
 const App = () => (
   <SafeAreaView style={styles.container}>
     <Text style = {styles.title}> 
-      Ratr
+      RATr
     </Text>
     <Text style = {styles.secondary} >
-      Rate. Track. Enjoy.
+      Rate! Track! Enjoy!
     </Text>
     <View>
       <Button
@@ -38,8 +40,7 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 50, 
-    fontWeight: 'bold', 
-    fontStyle: 'italic', 
+    fontWeight: 'bold',
     color: 'black',
     textAlign: 'center',
   },
@@ -54,7 +55,7 @@ const styles = StyleSheet.create({
   },
   separator: {
     marginVertical: 8,
-    borderBottomColor: 'white',
+    borderBottomColor: 'purple',
     borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });

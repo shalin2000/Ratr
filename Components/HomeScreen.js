@@ -65,6 +65,9 @@ class HomeScreen extends React.Component {
     this.callAPI('combined-print-and-e-book-fiction');
     this.callAPI('combined-print-and-e-book-nonfiction');
     this.callAPI('young-adult-hardcover');
+    this.callAPI('middle-grade-paperback-monthly');
+    this.callAPI('graphic-books-and-manga');
+    this.callAPI('series-books');
   }
 
   render() {
@@ -80,11 +83,27 @@ class HomeScreen extends React.Component {
                   
     return (
 
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
+        
+        <Text style={styles.text}> Fiction </Text>
         {flat(this.state.ficBS)}
+        
+        <Text style={styles.text}> Non-Fiction </Text>
         {flat(this.state.nonficBS)}
+        
+        <Text style={styles.text}> Young Adult </Text>
         {flat(this.state.adultBS)}
-      </View>
+
+        <Text style={styles.text}> Middle Grade </Text>
+        {flat(this.state.middleGradeBS)}
+        
+        <Text style={styles.text}> Graphic/Manga </Text>
+        {flat(this.state.graphicBS)}
+        
+        <Text style={styles.text}> Series </Text>
+        {flat(this.state.seriesBS)}
+
+      </ScrollView>
     );
   }
 }
@@ -93,9 +112,11 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1b1b1c',
-    alignItems: 'center',
-    justifyContent: 'center',
-    flexDirection: 'column'
+    flexDirection: 'column',
+  },
+  text: {
+    color: '#ebe4d3',
+    fontSize: 20,
   },
   image: {
     marginVertical: 10,

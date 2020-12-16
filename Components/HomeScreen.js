@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image, ScrollView, FlatList } from 'react-native';
-// import axios from "axios";
 
 class HomeScreen extends React.Component {
   constructor(props){
@@ -65,26 +64,28 @@ class HomeScreen extends React.Component {
   componentDidMount() {
     this.callAPI('combined-print-and-e-book-fiction');
     this.callAPI('combined-print-and-e-book-nonfiction');
+    this.callAPI('young-adult-hardcover');
   }
 
   render() {
-    const numColumns = 3;
     const flat = (list) => <FlatList
+                              horizontal={true}
                               data={list}
                               renderItem={({item}) => (
                                 <Image source = {{uri:item.book_image}}
                                   style = {styles.image} /> 
                               )}
                               keyExtractor={(item,key) => key.toString()}
-                              numColumns={numColumns}
                             />
                   
     return (
-      <View style = {styles.container}>
+
+      <View style={styles.container}>
         {flat(this.state.ficBS)}
         {flat(this.state.nonficBS)}
-      </View>      
-    )
+        {flat(this.state.adultBS)}
+      </View>
+    );
   }
 }
 
@@ -94,7 +95,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#1b1b1c',
     alignItems: 'center',
     justifyContent: 'center',
-    flexDirection: 'row'
+    flexDirection: 'column'
   },
   image: {
     marginVertical: 10,
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: 150,
     height: 150,
-    resizeMode: 'contain'
+    resizeMode: 'contain',
   }
 });
 

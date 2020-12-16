@@ -40,6 +40,7 @@ class HomeScreen extends React.Component {
   render() {
     const numColumns = 3;
     return (
+      <View style = {styles.container}>
         <FlatList
           data={this.state.ficBestSeller}
           renderItem={({item}) => (
@@ -48,21 +49,23 @@ class HomeScreen extends React.Component {
           )}
           keyExtractor={(item,key) => key.toString()}
           numColumns={numColumns}
-        />       
+        /> 
+      </View>      
     )
   }
-
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#1b1b1c',
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row'
   },
   image: {
+    marginVertical: 10,
+    borderRadius: 5,
     flex: 1,
     width: 150,
     height: 150,

@@ -10,7 +10,7 @@ class LoginScreen extends React.Component {
     return (
       <SafeAreaView style={styles.container}>
         <Text style = {styles.title}> 
-          RATr
+          Ratr
         </Text>
         <Text style = {styles.secondary} >
           Rate! Track! Enjoy!

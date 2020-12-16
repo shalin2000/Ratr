@@ -6,50 +6,83 @@ class HomeScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      ficBestSeller: [],
-      width: 110
+      ficBS: [], nonficBS: [], adultBS: [], middleGradeBS: [], graphicBS: [], seriesBS: [], audioficBS: [], 
+      audioNonficBS: [], adviceBS: []
     };
     this.storeTitle = this.storeTitle.bind(this);
   }
 
-  storeTitle(res){
+  storeTitle(genre, res){
     var x;
     var tmpLst = []
     for (x of res){
       tmpLst.push(x)
     }
-    this.setState({
-      ficBestSeller: tmpLst
-    })
+    if (genre === 'combined-print-and-e-book-fiction'){
+      this.setState({ ficBS: tmpLst })
+    }
+    if (genre === 'combined-print-and-e-book-nonfiction'){
+      this.setState({ nonficBS: tmpLst })
+    }
+    if (genre ==='young-adult-hardcover'){
+      this.setState({ adultBS: tmpLst })
+    }
+    if (genre === 'middle-grade-paperback-monthly'){
+      this.setState({ middleGradeBS: tmpLst })
+    }
+    if (genre === 'graphic-books-and-manga'){
+      this.setState({ graphicBS: tmpLst })
+    }
+    if (genre === 'series-books'){
+      this.setState({ seriesBS: tmpLst })
+    }
+    if (genre === 'audio-fiction'){
+      this.setState({ audioficBS: tmpLst })
+    }
+    if (genre === 'audio-nonfiction'){
+      this.setState({ audioNonficBS: tmpLst })
+    }
+    if (genre === 'advice-how-to-and-miscellaneous'){
+      this.setState({ adviceBS: tmpLst })
+    }
+    
+  }
+
+  callAPI(genre){
+    fetch('https://api.nytimes.com/svc/books/v3/lists/current/'+genre+'.json?api-key=iVMyu76Ghr7mUmgiypvYFsas8A73bA2K', {
+          method: 'GET'
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson.results.books)
+        this.storeTitle(genre, responseJson.results.books)
+      })
+      .catch((error) => {
+          console.error(error);
+    });
   }
 
   componentDidMount() {
-    fetch('https://api.nytimes.com/svc/books/v3/lists/current/hardcover-fiction.json?api-key=iVMyu76Ghr7mUmgiypvYFsas8A73bA2K', {
-        method: 'GET'
-    })
-    .then((response) => response.json())
-    .then((responseJson) => {
-      console.log(responseJson.results.books)
-      this.storeTitle(responseJson.results.books)
-    })
-    .catch((error) => {
-        console.error(error);
-    });
+    this.callAPI('combined-print-and-e-book-fiction');
+    this.callAPI('combined-print-and-e-book-nonfiction');
   }
 
   render() {
     const numColumns = 3;
+    const flat = (list) => <FlatList
+                              data={list}
+                              renderItem={({item}) => (
+                                <Image source = {{uri:item.book_image}}
+                                  style = {styles.image} /> 
+                              )}
+                              keyExtractor={(item,key) => key.toString()}
+                              numColumns={numColumns}
+                            />
+                  
     return (
       <View style = {styles.container}>
-        <FlatList
-          data={this.state.ficBestSeller}
-          renderItem={({item}) => (
-            <Image source = {{uri:item.book_image}}
-              style = {styles.image} /> 
-          )}
-          keyExtractor={(item,key) => key.toString()}
-          numColumns={numColumns}
-        /> 
+        {flat(this.state.ficBS)}
+        {flat(this.state.nonficBS)}
       </View>      
     )
   }

@@ -1,12 +1,13 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, ScrollView, FlatList } from 'react-native';
 // import axios from "axios";
 
 class HomeScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      ficBestSeller: []
+      ficBestSeller: [],
+      width: 110
     };
     this.storeTitle = this.storeTitle.bind(this);
   }
@@ -28,7 +29,8 @@ class HomeScreen extends React.Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-        this.storeTitle(responseJson.results.books)
+      console.log(responseJson.results.books)
+      this.storeTitle(responseJson.results.books)
     })
     .catch((error) => {
         console.error(error);
@@ -36,16 +38,20 @@ class HomeScreen extends React.Component {
   }
 
   render() {
+    const numColumns = 3;
     return (
-      <View>
-        {this.state.ficBestSeller.map((item, key) => <Text key={key}> {item.title} </Text>)}
-        {/* <Image source = {{uri:this.state.data}}
-        style = {{ width: 328, height: 500 }} */}
-        {/* /> */}
-        {/* <Text> {this.state.data[0].title} </Text> */}
-      </View>
+        <FlatList
+          data={this.state.ficBestSeller}
+          renderItem={({item}) => (
+            <Image source = {{uri:item.book_image}}
+              style = {styles.image} /> 
+          )}
+          keyExtractor={(item,key) => key.toString()}
+          numColumns={numColumns}
+        />       
     )
   }
+
 }
 
 const styles = StyleSheet.create({
@@ -54,7 +60,14 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
+    flexDirection: 'row'
   },
+  image: {
+    flex: 1,
+    width: 150,
+    height: 150,
+    resizeMode: 'contain'
+  }
 });
 
 export default HomeScreen;

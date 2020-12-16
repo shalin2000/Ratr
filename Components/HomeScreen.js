@@ -1,13 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-import axios from "axios";
+import { StyleSheet, Text, View, Button, Image } from 'react-native';
+// import axios from "axios";
 
 class HomeScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      data: []
+      ficBestSeller: []
     };
+    this.storeTitle = this.storeTitle.bind(this);
+  }
+
+  storeTitle(res){
+    var x;
+    var tmpLst = []
+    for (x of res){
+      tmpLst.push(x)
+    }
+    this.setState({
+      ficBestSeller: tmpLst
+    })
   }
 
   componentDidMount() {
@@ -16,10 +28,7 @@ class HomeScreen extends React.Component {
     })
     .then((response) => response.json())
     .then((responseJson) => {
-        console.log(responseJson);
-        this.setState({
-          data: responseJson.results.books.title
-        })
+        this.storeTitle(responseJson.results.books)
     })
     .catch((error) => {
         console.error(error);
@@ -29,7 +38,11 @@ class HomeScreen extends React.Component {
   render() {
     return (
       <View>
-        <Text> {this.state.data} </Text>
+        {this.state.ficBestSeller.map((item, key) => <Text key={key}> {item.title} </Text>)}
+        {/* <Image source = {{uri:this.state.data}}
+        style = {{ width: 328, height: 500 }} */}
+        {/* /> */}
+        {/* <Text> {this.state.data[0].title} </Text> */}
       </View>
     )
   }

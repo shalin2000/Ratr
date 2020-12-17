@@ -82,9 +82,6 @@ class HomeScreen extends React.Component {
     });
   }
 
-  moveToAddNewCustomer(){
-    alert("Testing")
-  }
   render() {
     // Makes the flatlist for each genre
     const flat = (list, secTitle) => <View>
@@ -93,7 +90,7 @@ class HomeScreen extends React.Component {
                                             horizontal={true}
                                             data={list}
                                             renderItem={({item}) => (
-                                              <TouchableOpacity onPress={() => this.moveToAddNewCustomer()}>
+                                              <TouchableOpacity onPress={() => this.props.navigation.navigate('Book')}>
                                                 <Image source = {{uri:item.book_image}}
                                                   style = {styles.image} /> 
                                               </TouchableOpacity>
@@ -102,7 +99,7 @@ class HomeScreen extends React.Component {
                                           />
                                       </View>  
       
-    // returns loading screen for 1 sec and then displays the genre after rendering                                         
+    // returns loading screen for 1 sec and then displays the genre after rendering                                       
     return this.state.isLoading ? 
       <ScrollView style={styles.container}>
         {flat(this.state.ficBS, 'Fiction')}

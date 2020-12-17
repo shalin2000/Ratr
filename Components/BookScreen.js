@@ -28,15 +28,16 @@ class BookScreen extends React.Component {
 			console.log(responseJson)
 			var x;
 			for (x of responseJson.items){
-				if (((x.volumeInfo.industryIdentifiers[0].identifier === this.props.route.params.book.isbns[0].isbn13) ||
+				if (((x.volumeInfo.title.toUpperCase() === this.props.route.params.book.title.toUpperCase()) && 
+						(x.volumeInfo.authors[0].toUpperCase() === this.props.route.params.book.author.toUpperCase())) || 
+						((x.volumeInfo.industryIdentifiers[0].identifier === this.props.route.params.book.isbns[0].isbn13) ||
 						(x.volumeInfo.industryIdentifiers[0].identifier === this.props.route.params.book.isbns[1].isbn13) ||
 						(x.volumeInfo.industryIdentifiers[1].identifier === this.props.route.params.book.isbns[0].isbn10) ||
-						(x.volumeInfo.industryIdentifiers[1].identifier === this.props.route.params.book.isbns[1].isbn10)) ||
-						((x.volumeInfo.title === this.props.route.params.book.title) && (x.volumeInfo.authors === this.props.route.params.book.author))){
+						(x.volumeInfo.industryIdentifiers[1].identifier === this.props.route.params.book.isbns[1].isbn10))){
 					this.storeBook(x)
 				}
 			}
-			this.storeAllBooks(responseJson)
+			// this.storeAllBooks(responseJson)
 		})
 		.catch((error) => {
 				console.error(error);
@@ -52,9 +53,9 @@ class BookScreen extends React.Component {
 	}
 
 	// Stores all results found from google api when user searched a specifc title
-	storeAllBooks(books){
+	// storeAllBooks(books){
 		
-	}
+	// }
 
 	render() {
 		return (

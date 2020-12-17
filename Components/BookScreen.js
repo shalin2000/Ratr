@@ -5,21 +5,36 @@ class BookScreen extends React.Component {
 	constructor(props){
 			super(props);
 			this.state = {
-				book: []
+				googleBook: [],
+				NYBook: []
 			};
 	}
 
 	componentDidMount(){
-		this.setState({
-			book: this.props.route.params.book
+		fetch('https://www.googleapis.com/books/v1/volumes/zyTCAlFPjgYC?key=AIzaSyC2uH3lMt5kv43Ys9p34UGWPtJymgOc-Qk', {
+          method: 'GET'
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson)
+        this.setState({googleBook: responseJson})
+      })
+      .catch((error) => {
+          console.error(error);
 		});
+		
+
+		this.setState({
+			NYBook: this.props.route.params.book
+		});
+		console.log(this.props.route.params.book)
 	}
 
 	render() {
 		return (
 			<ScrollView style={styles.container}>
-				<Text style={styles.text}>{this.state.book.title}</Text>
-				<Image source = {{uri:this.state.book.book_image}} style = {styles.image} /> 
+				<Text style={styles.text}>{this.state.NYBook.title}</Text>
+				<Image source = {{uri:this.state.NYBook.book_image}} style = {styles.image} /> 
 			</ScrollView>
 		);
 	}

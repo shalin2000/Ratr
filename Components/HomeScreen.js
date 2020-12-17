@@ -90,7 +90,13 @@ class HomeScreen extends React.Component {
                                             horizontal={true}
                                             data={list}
                                             renderItem={({item}) => (
-                                              <TouchableOpacity onPress={() => this.props.navigation.navigate('Book')}>
+                                              <TouchableOpacity 
+                                                onPress={() => {
+                                                  this.props.navigation.navigate('Book', {
+                                                    book: item
+                                                  });
+                                                }}
+                                              >
                                                 <Image source = {{uri:item.book_image}}
                                                   style = {styles.image} /> 
                                               </TouchableOpacity>

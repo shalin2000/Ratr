@@ -17,8 +17,8 @@ class BookScreen extends React.Component {
 
 	render() {
 		return (
-			<ScrollView>
-				<Text>{this.state.book.title}</Text>
+			<ScrollView style={styles.container}>
+				<Text style={styles.text}>{this.state.book.title}</Text>
 				<Image source = {{uri:this.state.book.book_image}} style = {styles.image} /> 
 			</ScrollView>
 		);
@@ -26,6 +26,14 @@ class BookScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
+	container: {
+    flex: 1,
+    backgroundColor: '#1b1b1c',
+	},
+	text: {
+    color: '#ebe4d3',
+    fontSize: 20,
+  },
 	image: {
 		marginVertical: 10,
 		borderRadius: 5,

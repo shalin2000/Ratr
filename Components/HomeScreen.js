@@ -68,6 +68,9 @@ class HomeScreen extends React.Component {
     this.callAPI('middle-grade-paperback-monthly');
     this.callAPI('graphic-books-and-manga');
     this.callAPI('series-books');
+    this.callAPI('audio-fiction');
+    this.callAPI('audio-nonfiction');
+    this.callAPI('advice-how-to-and-miscellaneous');
   }
 
   render() {
@@ -103,6 +106,15 @@ class HomeScreen extends React.Component {
         <Text style={styles.text}> Series </Text>
         {flat(this.state.seriesBS)}
 
+        <Text style={styles.text}> Audio Fiction </Text>
+        {flat(this.state.audioficBS)}
+        
+        <Text style={styles.text}> Audio Non-Fiction </Text>
+        {flat(this.state.audioNonficBS)}
+        
+        <Text style={styles.text}> Advice, How-To and Miscellaneous </Text>
+        {flat(this.state.adviceBS)}
+
       </ScrollView>
     );
   }
@@ -122,8 +134,8 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     borderRadius: 5,
     flex: 1,
-    width: 150,
-    height: 150,
+    width: 165,
+    height: 180,
     resizeMode: 'contain',
   }
 });

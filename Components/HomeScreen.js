@@ -1,16 +1,36 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, ScrollView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, ScrollView, FlatList, ActivityIndicator } from 'react-native';
 
 class HomeScreen extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       ficBS: [], nonficBS: [], adultBS: [], middleGradeBS: [], graphicBS: [], seriesBS: [], audioficBS: [], 
-      audioNonficBS: [], adviceBS: []
+      audioNonficBS: [], adviceBS: [],
+      isLoading: false
     };
     this.storeTitle = this.storeTitle.bind(this);
   }
 
+  componentDidMount() {
+    // calls the apis
+    this.callAPI('combined-print-and-e-book-fiction');
+    this.callAPI('combined-print-and-e-book-nonfiction');
+    this.callAPI('young-adult-hardcover');
+    this.callAPI('middle-grade-paperback-monthly');
+    this.callAPI('graphic-books-and-manga');
+    this.callAPI('series-books');
+    this.callAPI('audio-fiction');
+    this.callAPI('audio-nonfiction');
+    this.callAPI('advice-how-to-and-miscellaneous');
+
+    // adds 1 sec delay for the api and everything to render 
+    setTimeout(() => {
+      this.setState({ isLoading: true });
+    }, 1000);
+  }
+
+  // stores the book titles into the correct state
   storeTitle(genre, res){
     var x;
     var tmpLst = []
@@ -44,9 +64,9 @@ class HomeScreen extends React.Component {
     if (genre === 'advice-how-to-and-miscellaneous'){
       this.setState({ adviceBS: tmpLst })
     }
-    
   }
 
+  // calls the api with the genre parameter which was passed in by the componentdidmount
   callAPI(genre){
     fetch('https://api.nytimes.com/svc/books/v3/lists/current/'+genre+'.json?api-key=iVMyu76Ghr7mUmgiypvYFsas8A73bA2K', {
           method: 'GET'
@@ -61,62 +81,43 @@ class HomeScreen extends React.Component {
     });
   }
 
-  componentDidMount() {
-    this.callAPI('combined-print-and-e-book-fiction');
-    this.callAPI('combined-print-and-e-book-nonfiction');
-    this.callAPI('young-adult-hardcover');
-    this.callAPI('middle-grade-paperback-monthly');
-    this.callAPI('graphic-books-and-manga');
-    this.callAPI('series-books');
-    this.callAPI('audio-fiction');
-    this.callAPI('audio-nonfiction');
-    this.callAPI('advice-how-to-and-miscellaneous');
-  }
-
   render() {
-    const flat = (list) => <FlatList
-                              horizontal={true}
-                              data={list}
-                              renderItem={({item}) => (
-                                <Image source = {{uri:item.book_image}}
-                                  style = {styles.image} /> 
-                              )}
-                              keyExtractor={(item,key) => key.toString()}
-                            />
-                  
-    return (
-
+    // Makes the flatlist for each genre
+    const flat = (list, secTitle) => <View>
+                                        <Text style={styles.text}> {secTitle} </Text>
+                                          <FlatList
+                                            horizontal={true}
+                                            data={list}
+                                            renderItem={({item}) => (
+                                              <Image source = {{uri:item.book_image}}
+                                                style = {styles.image} /> 
+                                            )}
+                                            keyExtractor={(item,key) => key.toString()}
+                                          />
+                                      </View>  
+      
+    // returns loading screen for 1 sec and then displays the genre after rendering                                         
+    return this.state.isLoading ? 
       <ScrollView style={styles.container}>
-        
-        <Text style={styles.text}> Fiction </Text>
-        {flat(this.state.ficBS)}
-        
-        <Text style={styles.text}> Non-Fiction </Text>
-        {flat(this.state.nonficBS)}
-        
-        <Text style={styles.text}> Young Adult </Text>
-        {flat(this.state.adultBS)}
-
-        <Text style={styles.text}> Middle Grade </Text>
-        {flat(this.state.middleGradeBS)}
-        
-        <Text style={styles.text}> Graphic/Manga </Text>
-        {flat(this.state.graphicBS)}
-        
-        <Text style={styles.text}> Series </Text>
-        {flat(this.state.seriesBS)}
-
-        <Text style={styles.text}> Audio Fiction </Text>
-        {flat(this.state.audioficBS)}
-        
-        <Text style={styles.text}> Audio Non-Fiction </Text>
-        {flat(this.state.audioNonficBS)}
-        
-        <Text style={styles.text}> Advice, How-To and Miscellaneous </Text>
-        {flat(this.state.adviceBS)}
-
+        {flat(this.state.ficBS, 'Fiction')}
+        {flat(this.state.nonficBS, 'Non-Fiction')}
+        {flat(this.state.adultBS, 'Young Adult')}
+        {flat(this.state.middleGradeBS, 'Middle Grade')}
+        {flat(this.state.graphicBS, 'Graphic/Manga')}
+        {flat(this.state.seriesBS, 'Series')}
+        {flat(this.state.audioficBS, 'Audio Fiction')}
+        {flat(this.state.audioNonficBS, 'Audio Non-Fiction')}
+        {flat(this.state.adviceBS, 'Advice, How-To and Miscellaneous')}
       </ScrollView>
-    );
+     :
+      <View>
+        <ActivityIndicator
+            style={{ height: 80 }}
+            color="#C00"
+            size="large"
+        />
+      </View>
+    
   }
 }
 

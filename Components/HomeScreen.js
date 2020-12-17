@@ -92,7 +92,7 @@ class HomeScreen extends React.Component {
                                             renderItem={({item}) => (
                                               <TouchableOpacity 
                                                 onPress={() => {
-                                                  this.props.navigation.navigate('Book', {
+                                                  this.props.navigation.navigate('NYBook', {
                                                     book: item
                                                   });
                                                 }}

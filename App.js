@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from './Components/LoginScreen';
 import HomeScreen from './Components/HomeScreen';
-import BookScreen from './Components/BookScreen';
+import NYBookScreen from './Components/NYBookScreen';
 
 const Stack = createStackNavigator();
 
@@ -25,8 +25,8 @@ class App extends React.Component {
             component={HomeScreen}
           />
           <Stack.Screen
-            name="Book"
-            component={BookScreen}
+            name="NYBook"
+            component={NYBookScreen}
           />
         </Stack.Navigator>
       </NavigationContainer>

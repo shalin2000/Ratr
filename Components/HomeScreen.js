@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button, Image, ScrollView, FlatList, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, ScrollView, FlatList, 
+      ActivityIndicator, TouchableHighlight, TouchableOpacity } from 'react-native';
 
 class HomeScreen extends React.Component {
   constructor(props){
@@ -81,6 +82,9 @@ class HomeScreen extends React.Component {
     });
   }
 
+  moveToAddNewCustomer(){
+    alert("Testing")
+  }
   render() {
     // Makes the flatlist for each genre
     const flat = (list, secTitle) => <View>
@@ -89,8 +93,10 @@ class HomeScreen extends React.Component {
                                             horizontal={true}
                                             data={list}
                                             renderItem={({item}) => (
-                                              <Image source = {{uri:item.book_image}}
-                                                style = {styles.image} /> 
+                                              <TouchableOpacity onPress={() => this.moveToAddNewCustomer()}>
+                                                <Image source = {{uri:item.book_image}}
+                                                  style = {styles.image} /> 
+                                              </TouchableOpacity>
                                             )}
                                             keyExtractor={(item,key) => key.toString()}
                                           />

@@ -19,6 +19,18 @@ class GoogleBookScreen extends React.Component {
       bookImg: this.props.route.params.bookImg,
     });
     this.getAuthors(this.props.route.params.book.authors)
+
+    // fetch('https://www.googleapis.com/books/v1/volumes?q=Harry_Potter_and_the_Sorcerers_Stone&key=AIzaSyC2uH3lMt5kv43Ys9p34UGWPtJymgOc-Qk', {
+		// 		method: 'GET'
+		// })
+		// .then((response) => response.json())
+		// .then((responseJson) => {
+		// 	console.log(responseJson)
+		// })
+		// .catch((error) => {
+		// 		console.error(error);
+    // });
+    
   }
 
   // gets the author and adds "AND" between multiple authors if there is
@@ -47,17 +59,16 @@ class GoogleBookScreen extends React.Component {
 		return (
       <ScrollView style={styles.container}>
         <View style={{flexDirection: 'row'}}>
-            <Image source = {{uri:this.state.bookImg}} style = {styles.image} /> 
-            <View style={{flex: 1}}>
-              <View style={{flexDirection: 'column'}}>
-                <Text style={styles.text}>{this.state.book.title}</Text>
-                <Text style={styles.text}><Text style={styles.boldAndUnderline}>WRITTEN BY:</Text> {this.state.author}</Text>
-              </View>
+          <Image source = {{uri:this.state.bookImg}} style = {styles.image} /> 
+          <View style={{flex: 1}}>
+            <View style={{flexDirection: 'column'}}>
+              <Text style={styles.text}>{this.state.book.title}</Text>
+              <Text style={styles.text}><Text style={styles.boldAndUnderline}>WRITTEN BY:</Text> {this.state.author}</Text>
             </View>
+          </View>
         </View>
 
         <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Description:</Text> {this.state.book.description}</Text>
-
       </ScrollView>
 		);
 	}

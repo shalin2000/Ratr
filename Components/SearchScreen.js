@@ -20,8 +20,9 @@ class SearchScreen extends React.Component {
 	}
 
 	fetchAPI(bookTitle){
-		var title = bookTitle.split(' ').join('_');
-		fetch('https://www.googleapis.com/books/v1/volumes?q='+title+'&key=AIzaSyC2uH3lMt5kv43Ys9p34UGWPtJymgOc-Qk', {
+    var title = bookTitle.split(' ').join('_');
+    var title1 = this.removeStuff(title);
+		fetch('https://www.googleapis.com/books/v1/volumes?q='+title1+'&key=AIzaSyC2uH3lMt5kv43Ys9p34UGWPtJymgOc-Qk', {
 				method: 'GET'
 		})
 		.then((response) => response.json())
@@ -34,10 +35,16 @@ class SearchScreen extends React.Component {
 		});
 	}
 
+  // removes the punctuations from the title
+  removeStuff(title){
+    var regex = /[!"#$%&'()*+,-./:;<=>?@[\]^`{|}~]/g;
+    return title.replace(regex, '');
+  }
+
 	// Stores all results found from google api when user searched a specifc title
 	storeAllBooks(books){
 		var book;
-    var tmpLst = []
+    var tmpLst = [];
     if (books.totalItems === 0){
       tmpLst = []
     }
@@ -46,8 +53,21 @@ class SearchScreen extends React.Component {
         tmpLst.push(book)
       }
     }
-    this.setState({ resultFound: tmpLst })
+    var newLst = this.removeNoImg(tmpLst);
+    this.setState({ resultFound: newLst })
 	}
+
+  // removes books that have no imageLink
+  removeNoImg(lst){
+    var i;
+    var newLst = [];
+    for (i = 0; i < lst.length; i++){
+      if (typeof(lst[i].volumeInfo.imageLinks) !== 'undefined'){
+        newLst.push(lst[i])
+      }
+    }
+    return newLst
+  }
 
 	render() {
     // Makes the flatlist for the resultFound from search
@@ -65,7 +85,7 @@ class SearchScreen extends React.Component {
                                     }}
                                   >
                                     <Image source = {{uri:item.volumeInfo.imageLinks.thumbnail}}
-                                      style = {styles.image} /> 
+                                      style = {styles.image} />
                                   </TouchableOpacity>
                                 )}
                                 keyExtractor={(item,key) => key.toString()}

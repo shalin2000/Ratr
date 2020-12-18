@@ -87,7 +87,7 @@ class NYBookScreen extends React.Component {
         {this.state.NYBook.primary_isbn10 !== null ? <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Primary ISBN 10:</Text> {this.state.NYBook.primary_isbn10}</Text> : null}
         
         <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Buy Links:</Text> {this.state.buyLink.map((link, index) => (
-          <Text key={index}> 
+          <Text key={index}>
             {link.name === 'Amazon' ?
               <TouchableOpacity onPress={() => Linking.openURL(link.url)}>
                 <Image source={require('../Images/amazon.jpg')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
@@ -118,7 +118,7 @@ class NYBookScreen extends React.Component {
         </Text>
         
         {/* <FontAwesomeIcon icon={ faBookmark } color="blue" size={ 64 }/> */}
-
+        
         <FAB
           style={styles.fab}
           small

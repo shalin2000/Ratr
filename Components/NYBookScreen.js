@@ -22,53 +22,7 @@ class NYBookScreen extends React.Component {
 		});
 	}
 
-	// Stores all results found from google api when user searched a specifc title
-	// storeAllBooks(books){
-		
-	// }
-
-  // openLink(link){
-  //   Linking.openURL(link);
-  // }
-
 	render() {
-
-    // const displayBuyLinks = () =>
-    //   {var x
-    //   for (x of this.state.buyLink){
-    //     if (x.name === 'Amazon'){
-    //       <TouchableOpacity onPress={this.openLink(x.url)}>
-    //         <Image source={require('../Images/amazon.png')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-    //       </TouchableOpacity>
-    //     }
-    //     if (x.name === 'Apple Books'){
-    //       <TouchableOpacity onPress={this.openLink(x.url)}>
-    //         <Image source={require('../Images/applebook.png')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-    //       </TouchableOpacity>
-    //     }
-    //     if (x.name === 'Barnes and Noble'){
-    //       <TouchableOpacity onPress={this.openLink(x.url)}>
-    //         <Image source={require('../Images/Barnes&Noble.png')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-    //       </TouchableOpacity>
-    //     }
-    //     if (x.name === 'Books-A-Million'){
-    //       <TouchableOpacity onPress={this.openLink(x.url)}>
-    //         <Image source={require('../Images/bookAMillion.png')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-    //       </TouchableOpacity>
-    //     }
-    //     if (x.name === 'Bookshop'){
-    //       <TouchableOpacity onPress={this.openLink(x.url)}>
-    //         <Image source={require('../Images/bookshop.png')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-    //       </TouchableOpacity>
-    //     }
-    //     if (x.name === 'Indiebound'){
-    //       <TouchableOpacity onPress={this.openLink(x.url)}>
-    //         <Image source={require('../Images/indieBound.png')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-    //       </TouchableOpacity>
-    //     }
-    //   }
-    //   }
-
 		return (
 			<ScrollView style={styles.container}>
         <View style={{flexDirection: 'row'}}>
@@ -116,9 +70,7 @@ class NYBookScreen extends React.Component {
           </Text>
           ))} 
         </Text>
-        
-        {/* <FontAwesomeIcon icon={ faBookmark } color="blue" size={ 64 }/> */}
-        
+                
         <FAB
           style={styles.fab}
           small

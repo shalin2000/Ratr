@@ -1,5 +1,6 @@
 import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, ScrollView, Image } from "react-native";
+// import StarRating from 'react-native-star-rating';
 
 class GoogleBookScreen extends React.Component {
 	constructor(props){
@@ -19,18 +20,6 @@ class GoogleBookScreen extends React.Component {
       bookImg: this.props.route.params.bookImg,
     });
     this.getAuthors(this.props.route.params.book.authors)
-
-    // fetch('https://www.googleapis.com/books/v1/volumes?q=Harry_Potter_and_the_Sorcerers_Stone&key=AIzaSyC2uH3lMt5kv43Ys9p34UGWPtJymgOc-Qk', {
-		// 		method: 'GET'
-		// })
-		// .then((response) => response.json())
-		// .then((responseJson) => {
-		// 	console.log(responseJson)
-		// })
-		// .catch((error) => {
-		// 		console.error(error);
-    // });
-    
   }
 
   // gets the author and adds "AND" between multiple authors if there is
@@ -59,16 +48,18 @@ class GoogleBookScreen extends React.Component {
 		return (
       <ScrollView style={styles.container}>
         <View style={{flexDirection: 'row'}}>
-          <Image source = {{uri:this.state.bookImg}} style = {styles.image} /> 
-          <View style={{flex: 1}}>
-            <View style={{flexDirection: 'column'}}>
-              <Text style={styles.text}>{this.state.book.title}</Text>
-              <Text style={styles.text}><Text style={styles.boldAndUnderline}>WRITTEN BY:</Text> {this.state.author}</Text>
+            <Image source = {{uri:this.state.bookImg}} style = {styles.image} /> 
+            <View style={{}}>
+              <View style={{flexDirection: 'column', margin: 10}}>
+                <Text style={styles.text}>{this.state.book.title}</Text>
+                <Text style={styles.author}>{this.state.author}</Text>
+                {/* <Text style={styles.rating}>Rating: {this.state.book.averageRating}</Text> */}
+              </View>
             </View>
-          </View>
         </View>
 
         <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Description:</Text> {this.state.book.description}</Text>
+
       </ScrollView>
 		);
 	}
@@ -81,8 +72,14 @@ const styles = StyleSheet.create({
   image: {
     width: 200, height: 200, resizeMode: 'contain', marginTop: 50
   },
-	text: {
-    color: '#ebe4d3', fontSize: 20, marginTop: 50, flexWrap: 'wrap',
+  text: {
+    color: '#ebe4d3', fontSize: 28, marginTop: 50, flexWrap: 'wrap', width: 200
+  },
+	author: {
+    color: 'lightblue', fontSize: 20, marginTop: 0, flexWrap: 'wrap',
+  },
+  rating: {
+    color: 'white', fontSize: 25, marginTop: 0, flexWrap: 'wrap', margin: 5
   },
   descriptionText: {
     color: '#ebe4d3', fontSize: 20, marginTop: 50, flexWrap: 'wrap', marginLeft: 10

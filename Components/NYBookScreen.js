@@ -4,6 +4,7 @@ import { StyleSheet, Button, View, SafeAreaView, Text, Alert,
 // import { TouchableRipple } from 'react-native-paper';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCoffee, faBookmark } from '@fortawesome/free-solid-svg-icons'
+import { FAB } from 'react-native-paper';
 
 class NYBookScreen extends React.Component {
 	constructor(props){
@@ -118,6 +119,13 @@ class NYBookScreen extends React.Component {
         
         <FontAwesomeIcon icon={ faBookmark } color="blue" size={ 64 }/>
 
+        <FAB
+          style={styles.fab}
+          small
+          icon="plus"
+          onPress={() => console.log('Pressed')}
+        />
+
 			</ScrollView>
 		);
 	}
@@ -138,7 +146,10 @@ const styles = StyleSheet.create({
   },
   boldAndUnderline: {
     fontWeight: 'bold', textDecorationLine: 'underline'
-  }
+  },
+  fab: {
+    position: 'absolute', margin: 16, right: 0, bottom: 0,
+  },
 });
 
 export default NYBookScreen;

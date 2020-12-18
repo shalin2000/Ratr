@@ -117,12 +117,13 @@ class NYBookScreen extends React.Component {
           ))} 
         </Text>
         
-        <FontAwesomeIcon icon={ faBookmark } color="blue" size={ 64 }/>
+        {/* <FontAwesomeIcon icon={ faBookmark } color="blue" size={ 64 }/> */}
 
         <FAB
           style={styles.fab}
           small
           icon="plus"
+          color="yellow"
           onPress={() => console.log('Pressed')}
         />
 

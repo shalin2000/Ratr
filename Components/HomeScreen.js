@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image, ScrollView, FlatList, 
       ActivityIndicator, TouchableHighlight, TouchableOpacity } from 'react-native';
+import { Searchbar } from 'react-native-paper';
 
 class HomeScreen extends React.Component {
   constructor(props){
@@ -8,9 +9,11 @@ class HomeScreen extends React.Component {
     this.state = {
       ficBS: [], nonficBS: [], adultBS: [], middleGradeBS: [], graphicBS: [], seriesBS: [], audioficBS: [], 
       audioNonficBS: [], adviceBS: [],
-      isLoading: false
+      isLoading: false,
+      searchQuery: '',
     };
     this.storeTitle = this.storeTitle.bind(this);
+    this.searchChange = this.searchChange.bind(this);
   }
 
   componentDidMount() {
@@ -29,6 +32,21 @@ class HomeScreen extends React.Component {
     setTimeout(() => {
       this.setState({ isLoading: true });
     }, 1000);
+  }
+
+  // calls the api with the genre parameter which was passed in by the componentdidmount
+  callAPI(genre){
+    fetch('https://api.nytimes.com/svc/books/v3/lists/current/'+genre+'.json?api-key=iVMyu76Ghr7mUmgiypvYFsas8A73bA2K', {
+          method: 'GET'
+      })
+      .then((response) => response.json())
+      .then((responseJson) => {
+        console.log(responseJson.results.books)
+        this.storeTitle(genre, responseJson.results.books)
+      })
+      .catch((error) => {
+          console.error(error);
+    });
   }
 
   // stores the book titles into the correct state
@@ -67,20 +85,12 @@ class HomeScreen extends React.Component {
     }
   }
 
-  // calls the api with the genre parameter which was passed in by the componentdidmount
-  callAPI(genre){
-    fetch('https://api.nytimes.com/svc/books/v3/lists/current/'+genre+'.json?api-key=iVMyu76Ghr7mUmgiypvYFsas8A73bA2K', {
-          method: 'GET'
-      })
-      .then((response) => response.json())
-      .then((responseJson) => {
-        console.log(responseJson.results.books)
-        this.storeTitle(genre, responseJson.results.books)
-      })
-      .catch((error) => {
-          console.error(error);
+  // updates the search field with the characters that are being writen by the user
+  searchChange = event => {
+    this.setState({
+      searchQuery: event
     });
-  }
+  };
 
   render() {
     // Makes the flatlist for each genre
@@ -103,11 +113,23 @@ class HomeScreen extends React.Component {
                                             )}
                                             keyExtractor={(item,key) => key.toString()}
                                           />
-                                      </View>  
-      
+                                      </View>
+    
     // returns loading screen for 1 sec and then displays the genre after rendering                                       
     return this.state.isLoading ? 
       <ScrollView style={styles.container}>
+        {/* Search feature */}
+        <Searchbar
+          placeholder="Search Book"
+          onChangeText={this.searchChange}
+          value={this.state.searchQuery}
+          onSubmitEditing={() => {
+            this.props.navigation.navigate('Search', {
+              search: this.state.searchQuery
+            });
+          }}
+        />
+        {/* displays the best seller books */}
         {flat(this.state.ficBS, 'Fiction')}
         {flat(this.state.nonficBS, 'Non-Fiction')}
         {flat(this.state.adultBS, 'Young Adult')}

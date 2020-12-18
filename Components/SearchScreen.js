@@ -1,16 +1,22 @@
 import * as React from "react";
-import { StyleSheet, Button, View, SafeAreaView, Text, Alert, ScrollView, Image } from "react-native";
+import { StyleSheet, Button, View, SafeAreaView, 
+        Text, Alert, ScrollView, Image, FlatList, TouchableOpacity} from "react-native";
 
 class SearchScreen extends React.Component {
 	constructor(props){
     super(props);
     this.state = {
-      
+      search: '',
+      resultFound: [],
     };
+    this.storeAllBooks = this.storeAllBooks.bind(this);
 	}
 
 	componentDidMount(){
-		this.fetchAPI('whatever they search')
+		this.setState({
+			search: this.props.route.params.search,
+    });
+		this.fetchAPI(this.props.route.params.search)
 	}
 
 	fetchAPI(bookTitle){
@@ -30,14 +36,49 @@ class SearchScreen extends React.Component {
 
 	// Stores all results found from google api when user searched a specifc title
 	storeAllBooks(books){
-		
+		var book;
+    var tmpLst = []
+    if (books.totalItems === 0){
+      tmpLst = []
+    }
+    else {
+      for (book of books.items){
+        tmpLst.push(book)
+      }
+    }
+    this.setState({ resultFound: tmpLst })
 	}
 
 	render() {
+    // Makes the flatlist for the resultFound from search
+    const flat = (list) => <View>
+                              <FlatList
+                                numColumns={2}
+                                data={list}
+                                renderItem={({item}) => (
+                                  <TouchableOpacity 
+                                    onPress={() => {
+                                      this.props.navigation.navigate('GoogleBook', {
+                                        book: item.volumeInfo,
+                                        bookImg: item.volumeInfo.imageLinks.thumbnail
+                                      });
+                                    }}
+                                  >
+                                    <Image source = {{uri:item.volumeInfo.imageLinks.thumbnail}}
+                                      style = {styles.image} /> 
+                                  </TouchableOpacity>
+                                )}
+                                keyExtractor={(item,key) => key.toString()}
+                              />
+                          </View>
 		return (
-			<ScrollView style={styles.container}>
+			<View style={styles.container}>
+				<Text style={styles.text}>Searched Result... {this.state.search}</Text>
+        
+        {/* shows the results that was found by the search */}
+        {this.state.resultFound.length !== 0 ? flat(this.state.resultFound) : <Text style={styles.text}>NO BOOKS FOUND!!!</Text>}
 
-			</ScrollView>
+			</View>
 		);
 	}
 }
@@ -55,8 +96,8 @@ const styles = StyleSheet.create({
 		marginVertical: 10,
 		borderRadius: 5,
 		flex: 1,
-		width: 200,
-		height: 200,
+		width: 150,
+		height: 150,
 		resizeMode: 'contain',
 	}
 });

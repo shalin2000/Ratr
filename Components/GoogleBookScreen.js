@@ -1,6 +1,5 @@
 import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, ScrollView, Image } from "react-native";
-// import StarRating from 'react-native-star-rating';
 
 class GoogleBookScreen extends React.Component {
 	constructor(props){

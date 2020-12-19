@@ -20,6 +20,7 @@ class NYBookScreen extends React.Component {
       BooksAMillion: '',
       Bookshop: '',
       Indiebound: '',
+      placeholder: 'Select option'
     };
     this.getBuyLinkurl = this.getBuyLinkurl.bind(this);
 	}
@@ -95,12 +96,13 @@ class NYBookScreen extends React.Component {
         /> */}
 
         <Picker
-          selectedValue={<Text>Select</Text>}
-          style={{height: 50, width: 100}}
+          selectedValue={this.state.placeholder}
+          style={{height: 100, width: 150}}
           onValueChange={(itemValue, itemIndex) =>
-            Linking.openURL(itemValue)
+            itemValue !== 'placeholder' ?
+            Linking.openURL(itemValue) : null
           }>
-          <Picker.Item label= "Select" value = {null} />
+          <Picker.Item label= "Select Option" value = {this.state.placeholder} />
           <Picker.Item label= "Amazon" value = {this.state.Amazon} />
           <Picker.Item label= "Apple Books" value = {this.state.AppleBooks} />
           <Picker.Item label= "Barnes and Noble" value = {this.state.BarnesandNoble} />

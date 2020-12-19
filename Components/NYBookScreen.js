@@ -5,8 +5,8 @@ import { StyleSheet, Button, View, SafeAreaView, Text, Alert,
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCoffee, faBookmark } from '@fortawesome/free-solid-svg-icons'
 import { FAB } from 'react-native-paper';
-import DropDownPicker from 'react-native-dropdown-picker';
-
+// import DropDownPicker from 'react-native-dropdown-picker';
+import {Picker} from '@react-native-picker/picker';
 
 class NYBookScreen extends React.Component {
 	constructor(props){
@@ -76,8 +76,8 @@ class NYBookScreen extends React.Component {
         {this.state.NYBook.primary_isbn13 !== null ? <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Primary ISBN 13:</Text> {this.state.NYBook.primary_isbn13}</Text> : null}
         {this.state.NYBook.primary_isbn10 !== null ? <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Primary ISBN 10:</Text> {this.state.NYBook.primary_isbn10}</Text> : null}
        
-       <DropDownPicker
-            
+       {/* <DropDownPicker
+            style={{width: 150, }}
             items = {[
               {label: 'Amazon', value: this.state.Amazon},
               {label: 'Apple Books', value: this.state.AppleBooks},
@@ -88,12 +88,28 @@ class NYBookScreen extends React.Component {
             ]} 
         
             defaultIndex={0}
-            containerStyle={{height: 40}}
+            containerStyle={{width: 150, height: 40}}
             onChangeItem={item => 
               Linking.openURL(item.value)
             }
-        />
-          
+        /> */}
+
+        <Picker
+          selectedValue={<Text>Select</Text>}
+          style={{height: 50, width: 100}}
+          onValueChange={(itemValue, itemIndex) =>
+            Linking.openURL(itemValue)
+          }>
+          <Picker.Item label= "Select" value = {null} />
+          <Picker.Item label= "Amazon" value = {this.state.Amazon} />
+          <Picker.Item label= "Apple Books" value = {this.state.AppleBooks} />
+          <Picker.Item label= "Barnes and Noble" value = {this.state.BarnesandNoble} />
+          <Picker.Item label= "Books-A-Million" value = {this.state.BooksAMillion} />
+          <Picker.Item label= "Bookshop" value = {this.state.Bookshop} />
+          <Picker.Item label= "Indiebound" value = {this.state.Indiebound} />
+
+        </Picker>
+
         <FAB
           style={styles.fab}
           small

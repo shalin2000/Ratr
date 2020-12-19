@@ -5,22 +5,58 @@ import { StyleSheet, Button, View, SafeAreaView, Text, Alert,
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faCoffee, faBookmark } from '@fortawesome/free-solid-svg-icons'
 import { FAB } from 'react-native-paper';
+import DropDownPicker from 'react-native-dropdown-picker';
+
 
 class NYBookScreen extends React.Component {
 	constructor(props){
     super(props);
     this.state = {
       NYBook: [],
-      buyLink: []
+      buyLink: [],
+      Amazon: '',
+      AppleBooks: '',
+      BarnesandNoble: '',
+      BooksAMillion: '',
+      Bookshop: '',
+      Indiebound: '',
     };
+    this.getBuyLinkurl = this.getBuyLinkurl.bind(this);
 	}
 
 	componentDidMount(){
 		this.setState({
       NYBook: this.props.route.params.book,
       buyLink: this.props.route.params.book.buy_links
-		});
+    });
+    
+    this.getBuyLinkurl(this.props.route.params.book.buy_links)
 	}
+
+
+  getBuyLinkurl(buyLink){
+    var x;
+    for (x = 0; x < buyLink.length; x++){
+      if (buyLink[x].name === 'Amazon'){
+        this.setState({Amazon: buyLink[x].url})
+      }
+      if (buyLink[x].name === 'Apple Books'){
+        this.setState({AppleBooks: buyLink[x].url})
+      }
+      if (buyLink[x].name === 'Barnes and Noble'){
+        this.setState({BarnesandNoble: buyLink[x].url})
+      }
+      if (buyLink[x].name === 'Books-A-Million'){
+        this.setState({BooksAMillion: buyLink[x].url})
+      }
+      if (buyLink[x].name === 'Bookshop'){
+        this.setState({Bookshop: buyLink[x].url})
+      }
+      if (buyLink[x].name === 'Indiebound'){
+        this.setState({Indiebound: buyLink[x].url})
+      }
+    } 
+  }
 
 	render() {
 		return (
@@ -39,38 +75,25 @@ class NYBookScreen extends React.Component {
         
         {this.state.NYBook.primary_isbn13 !== null ? <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Primary ISBN 13:</Text> {this.state.NYBook.primary_isbn13}</Text> : null}
         {this.state.NYBook.primary_isbn10 !== null ? <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Primary ISBN 10:</Text> {this.state.NYBook.primary_isbn10}</Text> : null}
+       
+       <DropDownPicker
+            
+            items = {[
+              {label: 'Amazon', value: this.state.Amazon},
+              {label: 'Apple Books', value: this.state.AppleBooks},
+              {label: 'Barnes and Noble', value: this.state.BarnesandNoble},
+              {label: 'Books-A-Million', value: this.state.BooksAMillion},
+              {label: 'Bookshop', value: this.state.Bookshop},
+              {label: 'Indiebound', value: this.state.Indiebound},
+            ]} 
         
-        <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Buy Links:</Text> {this.state.buyLink.map((link, index) => (
-          <Text key={index}>
-            {link.name === 'Amazon' ?
-              <TouchableOpacity onPress={() => Linking.openURL(link.url)}>
-                <Image source={require('../Images/amazon.jpg')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-              </TouchableOpacity> : 
-            link.name === 'Apple Books' ?
-              <TouchableOpacity onPress={() => Linking.openURL(link.url)}>
-                <Image source={require('../Images/applebook.png')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-              </TouchableOpacity> : 
-            link.name === 'Barnes and Noble' ?
-            <TouchableOpacity onPress={() => Linking.openURL(link.url)}>
-              <Image source={require('../Images/barnes.jpg')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-            </TouchableOpacity> :
-            link.name === 'Books-A-Million' ?
-            <TouchableOpacity onPress={() => Linking.openURL(link.url)}>
-              <Image source={require('../Images/bookAMillion.png')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-            </TouchableOpacity> :
-            link.name === 'Bookshop' ?
-            <TouchableOpacity onPress={() => Linking.openURL(link.url)}>
-              <Image source={require('../Images/bookshop.jpg')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-            </TouchableOpacity> :
-            link.name === 'Indiebound' ?
-            <TouchableOpacity onPress={() => Linking.openURL(link.url)}>
-              <Image source={require('../Images/indieBound.jpg')} style={{width: 100, height: 100, resizeMode: 'contain',}} />
-            </TouchableOpacity> : null
+            defaultIndex={0}
+            containerStyle={{height: 40}}
+            onChangeItem={item => 
+              Linking.openURL(item.value)
             }
-          </Text>
-          ))} 
-        </Text>
-                
+        />
+          
         <FAB
           style={styles.fab}
           small

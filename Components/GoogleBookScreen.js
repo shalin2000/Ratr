@@ -8,6 +8,7 @@ class GoogleBookScreen extends React.Component {
       book: [],
       bookImg: '',
       author: '',
+      isbn:''
     };
     this.getAuthors = this.getAuthors.bind(this);
 	}
@@ -17,6 +18,8 @@ class GoogleBookScreen extends React.Component {
 		this.setState({
       book: this.props.route.params.book,
       bookImg: this.props.route.params.bookImg,
+      isbn: this.props.route.params.isbn,
+      
     });
     this.getAuthors(this.props.route.params.book.authors)
   }
@@ -44,6 +47,8 @@ class GoogleBookScreen extends React.Component {
   }
 
 	render() {
+    console.log(this.state.isbn)
+    
 		return (
       <ScrollView style={styles.container}>
         <View style={{flexDirection: 'row'}}>
@@ -53,11 +58,21 @@ class GoogleBookScreen extends React.Component {
                 <Text style={styles.text}>{this.state.book.title}</Text>
                 <Text style={styles.author}>{this.state.author}</Text>
                 {/* <Text style={styles.rating}>Rating: {this.state.book.averageRating}</Text> */}
+                <Text style={styles.rating}>ISBN: {this.state.isbn}</Text>
               </View>
+              
             </View>
-        </View>
 
+        </View>
+        <View style={{flexDirection: 'row', marginLeft: 20}}>
+        <Text style={styles.secondView}>Rating: {this.state.book.averageRating}</Text>
+        <Text style={styles.secondView}>Language: {this.state.book.language}</Text>
+        <Text style={styles.secondView}>Pages: {this.state.book.pageCount}</Text>
+
+        </View>
+        
         <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Description:</Text> {this.state.book.description}</Text>
+        
 
       </ScrollView>
 		);
@@ -78,7 +93,11 @@ const styles = StyleSheet.create({
     color: 'lightblue', fontSize: 20, marginTop: 0, flexWrap: 'wrap',
   },
   rating: {
-    color: 'white', fontSize: 25, marginTop: 0, flexWrap: 'wrap', margin: 5
+    color: 'white', fontSize: 20, marginTop: 0, flexWrap: 'wrap', margin: 5
+  },
+  secondView:{
+    margin: 5, marginTop: 5, fontSize: 25, fontWeight: '800', color: 'grey',
+
   },
   descriptionText: {
     color: '#ebe4d3', fontSize: 20, marginTop: 50, flexWrap: 'wrap', marginLeft: 10

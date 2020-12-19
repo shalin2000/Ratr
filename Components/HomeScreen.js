@@ -18,15 +18,15 @@ class HomeScreen extends React.Component {
 
   componentDidMount() {
     // calls the apis
-    this.callAPI('combined-print-and-e-book-fiction');
-    this.callAPI('combined-print-and-e-book-nonfiction');
-    this.callAPI('young-adult-hardcover');
-    this.callAPI('middle-grade-paperback-monthly');
-    this.callAPI('graphic-books-and-manga');
-    this.callAPI('series-books');
-    this.callAPI('audio-fiction');
-    this.callAPI('audio-nonfiction');
-    this.callAPI('advice-how-to-and-miscellaneous');
+    // this.callAPI('combined-print-and-e-book-fiction');
+    // this.callAPI('combined-print-and-e-book-nonfiction');
+    // this.callAPI('young-adult-hardcover');
+    // this.callAPI('middle-grade-paperback-monthly');
+    // this.callAPI('graphic-books-and-manga');
+    // this.callAPI('series-books');
+    // this.callAPI('audio-fiction');
+    // this.callAPI('audio-nonfiction');
+    // this.callAPI('advice-how-to-and-miscellaneous');
 
     // adds 1 sec delay for the api and everything to render 
     setTimeout(() => {

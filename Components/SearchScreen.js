@@ -80,7 +80,9 @@ class SearchScreen extends React.Component {
                                     onPress={() => {
                                       this.props.navigation.navigate('GoogleBook', {
                                         book: item.volumeInfo,
-                                        bookImg: item.volumeInfo.imageLinks.thumbnail
+                                        bookImg: item.volumeInfo.imageLinks.thumbnail,
+                                        isbn: item.volumeInfo.industryIdentifiers[1].identifier
+                                        
                                       });
                                     }}
                                   >

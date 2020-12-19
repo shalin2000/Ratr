@@ -1,5 +1,7 @@
 import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, ScrollView, Image } from "react-native";
+import Stars from 'react-native-stars';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class GoogleBookScreen extends React.Component {
 	constructor(props){
@@ -57,7 +59,17 @@ class GoogleBookScreen extends React.Component {
               <View style={{flexDirection: 'column', margin: 10}}>
                 <Text style={styles.text}>{this.state.book.title}</Text>
                 <Text style={styles.author}>{this.state.author}</Text>
-                {/* <Text style={styles.rating}>Rating: {this.state.book.averageRating}</Text> */}
+                <Stars
+                  default={this.state.book.averageRating}
+                  count={5}
+                  half={true}
+                  starSize={20}
+                  disabled={true}
+                  fullStar={<Icon name={'star'} style={[styles.myStarStyle]}/>}
+                  emptyStar={<Icon name={'star-outline'} style={[styles.myStarStyle, styles.myEmptyStarStyle]}/>}
+                  halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]}/>}
+                />
+                <Text style={styles.rating}>Rating Count - {this.state.book.ratingsCount}</Text>
                 <Text style={styles.rating}>ISBN: {this.state.isbn}</Text>
               </View>
               
@@ -104,7 +116,17 @@ const styles = StyleSheet.create({
   },
   boldAndUnderline: {
     fontWeight: 'bold', textDecorationLine: 'underline'
-  }
+  },
+  myStarStyle: {
+    color: 'yellow',
+    backgroundColor: 'transparent',
+    textShadowColor: 'black',
+    textShadowOffset: {width: 1, height: 1},
+    textShadowRadius: 2,
+  },
+  myEmptyStarStyle: {
+    color: 'white',
+  },
 });
 
 export default GoogleBookScreen;

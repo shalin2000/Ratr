@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
     color: '#ebe4d3', fontSize: 20, marginTop: 10
   },
   image: {
-    marginVertical: 10, borderRadius: 5, flex: 1, width: 150, height: 200, 
+    marginVertical: 10, borderRadius: 5, flex: 1, width: 140, height: 200, 
     resizeMode: 'stretch', marginRight: 10, marginTop: 10
   },
 });

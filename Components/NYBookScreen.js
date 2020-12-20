@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     flex: 1, backgroundColor: '#1b1b1c',
   },
   image: {
-    width: 150, height: 200, resizeMode: 'stretch'
+    width: 140, height: 200, resizeMode: 'stretch'
   },
   title: {
     color: 'lightblue', fontSize: 28, flexWrap: 'wrap', width: 175

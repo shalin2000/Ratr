@@ -81,8 +81,7 @@ class SearchScreen extends React.Component {
                                       this.props.navigation.navigate('GoogleBook', {
                                         book: item.volumeInfo,
                                         bookImg: item.volumeInfo.imageLinks.thumbnail,
-                                        isbn: item.volumeInfo.industryIdentifiers[1].identifier
-                                        
+                                        isbn: item.volumeInfo.industryIdentifiers.length > 1 ? item.volumeInfo.industryIdentifiers[1].identifier : 'undefined'
                                       });
                                     }}
                                   >

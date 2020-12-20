@@ -1,12 +1,9 @@
 import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, 
         ScrollView, Image, Linking, TouchableOpacity } from "react-native";
-// import { TouchableRipple } from 'react-native-paper';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
-import { faCoffee, faBookmark } from '@fortawesome/free-solid-svg-icons'
 import { FAB } from 'react-native-paper';
-// import DropDownPicker from 'react-native-dropdown-picker';
-import {Picker} from '@react-native-picker/picker';
+import ReadMore from 'react-native-read-more-text';
+import RNPickerSelect from 'react-native-picker-select';
 
 class NYBookScreen extends React.Component {
 	constructor(props){
@@ -34,7 +31,7 @@ class NYBookScreen extends React.Component {
     this.getBuyLinkurl(this.props.route.params.book.buy_links)
 	}
 
-
+  // gets the links and stores them into the state if there exist those buy links
   getBuyLinkurl(buyLink){
     var x;
     for (x = 0; x < buyLink.length; x++){
@@ -61,66 +58,67 @@ class NYBookScreen extends React.Component {
 
 	render() {
 		return (
-			<ScrollView style={styles.container}>
-        <View style={{flexDirection: 'row'}}>
-          <Image source = {{uri:this.state.NYBook.book_image}} style = {styles.image} /> 
-          <View style={{flex: 1}}>
-            <View style={{flexDirection: 'column'}}>
-              <Text style={styles.text}>{this.state.NYBook.title}</Text>
-              <Text style={styles.text}><Text style={styles.boldAndUnderline}>WRITTEN BY:</Text> {this.state.NYBook.author}</Text>
+      <View style={styles.container}>
+        <ScrollView style={styles.container}>
+          <View style={{flexDirection: 'row'}}>
+            <Image source = {{uri:this.state.NYBook.book_image}} style = {styles.image} /> 
+            <View>
+              <View style={{flexDirection: 'column'}}>
+                <Text style={styles.title}>{this.state.NYBook.title}</Text>
+                <Text style={styles.author}>{this.state.NYBook.author}</Text>
+                {this.state.NYBook.primary_isbn13 !== '' ? <Text style={styles.isbn}>ISBN 13: {this.state.NYBook.primary_isbn13}</Text> : null}
+                {this.state.NYBook.primary_isbn10 !== '' ? <Text style={styles.isbn}>ISBN 10: {this.state.NYBook.primary_isbn10}</Text> : null}
+              </View>
             </View>
           </View>
-        </View>
-        
-        <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Description:</Text> {this.state.NYBook.description}</Text>
-        
-        {this.state.NYBook.primary_isbn13 !== null ? <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Primary ISBN 13:</Text> {this.state.NYBook.primary_isbn13}</Text> : null}
-        {this.state.NYBook.primary_isbn10 !== null ? <Text style={styles.descriptionText}><Text style={styles.boldAndUnderline}>Primary ISBN 10:</Text> {this.state.NYBook.primary_isbn10}</Text> : null}
-       
-       {/* <DropDownPicker
-            style={{width: 150, }}
-            items = {[
-              {label: 'Amazon', value: this.state.Amazon},
-              {label: 'Apple Books', value: this.state.AppleBooks},
-              {label: 'Barnes and Noble', value: this.state.BarnesandNoble},
-              {label: 'Books-A-Million', value: this.state.BooksAMillion},
-              {label: 'Bookshop', value: this.state.Bookshop},
-              {label: 'Indiebound', value: this.state.Indiebound},
-            ]} 
-        
-            defaultIndex={0}
-            containerStyle={{width: 150, height: 40}}
-            onChangeItem={item => 
-              Linking.openURL(item.value)
-            }
-        /> */}
+                  
+          {this.state.NYBook.description !== '' ? 
+          <View>
+            <Text style={styles.description}>
+              Description
+            </Text>
+            <View style={{marginLeft: 20}}>
+              <ReadMore 
+              numberOfLines={5} 
+              renderTruncatedFooter={this._renderTruncatedFooter}
+              renderRevealedFooter={this._renderRevealedFooter}
+              onReady={this._handleTextReady}>
+                <Text style={styles.descriptionText}>
+                  {this.state.NYBook.description}
+                </Text>
+              </ReadMore>
+            </View>
+          </View> : <Text style={styles.description}>No Description Avaliable</Text> }
 
-        <Picker
-          selectedValue={this.state.placeholder}
-          style={{height: 100, width: 150}}
-          onValueChange={(itemValue, itemIndex) =>
-            itemValue !== 'placeholder' ?
-            Linking.openURL(itemValue) : null
-          }>
-          <Picker.Item label= "Select Option" value = {this.state.placeholder} />
-          <Picker.Item label= "Amazon" value = {this.state.Amazon} />
-          <Picker.Item label= "Apple Books" value = {this.state.AppleBooks} />
-          <Picker.Item label= "Barnes and Noble" value = {this.state.BarnesandNoble} />
-          <Picker.Item label= "Books-A-Million" value = {this.state.BooksAMillion} />
-          <Picker.Item label= "Bookshop" value = {this.state.Bookshop} />
-          <Picker.Item label= "Indiebound" value = {this.state.Indiebound} />
-
-        </Picker>
+          <View>
+            <Text style={styles.description}>
+              Buy Links
+            </Text>
+            <View style={{marginLeft: 20, }}>
+              <RNPickerSelect
+                onValueChange={(value) => value !== null ? Linking.openURL(value) : null}
+                items={[
+                    { label: 'Amazon', value: this.state.Amazon },
+                    { label: 'Apple Books', value: this.state.AppleBooks },
+                    { label: 'Barnes and Noble', value: this.state.BarnesandNoble },
+                    { label: 'Books-A-Million', value: this.state.BooksAMillion },
+                    { label: 'Bookshop', value: this.state.Bookshop },
+                    { label: 'Indiebound', value: this.state.Indiebound },
+                ]}
+              />
+            </View>
+          </View>
+        </ScrollView>
 
         <FAB
-          style={styles.fab}
-          small
-          icon="plus"
-          color="yellow"
-          onPress={() => console.log('Pressed')}
+        style={styles.fab}
+        small
+        icon="plus"
+        color="yellow"
+        onPress={() => console.log('Pressed')}
         />
 
-			</ScrollView>
+      </View>
 		);
 	}
 }
@@ -130,16 +128,22 @@ const styles = StyleSheet.create({
     flex: 1, backgroundColor: '#1b1b1c',
   },
   image: {
-    width: 200, height: 200, resizeMode: 'contain', marginTop: 50
+    width: 175, height: 200, resizeMode: 'contain', marginTop: 50
   },
-	text: {
-    color: '#ebe4d3', fontSize: 20, marginTop: 50, flexWrap: 'wrap',
+  title: {
+    color: '#ebe4d3', fontSize: 28, marginTop: 50, flexWrap: 'wrap', width: 175
+  },
+	author: {
+    color: 'lightblue', fontSize: 18, marginTop: 0, flexWrap: 'wrap', width: 175
+  },
+  isbn: {
+    color: 'white', fontSize: 12, marginTop: 5, flexWrap: 'wrap'
+  },
+	description: {
+    color: '#ebe4d3', fontSize: 20, marginLeft:20, marginBottom: 15, marginTop: 20
   },
   descriptionText: {
-    color: '#ebe4d3', fontSize: 20, marginTop: 50, flexWrap: 'wrap', marginLeft: 10
-  },
-  boldAndUnderline: {
-    fontWeight: 'bold', textDecorationLine: 'underline'
+    color: '#ebe4d3', fontSize: 15
   },
   fab: {
     position: 'absolute', margin: 16, right: 0, bottom: 0,

@@ -114,12 +114,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
 	image: {
+    width: 150, height: 200, resizeMode: 'stretch',
 		marginVertical: 10,
-		borderRadius: 5,
-		flex: 1,
-		width: 165,
-		height: 180,
-		resizeMode: 'contain',
+    borderRadius: 3,
+    marginLeft: 15,
+		// flex: 1,
+		// width: 165,
+		// height: 180,
+		// resizeMode: 'contain',
 	}
 });
 

@@ -109,8 +109,8 @@ class GoogleBookScreen extends React.Component {
             : null}
             {typeof this.state.book.previewLink !== 'undefined' ? <TouchableOpacity onPress={()=> {Linking.openURL(this.state.book.previewLink)}}>
               <View style={{flexDirection: 'row', alignItems:'center', marginTop: 10}}>
-                <Image source={require('../Images/preview.webp')} style={{width: 25, height: 25, resizeMode: 'contain'}} /> 
-                <Text style={{color: '#ebe4d3', fontSize: 18}}> Preview</Text>
+                <Image source={require('../Images/preview.webp')} style={{width: 20, height: 25, resizeMode: 'contain'}} /> 
+                <Text style={{color: '#ebe4d3', fontSize: 18, paddingLeft: 5}}> Preview</Text>
               </View>
             </TouchableOpacity>
             : null}
@@ -139,33 +139,33 @@ const styles = StyleSheet.create({
     width: 150, height: 200, resizeMode: 'stretch'
   },
   title: {
-    color: '#ebe4d3', fontSize: 28, flexWrap: 'wrap', width: 175
+    color: 'lightblue', fontSize: 28, flexWrap: 'wrap', width: 175
   },
 	author: {
-    color: 'lightblue', fontSize: 18, flexWrap: 'wrap', width: 175
+    color: '#ebe4d3', fontSize: 18, flexWrap: 'wrap', width: 175
   },
   isbnAndPage: {
-    color: 'white', fontSize: 12, marginTop: 5, flexWrap: 'wrap'
+    color: '#ebe4d3', fontSize: 12, marginTop: 5, flexWrap: 'wrap'
   },
   secondView:{
     margin: 5, marginTop: 5, fontSize: 25, fontWeight: '800', color: 'grey',
 
   },
   description: {
-    color: '#ebe4d3', fontSize: 20, marginLeft:20, marginBottom: 15, marginTop: 20
+    color: 'lightblue', fontSize: 20, marginLeft:20, marginBottom: 15, marginTop: 20
   },
   descriptionText: {
     color: '#ebe4d3', fontSize: 15
   },
   myStarStyle: {
-    color: 'pink',
+    color: '#de0b2b',
     backgroundColor: 'transparent',
     textShadowColor: 'black',
     textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 2,
   },
   myEmptyStarStyle: {
-    color: 'white',
+    color: '#de0b2b',
   },
   fab: {
     position: 'absolute', margin: 16, right: 0, bottom: 0,

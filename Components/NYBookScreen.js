@@ -93,8 +93,12 @@ class NYBookScreen extends React.Component {
             <Text style={styles.description}>
               Buy Links
             </Text>
-            <View style={{marginLeft: 20, }}>
+            <View style={{marginLeft: 12}}>
               <RNPickerSelect
+                placeholder={{
+                    label: 'Select a Store   ▾',
+                    value: null,
+                }}
                 onValueChange={(value) => value !== null ? Linking.openURL(value) : null}
                 items={[
                     { label: 'Amazon', value: this.state.Amazon },
@@ -131,16 +135,16 @@ const styles = StyleSheet.create({
     width: 150, height: 200, resizeMode: 'stretch'
   },
   title: {
-    color: '#ebe4d3', fontSize: 28, flexWrap: 'wrap', width: 175
+    color: 'lightblue', fontSize: 28, flexWrap: 'wrap', width: 175
   },
 	author: {
-    color: 'lightblue', fontSize: 18, flexWrap: 'wrap', width: 175
+    color: '#ebe4d3', fontSize: 18, flexWrap: 'wrap', width: 175
   },
   isbn: {
-    color: 'white', fontSize: 12, marginTop: 5, flexWrap: 'wrap'
+    color: '#ebe4d3', fontSize: 12, marginTop: 5, flexWrap: 'wrap'
   },
 	description: {
-    color: '#ebe4d3', fontSize: 20, marginLeft:20, marginBottom: 15, marginTop: 20
+    color: 'lightblue', fontSize: 20, marginLeft:20, marginBottom: 15, marginTop: 20
   },
   descriptionText: {
     color: '#ebe4d3', fontSize: 15

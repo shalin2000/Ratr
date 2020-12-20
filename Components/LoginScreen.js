@@ -18,7 +18,7 @@ class LoginScreen extends React.Component {
         <View>
           <Button
             title="Login"
-            onPress={() => Alert.alert('Button pressed')}
+            onPress={() => this.props.navigation.navigate('SignIn')}
           />
         </View>
         <Separator />

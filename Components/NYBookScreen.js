@@ -27,7 +27,6 @@ class NYBookScreen extends React.Component {
       NYBook: this.props.route.params.book,
       buyLink: this.props.route.params.book.buy_links
     });
-    
     this.getBuyLinkurl(this.props.route.params.book.buy_links)
 	}
 
@@ -61,14 +60,14 @@ class NYBookScreen extends React.Component {
       <View style={styles.container}>
         <ScrollView style={styles.container}>
           <View style={{flexDirection: 'row'}}>
-            <Image source = {{uri:this.state.NYBook.book_image}} style = {styles.image} /> 
-            <View>
-              <View style={{flexDirection: 'column'}}>
-                <Text style={styles.title}>{this.state.NYBook.title}</Text>
-                <Text style={styles.author}>{this.state.NYBook.author}</Text>
-                {this.state.NYBook.primary_isbn13 !== '' ? <Text style={styles.isbn}>ISBN 13: {this.state.NYBook.primary_isbn13}</Text> : null}
-                {this.state.NYBook.primary_isbn10 !== '' ? <Text style={styles.isbn}>ISBN 10: {this.state.NYBook.primary_isbn10}</Text> : null}
-              </View>
+            <View style={{marginTop: 30, marginLeft: 20, marginRight: 10}}>
+              <Image source = {{uri:this.state.NYBook.book_image}} style = {styles.image} /> 
+            </View>
+            <View style={{marginTop: 30}}>
+              <Text style={styles.title}>{this.state.NYBook.title}</Text>
+              <Text style={styles.author}>{this.state.NYBook.author}</Text>
+              {this.state.NYBook.primary_isbn13 !== '' ? <Text style={styles.isbn}>ISBN 13: {this.state.NYBook.primary_isbn13}</Text> : null}
+              {this.state.NYBook.primary_isbn10 !== '' ? <Text style={styles.isbn}>ISBN 10: {this.state.NYBook.primary_isbn10}</Text> : null}
             </View>
           </View>
                   
@@ -108,6 +107,7 @@ class NYBookScreen extends React.Component {
               />
             </View>
           </View>
+
         </ScrollView>
 
         <FAB
@@ -128,13 +128,13 @@ const styles = StyleSheet.create({
     flex: 1, backgroundColor: '#1b1b1c',
   },
   image: {
-    width: 175, height: 200, resizeMode: 'contain', marginTop: 50
+    width: 150, height: 200, resizeMode: 'stretch'
   },
   title: {
-    color: '#ebe4d3', fontSize: 28, marginTop: 50, flexWrap: 'wrap', width: 175
+    color: '#ebe4d3', fontSize: 28, flexWrap: 'wrap', width: 175
   },
 	author: {
-    color: 'lightblue', fontSize: 18, marginTop: 0, flexWrap: 'wrap', width: 175
+    color: 'lightblue', fontSize: 18, flexWrap: 'wrap', width: 175
   },
   isbn: {
     color: 'white', fontSize: 12, marginTop: 5, flexWrap: 'wrap'

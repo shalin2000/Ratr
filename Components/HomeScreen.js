@@ -154,22 +154,15 @@ class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#1b1b1c',
-    flexDirection: 'column',
+    flex: 1, backgroundColor: '#1b1b1c', flexDirection: 'column',
   },
   text: {
-    color: '#ebe4d3',
-    fontSize: 20,
+    color: '#ebe4d3', fontSize: 20, marginTop: 10
   },
   image: {
-    marginVertical: 10,
-    borderRadius: 5,
-    flex: 1,
-    width: 165,
-    height: 180,
-    resizeMode: 'contain',
-  }
+    marginVertical: 10, borderRadius: 5, flex: 1, width: 150, height: 200, 
+    resizeMode: 'stretch', marginRight: 10, marginTop: 10
+  },
 });
 
 export default HomeScreen;

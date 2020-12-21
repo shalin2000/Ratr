@@ -23,7 +23,7 @@ class SignIn extends React.Component {
         />
       </View>
  
-      <View style={styles.inputView}>
+      <View >
         <TextInput
           style={styles.TextInput}
           placeholder="Password."
@@ -33,11 +33,12 @@ class SignIn extends React.Component {
         />
       </View>
  
-      <TouchableOpacity>
+      <TouchableOpacity style={styles.action}>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
+        <Button style={styles.loginBtn} title="LOGIN"/>
       </TouchableOpacity>
  
-      <Button style={styles.loginBtn} title="LOGIN"/>
+      
     </View>
   );
 }
@@ -46,37 +47,34 @@ class SignIn extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#282828",
     alignItems: "center",
     justifyContent: "center",
   },
   title: {
     fontSize: 50, 
     fontWeight: 'bold',
-    color: 'black',
+    color: 'azure',
     textAlign: 'center',
   },
  
-  inputView: {
-    backgroundColor: "lightgrey",
-    borderRadius: 30,
-    width: "70%",
-    height: 45,
-    marginBottom: 20,
- 
-    alignItems: "center",
-  },
- 
   TextInput: {
+    backgroundColor: "#C0C0C0",
+    margin: 8,
+    width: 200,
+    borderRadius: 20,
+    textAlign: "center",
     height: 50,
-    flex: 1,
     padding: 10,
-    marginLeft: 20,
+  },
+  action: {
+    justifyContent: 'center',
   },
  
   forgot_button: {
+    color: "cyan", 
     height: 30,
-    marginBottom: 30,
+    marginBottom: 10,
   },
  
 });

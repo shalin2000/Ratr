@@ -1,6 +1,5 @@
 import React from 'react';
 import {View, Button, Text, ScrollView, StyleSheet, Switch} from 'react-native'
-import {Constants} from 'expo'
 
 let id = 0
 
@@ -9,9 +8,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  // appContainer: {
-  //   paddingTop: Constants.statusBarHeight,
-  // },
   fill: {
     flex: 1,
   }

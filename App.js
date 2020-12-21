@@ -6,7 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from './Components/LoginScreen';
 import MyList from './Components/MyList';
-import SignIn from './Components/SignIn'
+import SignUp from './Components/SignUp'
 import HomeScreen from './Components/HomeScreen';
 import NYBookScreen from './Components/NYBookScreen';
 import SearchScreen from './Components/SearchScreen';
@@ -25,8 +25,8 @@ class App extends React.Component {
             component={LoginScreen}
           />
           <Stack.Screen
-            name="SignIn"
-            component={SignIn}
+            name="SignUp"
+            component={SignUp}
           />
           
           <Stack.Screen

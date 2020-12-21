@@ -87,13 +87,13 @@ class NYBookScreen extends React.Component {
                 </Text>
               </ReadMore>
             </View>
-          </View> : <Text style={styles.description}>No Description Avaliable</Text> }
+          </View> : null }
 
           <View>
             <Text style={styles.description}>
               Buy Links
             </Text>
-            <View style={{marginLeft: 12}}>
+            <View style={{marginLeft: 20}}>
               <RNPickerSelect
                 placeholder={{
                     label: 'Select a Store   ▾',

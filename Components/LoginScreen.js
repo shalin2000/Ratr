@@ -1,66 +1,118 @@
 import * as React from "react";
-import { StyleSheet, Button, View, SafeAreaView, Text, Alert } from "react-native";
+import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity } from "react-native";
 
 const Separator = () => (
   <View style={styles.separator} />
 );
 
 class LoginScreen extends React.Component {
-  render() {
-    return (
-      <SafeAreaView style={styles.container}>
-        <Text style = {styles.title}> 
-          Ratr
-        </Text>
-        <Text style = {styles.secondary} >
-          Rate! Track! Enjoy!
-        </Text>
-        <View>
-          <Button
-            title="Login"
-            onPress={() => this.props.navigation.navigate('SignIn')}
-          />
-        </View>
-        <Separator />
-        <View>
-          <Button
-            title="Continue as Guest"
-            color="#f194ff"
-            onPress={() =>
-              this.props.navigation.navigate('Home')
-            }
-          />
-        </View>
-      </SafeAreaView>
-    );
+  constructor(props){
+    super(props);
+      this.state = {username: '',password: ''};
   }
+  render(){
+    return (
+    <View style={styles.container}>
+      <Text style = {styles.title}>Ratr</Text>
+      <Text style = {styles.secondary} > Rate. Log. Track.</Text>
+      <View style={styles.inputView}>
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Enter Username"
+          placeholderTextColor="#003f5c"
+          onChangeText={(username) => this.setState({username})}
+        />
+      </View>
+ 
+      <View >
+        <TextInput
+          style={styles.TextInput}
+          placeholder="Enter Password"
+          placeholderTextColor="#003f5c"
+          secureTextEntry={true}
+          onChangeText={(password) => this.setState({password})}
+        />
+      </View>
+ 
+      <TouchableOpacity style={styles.action}>
+        <View style={styles.row}>
+          <Text>
+            <Text style={styles.forgot_button}> Forgot Password? </Text>
+            <Text style={styles.forgot_button}> | </Text>
+            <Text style={styles.forgot_button}> Forgot Username? </Text>
+          </Text>
+        </View>
+        
+        <Button  
+          title="LOGIN"
+          onPress={() =>
+            this.props.navigation.navigate('MyList')
+          }
+        />
+        <Separator />
+        <Button 
+          title="SIGN UP"
+          onPress={() =>
+            this.props.navigation.navigate('SignUp')
+          }  
+        />
+        <Separator />
+        <Button 
+          title="Proceed as Guest"
+          onPress={() =>
+            this.props.navigation.navigate('Home')
+          }
+        />
+      </TouchableOpacity>
+    </View>
+  );
 }
-
+}
+ 
 const styles = StyleSheet.create({
+  action: {
+    justifyContent: 'center',
+  },
   container: {
     flex: 1,
-    justifyContent: 'center',
-    marginHorizontal: 16,
+    backgroundColor: "#282828",
+    alignItems: "center",
+    justifyContent: "center",
   },
-  title: {
-    fontSize: 50, 
-    fontWeight: 'bold',
-    color: 'black',
-    textAlign: 'center',
+  forgot_button: {
+    color: "cyan", 
+  },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginVertical: 8,
   },
   secondary: {
     textAlign: 'center',
     justifyContent: 'space-between',
     marginVertical: 8,
-  },
-  fixToText: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    color: "azure", 
   },
   separator: {
     marginVertical: 8,
-    borderBottomColor: 'purple',
+    borderBottomColor: '#282828',
     borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  TextInput: {
+    backgroundColor: "#C0C0C0",
+    margin: 8,
+    width: 200,
+    borderRadius: 20,
+    textAlign: "center",
+    height: 50,
+    padding: 10,
+  },
+  title: {
+    fontSize: 50, 
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+    color: 'azure',
+    textAlign: 'center',
   },
 });
 

@@ -112,6 +112,8 @@ const styles = StyleSheet.create({
 	text: {
     color: '#ebe4d3',
     fontSize: 20,
+    textAlign: "center",
+    marginTop: 10,
   },
 	image: {
     width: 150, height: 200, resizeMode: 'stretch',

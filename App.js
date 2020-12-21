@@ -5,6 +5,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import LoginScreen from './Components/LoginScreen';
+import MyList from './Components/MyList';
 import SignIn from './Components/SignIn'
 import HomeScreen from './Components/HomeScreen';
 import NYBookScreen from './Components/NYBookScreen';
@@ -43,6 +44,10 @@ class App extends React.Component {
           <Stack.Screen
             name="GoogleBook"
             component={GoogleBookScreen}
+          />
+          <Stack.Screen
+            name="MyList"
+            component={MyList}
           />
         </Stack.Navigator>
       </NavigationContainer>

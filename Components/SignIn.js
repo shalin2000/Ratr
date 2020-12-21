@@ -1,10 +1,6 @@
 import * as React from "react";
 import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity } from "react-native";
 
-const Separator = () => (
-  <View style={styles.separator} />
-);
-
 class SignIn extends React.Component {
   constructor(props){
     super(props);
@@ -35,7 +31,7 @@ class SignIn extends React.Component {
  
       <TouchableOpacity style={styles.action}>
         <Text style={styles.forgot_button}>Forgot Password?</Text>
-        <Button style={styles.loginBtn} title="LOGIN"/>
+        <Button style={styles.loginBtn} title="LOGIN" onPress={() => this.props.navigation.navigate('MyList')}/>
       </TouchableOpacity>
  
       
@@ -80,29 +76,3 @@ const styles = StyleSheet.create({
 });
 
 export default SignIn;
-
-
-//   render() {  
-//     return (  
-//         <SafeAreaView style={styles.view}>  
-//             <TextInput  
-//                 style={styles.textInput}  
-//                 placeholder="UserName"  
-//                 onChangeText={(username) => this.setState({username})}  
-//             />   
-//         </SafeAreaView>  
-//     );  
-// }  
-// }
-
-// const styles = StyleSheet.create({
-// view:{
-//   flex: 1,
-//   backgroundColor: '#fff',
-//   alignItems: 'center',
-//   justifyContent: 'center',
-// },
-// textInput:{height: 40, borderColor: 'grey', borderWidth: 1, fontSize: 20}
-// });
-
-// 

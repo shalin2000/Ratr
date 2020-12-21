@@ -34,36 +34,45 @@ class LoginScreen extends React.Component {
         />
       </View>
  
-      <TouchableOpacity style={styles.action}>
+      
         <View style={styles.row}>
           <Text>
-            <Text style={styles.forgot_button}> Forgot Password? </Text>
-            <Text style={styles.forgot_button}> | </Text>
-            <Text style={styles.forgot_button}> Forgot Username? </Text>
+            {/* OnPress for Forgot Pass */}
+            <TouchableOpacity> 
+              <Text style={styles.forgot_button}> Forgot Password? </Text>
+            </TouchableOpacity>
+            <TouchableOpacity><Text style={styles.forgot_button}> | </Text></TouchableOpacity>
+            {/* OnPress for Forgot User */}
+            <TouchableOpacity> 
+              <Text style={styles.forgot_button}> Forgot Username? </Text>
+            </TouchableOpacity>
           </Text>
         </View>
         
-        <Button  
-          title="LOGIN"
-          onPress={() =>
-            this.props.navigation.navigate('MyList')
-          }
-        />
-        <Separator />
-        <Button 
-          title="SIGN UP"
-          onPress={() =>
-            this.props.navigation.navigate('SignUp')
-          }  
-        />
-        <Separator />
-        <Button 
-          title="Proceed as Guest"
-          onPress={() =>
-            this.props.navigation.navigate('Home')
-          }
-        />
-      </TouchableOpacity>
+        <TouchableOpacity style={{marginTop: 8}}>
+          <Button  
+            title="LOGIN"
+            onPress={() =>
+              this.props.navigation.navigate('MyList')
+            }
+          />
+          <Separator />
+          <Button 
+            title="SIGN UP"
+            onPress={() =>
+              this.props.navigation.navigate('SignUp')
+            }  
+          />
+          <Separator />
+          <Button 
+            title="Proceed as Guest"
+            onPress={() =>
+              this.props.navigation.navigate('Home')
+            }
+          />
+        </TouchableOpacity>
+        
+      
     </View>
   );
 }

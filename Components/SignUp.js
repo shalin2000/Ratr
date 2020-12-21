@@ -8,7 +8,11 @@ const Separator = () => (
 class SignUp extends React.Component {
   constructor(props){
     super(props);
-      this.state = {username: '',password: ''};
+      this.state = {
+        email: '',
+        username: '',
+        password: '',
+      };
   }
   render(){
     return (
@@ -21,7 +25,7 @@ class SignUp extends React.Component {
           style={styles.TextInput}
           placeholder="Email"
           placeholderTextColor="#003f5c"
-          onChangeText={(username) => this.setState({username})}
+          onChangeText={(email) => this.setState({email})}
         />
       </View>
 
@@ -43,27 +47,18 @@ class SignUp extends React.Component {
           onChangeText={(password) => this.setState({password})}
         />
       </View>
- 
-      <TouchableOpacity style={styles.action}>
-        <Separator />
-        <Button title="Register"/>
-        <Separator />
-        <Button 
-          title="Proceed as Guest"
-          onPress={() =>
-            this.props.navigation.navigate('Home')
-          }
-        />
-      </TouchableOpacity>
+
+      <Separator />
+      <Button title="Register Account"/>
+      
+      
     </View>
   );
 }
 }
  
 const styles = StyleSheet.create({
-  action: {
-    justifyContent: 'center',
-  },
+
   container: {
     flex: 1,
     backgroundColor: "#282828",

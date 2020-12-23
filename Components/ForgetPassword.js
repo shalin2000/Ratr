@@ -25,6 +25,7 @@ class SignUp extends React.Component {
       this.state = {
         email: '',
         errorMessage: '',
+        linkSent: false,
       };
       this.forgotPassword = this.forgotPassword.bind(this)
   }
@@ -34,10 +35,16 @@ class SignUp extends React.Component {
     firebase.auth().sendPasswordResetEmail(Email).then(function (user) {
       alert('Please check your email...')
     })
-    .catch(function (error) {
+    .catch(error => {
       if (error.code === 'auth/invalid-email') {
         this.setState({errorMessage: 'That email address is invalid!'})
       }
+      else {
+        this.setState({errorMessage: 'Enter valid email or sign up'})
+      }
+    })
+    this.setState({
+      linkSent: true
     })
   }
   
@@ -58,11 +65,15 @@ class SignUp extends React.Component {
   
         <Separator />
 
-        <Button title="Send link" onPress={() => this.forgotPassword(this.state.email)}/>  
-
-        <Separator />
+        <View>
+          {this.state.linkSent === false ? <Button title="Send link" onPress={() => this.forgotPassword(this.state.email)}/> 
+          : 
+          <Button title="Resend link" onPress={() => this.forgotPassword(this.state.email)}/>}
         
-        <Button title="Back to Login" onPress={() => this.props.navigation.navigate('Login')}/>
+          <Separator />
+        
+          <Button title="Back to Login" onPress={() => this.props.navigation.navigate('Login')}/>
+        </View>
 
         <Text style={styles.secondary}>{this.state.errorMessage}</Text>
 

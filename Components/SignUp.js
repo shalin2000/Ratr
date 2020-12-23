@@ -31,7 +31,9 @@ class SignUp extends React.Component {
   SignUp = (email, password) => { 
     try { 
       firebase.auth().createUserWithEmailAndPassword(email, password).then(user => { 
-        console.log(user); });
+        console.log(user)
+        this.props.navigation.navigate('Home')
+      });
     } 
     catch (error) { 
       console.log(error); 

@@ -11,6 +11,7 @@ import HomeScreen from './Components/HomeScreen';
 import NYBookScreen from './Components/NYBookScreen';
 import SearchScreen from './Components/SearchScreen';
 import GoogleBookScreen from './Components/GoogleBookScreen';
+import ForgotPassword from './Components/ForgetPassword'
 
 const Stack = createStackNavigator();
 
@@ -48,6 +49,10 @@ class App extends React.Component {
           <Stack.Screen
             name="MyList"
             component={MyList}
+          />
+          <Stack.Screen
+            name="ForgetPassword"
+            component={ForgotPassword}
           />
         </Stack.Navigator>
       </NavigationContainer>

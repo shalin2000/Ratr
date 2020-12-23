@@ -33,9 +33,13 @@ class LoginScreen extends React.Component {
   // when user clicks login it will check if that email and password is correct and login otherwise show error
   Login = (email, password) => { 
     firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
-      console.log(user.user.email); 
-      console.log("I M LOGGED IN as", user.user.email)
-      this.props.navigation.navigate('Home')
+      // if email is not verifed then put alert else move to Home screen
+      if (user.user.emailVerified === true){
+        this.props.navigation.navigate('Home')
+      }
+      else {
+        alert('Email not verifed...')
+      }
     })
     .catch(error => {
       if (error.code === 'auth/user-not-found') {
@@ -47,7 +51,7 @@ class LoginScreen extends React.Component {
       if (error.code === 'auth/wrong-password') {
         this.setState({errorMessage: 'Wrong Password'})
       }
-      console.error(error)
+      // console.error(error)
     })
   };
 
@@ -74,35 +78,34 @@ class LoginScreen extends React.Component {
             onChangeText={(password) => this.setState({password})}
           />
         </View>
-  
         
-          <View style={styles.row}>
-            <Text>
-              {/* OnPress for Forgot Pass */}
-              <TouchableOpacity> 
-                <Text style={styles.forgot_button}> Forgot Password? </Text>
-              </TouchableOpacity>
-            </Text>
-          </View>
-          
-          <TouchableOpacity style={{marginTop: 8}}>
-            <Button  
-              title="LOGIN"
-              onPress={() => this.Login(this.state.email, this.state.password)}
-            />
-            <Separator />
-            <Button 
-              title="SIGN UP"
-              onPress={() => this.props.navigation.navigate('SignUp')}  
-            />
-            <Separator />
-            <Button 
-              title="Proceed as Guest"
-              onPress={() => this.props.navigation.navigate('Home')}
-            />
-          </TouchableOpacity>
-          
-          <Text style={styles.secondary}>{this.state.errorMessage}</Text>
+        <View style={styles.row}>
+          <Text>
+            {/* OnPress for Forgot Pass */}
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgetPassword')}> 
+              <Text style={styles.forgot_button}> Forgot Password? </Text>
+            </TouchableOpacity>
+          </Text>
+        </View>
+        
+        <TouchableOpacity style={{marginTop: 8}}>
+          <Button  
+            title="LOGIN"
+            onPress={() => this.Login(this.state.email, this.state.password)}
+          />
+          <Separator />
+          <Button 
+            title="SIGN UP"
+            onPress={() => this.props.navigation.navigate('SignUp')}  
+          />
+          <Separator />
+          <Button 
+            title="Proceed as Guest"
+            onPress={() => this.props.navigation.navigate('Home')}
+          />
+        </TouchableOpacity>
+        
+        <Text style={styles.secondary}>{this.state.errorMessage}</Text>
         
       </View>
     );

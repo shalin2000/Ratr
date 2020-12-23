@@ -13,7 +13,7 @@ var config = {
   measurementId: "G-6XCC71P2S4"
 };
 
-firebase.initializeApp(config);
+// firebase.initializeApp(config);
 
 const Separator = () => (
   <View style={styles.separator} />
@@ -24,45 +24,21 @@ class SignUp extends React.Component {
     super(props);
       this.state = {
         email: '',
-        password: '',
-        confirmPassword: '',
         errorMessage: '',
       };
-      this.SignUp = this.SignUp.bind(this)
+      this.forgotPassword = this.forgotPassword.bind(this)
   }
 
-  // When the user clicks signUp then it will create a account for them and log them in
-  SignUp = (email, password) => { 
-    if (password !== this.state.confirmPassword){
-      this.setState({errorMessage: 'Password do not match!'})
-    }
-    else {
-      firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
-        alert('Please verify your Email')
-        this.props.navigation.navigate('Login')
-      })
-      .catch(error => {
-        if (error.code === 'auth/email-already-in-use') {
-          this.setState({errorMessage: 'That email address is already in use!'})
-        }
-        if (error.code === 'auth/invalid-email') {
-          this.setState({errorMessage: 'That email address is invalid!'})
-        }
-        if (error.code === 'auth/weak-password') {
-          this.setState({errorMessage: 'Password should be at least 6 characters'})
-        }
-        // console.error(error)
-      });
-      // verify the email
-      this.sendEmailVar()
-    }
-  };
-
-  // verify the email
-  sendEmailVar(){
-    firebase.auth().onAuthStateChanged(function(user) {
-      user.sendEmailVerification();
-    });
+  // if forget password is clicked then it will send a link to reset the password
+  forgotPassword = (Email) => {
+    firebase.auth().sendPasswordResetEmail(Email).then(function (user) {
+      alert('Please check your email...')
+    })
+    .catch(function (error) {
+      if (error.code === 'auth/invalid-email') {
+        this.setState({errorMessage: 'That email address is invalid!'})
+      }
+    })
   }
   
   render(){
@@ -80,29 +56,14 @@ class SignUp extends React.Component {
           />
         </View>
   
-        <View >
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Password"
-            placeholderTextColor="#003f5c"
-            secureTextEntry={true}
-            onChangeText={(password) => this.setState({password})}
-          />
-        </View>
+        <Separator />
 
-        <View >
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Confirm Password"
-            placeholderTextColor="#003f5c"
-            secureTextEntry={true}
-            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
-          />
-        </View>
+        <Button title="Send link" onPress={() => this.forgotPassword(this.state.email)}/>  
 
         <Separator />
-        <Button title="Register Account" onPress={() => this.SignUp(this.state.email, this.state.password)}/>
         
+        <Button title="Back to Login" onPress={() => this.props.navigation.navigate('Login')}/>
+
         <Text style={styles.secondary}>{this.state.errorMessage}</Text>
 
       </View>

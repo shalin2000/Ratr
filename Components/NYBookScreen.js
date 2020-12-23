@@ -97,9 +97,9 @@ class NYBookScreen extends React.Component {
               <RNPickerSelect
                 placeholder={{
                     label: 'Select a Store   ▾',
-                    value: null,
+                    value: 'undefined',
                 }}
-                onValueChange={(value) => value !== null ? Linking.openURL(value) : null}
+                onValueChange={(value) => value !== 'undefined' ? Linking.openURL(value) : null}
                 items={[
                     { label: 'Amazon', value: this.state.Amazon },
                     { label: 'Apple Books', value: this.state.AppleBooks },

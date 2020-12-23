@@ -1,5 +1,19 @@
 import * as React from "react";
-import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity, ScrollView } from "react-native";
+import firebase from 'firebase'
+require('firebase/auth')
+
+var config = { 
+  apiKey: "AIzaSyBRgkmxwN9JAXVy_3xtcJpcbdF1nY4GC0k",
+  authDomain: "ratr-9b78a.firebaseapp.com",
+  projectId: "ratr-9b78a",
+  storageBucket: "ratr-9b78a.appspot.com",
+  messagingSenderId: "63538580742",
+  appId: "1:63538580742:web:decec5c5918f3aaecae287",
+  measurementId: "G-6XCC71P2S4"
+};
+
+firebase.initializeApp(config);
 
 const Separator = () => (
   <View style={styles.separator} />
@@ -10,10 +24,20 @@ class SignUp extends React.Component {
     super(props);
       this.state = {
         email: '',
-        username: '',
         password: '',
       };
   }
+
+  SignUp = (email, password) => { 
+    try { 
+      firebase.auth().createUserWithEmailAndPassword(email, password).then(user => { 
+        console.log(user); });
+    } 
+    catch (error) { 
+      console.log(error); 
+    } 
+  };
+
   render(){
     return (
     <View style={styles.container}>
@@ -28,15 +52,6 @@ class SignUp extends React.Component {
           onChangeText={(email) => this.setState({email})}
         />
       </View>
-
-      <View>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Username"
-          placeholderTextColor="#003f5c"
-          onChangeText={(username) => this.setState({username})}
-        />
-      </View>
  
       <View >
         <TextInput
@@ -49,8 +64,7 @@ class SignUp extends React.Component {
       </View>
 
       <Separator />
-      <Button title="Register Account"/>
-      
+      <Button title="Register Account" onPress={() => this.SignUp(this.state.email, this.state.password)}/>
       
     </View>
   );

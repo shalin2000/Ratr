@@ -25,52 +25,80 @@ class SignUp extends React.Component {
       this.state = {
         email: '',
         password: '',
+        confirmPassword: '',
+        errorMessage: '',
       };
+      this.SignUp = this.SignUp.bind(this)
   }
 
+  // When the user clicks signUp then it will create a account for them and log them in
   SignUp = (email, password) => { 
-    try { 
-      firebase.auth().createUserWithEmailAndPassword(email, password).then(user => { 
+    if (password !== this.state.confirmPassword){
+      this.setState({errorMessage: 'Password do not match!'})
+    }
+    else {
+      firebase.auth().createUserWithEmailAndPassword(email, password).then((user) => {
         console.log(user)
         this.props.navigation.navigate('Home')
+      })
+      .catch(error => {
+        if (error.code === 'auth/email-already-in-use') {
+          this.setState({errorMessage: 'That email address is already in use!'})
+        }
+        if (error.code === 'auth/invalid-email') {
+          this.setState({errorMessage: 'That email address is invalid!'})
+        }
+        if (error.code === 'auth/weak-password') {
+          this.setState({errorMessage: 'Password should be at least 6 characters'})
+        }
+        console.error(error)
       });
-    } 
-    catch (error) { 
-      console.log(error); 
-    } 
+    }
   };
 
   render(){
     return (
-    <View style={styles.container}>
-      <Text style = {styles.title}>Ratr</Text>
-      <Text style = {styles.secondary} > Rate. Log. Track.</Text>
+      <View style={styles.container}>
+        <Text style = {styles.title}>Ratr</Text>
+        <Text style = {styles.secondary} > Rate. Log. Track.</Text>
 
-      <View>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Email"
-          placeholderTextColor="#003f5c"
-          onChangeText={(email) => this.setState({email})}
-        />
-      </View>
- 
-      <View >
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Password"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => this.setState({password})}
-        />
-      </View>
+        <View>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Email"
+            placeholderTextColor="#003f5c"
+            onChangeText={(email) => this.setState({email})}
+          />
+        </View>
+  
+        <View >
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Password"
+            placeholderTextColor="#003f5c"
+            secureTextEntry={true}
+            onChangeText={(password) => this.setState({password})}
+          />
+        </View>
 
-      <Separator />
-      <Button title="Register Account" onPress={() => this.SignUp(this.state.email, this.state.password)}/>
-      
-    </View>
-  );
-}
+        <View >
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Confirm Password"
+            placeholderTextColor="#003f5c"
+            secureTextEntry={true}
+            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+          />
+        </View>
+
+        <Separator />
+        <Button title="Register Account" onPress={() => this.SignUp(this.state.email, this.state.password)}/>
+        
+        <Text style={styles.secondary}>{this.state.errorMessage}</Text>
+
+      </View>
+    );
+  }
 }
  
 const styles = StyleSheet.create({

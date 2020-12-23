@@ -1,5 +1,19 @@
 import * as React from "react";
 import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity } from "react-native";
+import firebase from 'firebase'
+require('firebase/auth')
+
+var config = { 
+  apiKey: "AIzaSyBRgkmxwN9JAXVy_3xtcJpcbdF1nY4GC0k",
+  authDomain: "ratr-9b78a.firebaseapp.com",
+  projectId: "ratr-9b78a",
+  storageBucket: "ratr-9b78a.appspot.com",
+  messagingSenderId: "63538580742",
+  appId: "1:63538580742:web:decec5c5918f3aaecae287",
+  measurementId: "G-6XCC71P2S4"
+};
+
+// firebase.initializeApp(config);
 
 const Separator = () => (
   <View style={styles.separator} />
@@ -8,8 +22,26 @@ const Separator = () => (
 class LoginScreen extends React.Component {
   constructor(props){
     super(props);
-      this.state = {username: '',password: ''};
+      this.state = {
+        email: '',
+        password: '',
+      };
   }
+
+  Login = (email, password) => { 
+    try { 
+      firebase.auth().signInWithEmailAndPassword(email, password).then(res => { 
+        console.log(res.user.email); 
+        console.log("I M LOGGED IN as", res.user.email)
+        this.props.navigation.navigate('Home')
+      });
+      
+    } 
+    catch (error) { 
+      console.log('Incorrect email or password'); 
+    } 
+  };
+
   render(){
     return (
     <View style={styles.container}>
@@ -18,9 +50,9 @@ class LoginScreen extends React.Component {
       <View style={styles.inputView}>
         <TextInput
           style={styles.TextInput}
-          placeholder="Enter Username"
+          placeholder="Enter Email"
           placeholderTextColor="#003f5c"
-          onChangeText={(username) => this.setState({username})}
+          onChangeText={(email) => this.setState({email})}
         />
       </View>
  
@@ -52,23 +84,17 @@ class LoginScreen extends React.Component {
         <TouchableOpacity style={{marginTop: 8}}>
           <Button  
             title="LOGIN"
-            onPress={() =>
-              this.props.navigation.navigate('MyList')
-            }
+            onPress={() => this.Login(this.state.email, this.state.password)}
           />
           <Separator />
           <Button 
             title="SIGN UP"
-            onPress={() =>
-              this.props.navigation.navigate('SignUp')
-            }  
+            onPress={() => this.props.navigation.navigate('SignUp')}  
           />
           <Separator />
           <Button 
             title="Proceed as Guest"
-            onPress={() =>
-              this.props.navigation.navigate('Home')
-            }
+            onPress={() => this.props.navigation.navigate('Home')}
           />
         </TouchableOpacity>
         

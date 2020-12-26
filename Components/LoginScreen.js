@@ -25,58 +25,65 @@ class LoginScreen extends React.Component {
       this.state = {
         email: '',
         password: '',
+        errorMessage: '',
       };
+      this.Login = this.Login.bind(this)
   }
 
+  // when user clicks login it will check if that email and password is correct and login otherwise show error
   Login = (email, password) => { 
-    try { 
-      firebase.auth().signInWithEmailAndPassword(email, password).then(res => { 
-        console.log(res.user.email); 
-        console.log("I M LOGGED IN as", res.user.email)
+    firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
+      // if email is not verifed then put alert else move to Home screen
+      if (user.user.emailVerified === true){
         this.props.navigation.navigate('Home')
-      });
-      
-    } 
-    catch (error) { 
-      console.log('Incorrect email or password'); 
-    } 
+      }
+      else {
+        alert('Email not verifed...')
+      }
+    })
+    .catch(error => {
+      if (error.code === 'auth/user-not-found') {
+        this.setState({errorMessage: 'No user record'})
+      }
+      if (error.code === 'auth/invalid-email') {
+        this.setState({errorMessage: 'That email address is invalid!'})
+      }
+      if (error.code === 'auth/wrong-password') {
+        this.setState({errorMessage: 'Wrong Password'})
+      }
+      // console.error(error)
+    })
   };
 
   render(){
     return (
-    <View style={styles.container}>
-      <Text style = {styles.title}>Ratr</Text>
-      <Text style = {styles.secondary} > Rate. Log. Track.</Text>
-      <View style={styles.inputView}>
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Enter Email"
-          placeholderTextColor="#003f5c"
-          onChangeText={(email) => this.setState({email})}
-        />
-      </View>
- 
-      <View >
-        <TextInput
-          style={styles.TextInput}
-          placeholder="Enter Password"
-          placeholderTextColor="#003f5c"
-          secureTextEntry={true}
-          onChangeText={(password) => this.setState({password})}
-        />
-      </View>
- 
-      
+      <View style={styles.container}>
+        <Text style = {styles.title}>Ratr</Text>
+        <Text style = {styles.secondary} > Rate. Log. Track.</Text>
+        <View style={styles.inputView}>
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Enter Email"
+            placeholderTextColor="#003f5c"
+            onChangeText={(email) => this.setState({email})}
+          />
+        </View>
+  
+        <View >
+          <TextInput
+            style={styles.TextInput}
+            placeholder="Enter Password"
+            placeholderTextColor="#003f5c"
+            secureTextEntry={true}
+            onChangeText={(password) => this.setState({password})}
+          />
+        </View>
+        
         <View style={styles.row}>
           <Text>
             {/* OnPress for Forgot Pass */}
-            <TouchableOpacity> 
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgetPassword')}> 
               <Text style={styles.forgot_button}> Forgot Password? </Text>
-            </TouchableOpacity>
-            <TouchableOpacity><Text style={styles.forgot_button}> | </Text></TouchableOpacity>
-            {/* OnPress for Forgot User */}
-            <TouchableOpacity> 
-              <Text style={styles.forgot_button}> Forgot Username? </Text>
             </TouchableOpacity>
           </Text>
         </View>
@@ -98,10 +105,11 @@ class LoginScreen extends React.Component {
           />
         </TouchableOpacity>
         
-      
-    </View>
-  );
-}
+        <Text style={styles.secondary}>{this.state.errorMessage}</Text>
+        
+      </View>
+    );
+  }
 }
  
 const styles = StyleSheet.create({

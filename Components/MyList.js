@@ -1,6 +1,8 @@
 import React from 'react';
 import {View, Button, Text, ScrollView, StyleSheet, Switch} from 'react-native'
 import {Constants} from 'expo'
+import firebase from 'firebase'
+require('firebase/auth')
 
 let id = 0
 
@@ -30,9 +32,28 @@ export default class MyList extends React.Component {
     super()
     this.state = {
       lists: [],
+      loggedOut: false,
+      user: []
     }
   }
 
+  componentDidMount(){
+    // listens for when the tab is selected as MyList
+    this.focusListener = this.props.navigation.addListener("focus", () => {      
+      firebase.auth().onAuthStateChanged((user) => {
+        if (!user) {
+          console.log('user is logged out')
+          this.setState({loggedOut: true, user: null})
+        }
+        else{
+          // console.log(user)
+          console.log('user is logged in ', user.email)
+          this.setState({user: user, loggedOut: false})
+        }
+      });    
+    });
+  }
+  
   addlist() {
     id++
     const text = `List number ${id}`
@@ -65,6 +86,10 @@ export default class MyList extends React.Component {
 
   render() {
     return (
+      this.state.loggedOut === true ? 
+      <View><Text>Login in first to access your list</Text>
+      </View>
+      :
       <View style={[styles.appContainer, styles.fill]}>
         <Text>List count: {this.state.lists.length}</Text>
         <Text>Unchecked List count: {this.state.lists.filter(item => !item.checked).length}</Text>

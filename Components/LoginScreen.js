@@ -1,5 +1,8 @@
 import * as React from "react";
-import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity, Image} from "react-native";
+import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity, Image, 
+  TouchableHighlight, Modal} from "react-native";
+import Icon from 'react-native-vector-icons/FontAwesome';
+
 import firebase from 'firebase'
 require('firebase/auth')
 
@@ -28,10 +31,16 @@ class LoginScreen extends React.Component {
         errorMessage: '',
         loggedOut: false,
         user: [],
+        modalVisible: false,
+        userName: '',
       };
       this.Login = this.Login.bind(this)
   }
 
+  setModalVisible = (visible) => {
+      this.setState({ modalVisible: visible });
+  }
+  
   componentDidMount(){
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
@@ -39,13 +48,22 @@ class LoginScreen extends React.Component {
         this.setState({loggedOut: true, user: null})
       }
       else{
-        console.log(user)
+        // console.log(user)
         console.log('user is logged in ', user.email)
         this.setState({user: user})
       }
     });
   }
 
+  updateName(){
+    const update = {
+      displayName: this.state.userName,
+      photoURL: null,
+    };
+    firebase.auth().currentUser.updateProfile(update);
+  }
+
+  // logout
   logout(){
     firebase.auth().signOut().then(() => console.log('User signed out!'));
   }
@@ -76,6 +94,9 @@ class LoginScreen extends React.Component {
   };
 
   render(){
+    const editIcon = <Icon name="edit" size={20} color="white" />
+    const checkIcon = <Icon name="check" size={20} color="white" />
+
     return (
       this.state.loggedOut === true ? 
       <View style={styles.container}>
@@ -119,17 +140,52 @@ class LoginScreen extends React.Component {
             title="SIGN UP"
             onPress={() => this.props.navigation.navigate('SignUp')}  
           />
-
         </TouchableOpacity>
         
         <Text style={styles.secondary}>{this.state.errorMessage}</Text>
-        
       </View> 
       : 
+      // if user is logged in then display this
       <View style={{flex: 1, backgroundColor: "#282828", alignItems: "center",}}>
-        <Image source={require('../Images/anon.png')} style={{width: 150, height: 150, resizeMode: 'contain', marginTop: 25}} /> 
-        <Text style={styles.secondary}>Welcome {this.state.user.email}</Text>
+        
+        {/* brings up the edit username popup */}
+        <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <TextInput style={styles.modalText} placeholder="Edit User Name" 
+              onChangeText={userName => this.setState({userName: userName})} defaultValue={this.state.userName}
+              onSubmitEditing = {() => {this.setModalVisible(!this.state.modalVisible)} } />
+              <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
+              >
+                <Text style={styles.textStyle}>Done</Text>
+              </TouchableOpacity>
 
+            </View>
+          </View>
+        </Modal>
+
+        {/* userImage */}
+        <Image source={require('../Images/anon.png')} style={{width: 150, height: 150, resizeMode: 'contain', marginTop: 25}} /> 
+        
+        <Text style={styles.secondary}>Welcome {this.state.userName !== '' ? this.state.userName : this.state.user.displayName !== null ? this.state.user.displayName : null}</Text>
+        <View style={{flexDirection: 'row'}}>
+          <Text style={styles.secondary}>
+            UserName: {this.state.userName !== '' ? this.state.userName : this.state.user.displayName !== null ? this.state.user.displayName : "Enter User Name"}
+          </Text> 
+          
+          <TouchableOpacity style={{marginLeft: 10, marginTop: 7}} onPress={() => {this.setModalVisible(true)}}>
+            {editIcon}
+          </TouchableOpacity> 
+          <TouchableOpacity style={{marginLeft: 10, marginTop: 7}} onPress={this.updateName.bind(this)}>
+            {checkIcon}
+          </TouchableOpacity>
+          
+        </View>
+
+        <Text style={styles.secondary}>Email: {this.state.user.email}</Text>
+
+        {/* log out button */}
         <TouchableOpacity style={{marginTop: 8}}>
           <Button  
             title="LOG OUT"
@@ -187,6 +243,42 @@ const styles = StyleSheet.create({
     color: 'azure',
     textAlign: 'center',
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
 });
 
 export default LoginScreen;

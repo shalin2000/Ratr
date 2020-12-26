@@ -1,5 +1,5 @@
 import * as React from "react";
-import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity } from "react-native";
+import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity, Image} from "react-native";
 import firebase from 'firebase'
 require('firebase/auth')
 
@@ -26,8 +26,28 @@ class LoginScreen extends React.Component {
         email: '',
         password: '',
         errorMessage: '',
+        loggedOut: false,
+        user: [],
       };
       this.Login = this.Login.bind(this)
+  }
+
+  componentDidMount(){
+    firebase.auth().onAuthStateChanged((user) => {
+      if (!user) {
+        console.log('user is logged out')
+        this.setState({loggedOut: true, user: null})
+      }
+      else{
+        console.log(user)
+        console.log('user is logged in ', user.email)
+        this.setState({user: user})
+      }
+    });
+  }
+
+  logout(){
+    firebase.auth().signOut().then(() => console.log('User signed out!'));
   }
 
   // when user clicks login it will check if that email and password is correct and login otherwise show error
@@ -35,7 +55,8 @@ class LoginScreen extends React.Component {
     firebase.auth().signInWithEmailAndPassword(email, password).then((user) => {
       // if email is not verifed then put alert else move to Home screen
       if (user.user.emailVerified === true){
-        this.props.navigation.navigate('Home')
+        // this.props.navigation.navigate('Home')
+        this.setState({loggedOut: false, user: user})
       }
       else {
         alert('Email not verifed...')
@@ -57,6 +78,7 @@ class LoginScreen extends React.Component {
 
   render(){
     return (
+      this.state.loggedOut === true ? 
       <View style={styles.container}>
         <Text style = {styles.title}>Ratr</Text>
         <Text style = {styles.secondary} > Rate. Log. Track.</Text>
@@ -98,15 +120,28 @@ class LoginScreen extends React.Component {
             title="SIGN UP"
             onPress={() => this.props.navigation.navigate('SignUp')}  
           />
-          <Separator />
-          <Button 
+          {/* <Separator /> */}
+          {/* <Button 
             title="Proceed as Guest"
             onPress={() => this.props.navigation.navigate('Home')}
-          />
+          /> */}
         </TouchableOpacity>
         
         <Text style={styles.secondary}>{this.state.errorMessage}</Text>
         
+      </View> 
+      : 
+      <View style={{flex: 1, backgroundColor: "#282828", alignItems: "center",}}>
+        <Image source={require('../Images/anon.png')} style={{width: 150, height: 150, resizeMode: 'contain', marginTop: 25}} /> 
+        <Text style={styles.secondary}>Welcome {this.state.user.email}</Text>
+
+        <TouchableOpacity style={{marginTop: 8}}>
+          <Button  
+            title="LOG OUT"
+            onPress={this.logout}
+          />
+        </TouchableOpacity>
+
       </View>
     );
   }

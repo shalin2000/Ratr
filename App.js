@@ -75,12 +75,16 @@ function HomeScreen1() {
       let iconName;
       if (route.name === 'Home') {
         iconName = focused
-        ? 'ios-information-circle'
-        : 'ios-information-circle-outline';
+        ? 'md-home'
+        : 'ios-home';
       } else if (route.name === 'My List') {
         iconName = focused
         ? 'ios-list-box'
         : 'ios-list';
+      } else if (route.name === 'My Profile') {
+        iconName = focused
+        ? 'md-contact'
+        : 'ios-person';
       }
       return <Ionicons name={iconName} size={size} color={color} />;
       },

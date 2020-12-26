@@ -72,7 +72,6 @@ class LoginScreen extends React.Component {
       if (error.code === 'auth/wrong-password') {
         this.setState({errorMessage: 'Wrong Password'})
       }
-      // console.error(error)
     })
   };
 
@@ -120,11 +119,7 @@ class LoginScreen extends React.Component {
             title="SIGN UP"
             onPress={() => this.props.navigation.navigate('SignUp')}  
           />
-          {/* <Separator /> */}
-          {/* <Button 
-            title="Proceed as Guest"
-            onPress={() => this.props.navigation.navigate('Home')}
-          /> */}
+
         </TouchableOpacity>
         
         <Text style={styles.secondary}>{this.state.errorMessage}</Text>

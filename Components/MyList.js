@@ -1,6 +1,6 @@
 import React from 'react';
 import {View, Button, Text, ScrollView, StyleSheet, Switch} from 'react-native'
-import {Constants} from 'expo'
+import Constants from 'expo-constants';
 import firebase from 'firebase'
 require('firebase/auth')
 
@@ -11,11 +11,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  appContainer: {
-    paddingTop: Constants.statusBarHeight,  },
-  fill: {
-    flex: 1,
-  }
+  appContainer: {paddingTop: Constants.statusBarHeight}
+  // fill: {
+  //   flex: 1,
+  // }
 })
 
 const List = props => (

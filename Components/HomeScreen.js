@@ -119,16 +119,23 @@ class HomeScreen extends React.Component {
     return this.state.isLoading ? 
       <ScrollView style={styles.container}>
         {/* Search feature */}
-        <Searchbar
-          placeholder="Search Book"
-          onChangeText={this.searchChange}
-          value={this.state.searchQuery}
-          onSubmitEditing={() => {
-            this.props.navigation.navigate('Search', {
-              search: this.state.searchQuery
-            });
-          }}
-        />
+        <View style={{flexDirection: 'row', flex: 1}}>
+          <Text style = {styles.title}>Ratr</Text>
+          <Searchbar style={{flex: 1}}
+            placeholder="Search Books"
+            onChangeText={this.searchChange}
+            value={this.state.searchQuery}
+            onSubmitEditing={() => {
+              this.props.navigation.navigate('Search', {
+                search: this.state.searchQuery
+              });
+            }}
+          />
+        </View>
+        
+        <Text style={styles.subPara}> New York Times Best Sellers </Text>
+        {/* <Text style={styles.subPara}>Authoritatively ranked lists of books sold in the United States, 
+          sorted by format and genre.</Text> */}
         {/* displays the best seller books */}
         {flat(this.state.ficBS, 'Fiction')}
         {flat(this.state.nonficBS, 'Non-Fiction')}
@@ -154,10 +161,26 @@ class HomeScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1, backgroundColor: '#1b1b1c', flexDirection: 'column',
+    flex: 1, backgroundColor: '#1b1b1c', 
+    flexDirection: 'column', paddingHorizontal: 10, paddingTop: 10,
+  },
+  subPara: {
+    color: 'azure', fontSize: 23, marginTop: 10, textAlign: 'center',
+    fontWeight: 'bold', textDecorationLine: 'underline',
+    fontStyle: 'italic',
   },
   text: {
-    color: '#ebe4d3', fontSize: 20, marginTop: 10
+    color: '#ebe4d3', fontSize: 20, marginTop: 10,
+    fontWeight: 'bold', textAlign: 'center',
+    fontStyle: 'italic',
+  },
+  title: {
+    paddingRight: 10,
+    fontSize: 40, 
+    fontWeight: 'bold',
+    fontStyle: 'italic',
+    color: 'azure',
+    
   },
   image: {
     marginVertical: 10, borderRadius: 5, flex: 1, width: 140, height: 200, 

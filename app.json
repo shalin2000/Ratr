@@ -1,0 +1,26 @@
+{
+  "expo": {
+    "_internal": {
+      "isDebug": false,
+      "projectRoot": "/Users/ansar/edu/mobApp/ratr",
+      "dynamicConfigPath": null,
+      "staticConfigPath": null,
+      "packageJsonPath": "/Users/ansar/edu/mobApp/ratr/package.json"
+    },
+    "name": "ratr",
+    "slug": "ratr",
+    "version": "1.0.0",
+    "sdkVersion": "39.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "android": {
+      "package": "com.ak0625.ratr"
+    },
+    "ios": {
+      "bundleIdentifier": "com.ak0625.ratr"
+    }
+  }
+}

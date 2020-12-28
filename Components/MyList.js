@@ -11,9 +11,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  // appContainer: {
-  //   paddingTop: Constants.statusBarHeight,
-  // },
+  appContainer: {
+    paddingTop: Constants.statusBarHeight,  },
   fill: {
     flex: 1,
   }

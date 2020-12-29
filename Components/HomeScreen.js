@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image, ScrollView, FlatList, 
-      ActivityIndicator, TouchableHighlight, TouchableOpacity, SafeAreaView } from 'react-native';
+      ActivityIndicator, TouchableHighlight, TouchableOpacity, SafeAreaView, Platform } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 
 class HomeScreen extends React.Component {
@@ -117,7 +117,7 @@ class HomeScreen extends React.Component {
     
     // returns loading screen for 1 sec and then displays the genre after rendering                                       
     return this.state.isLoading ? 
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.droidSafeArea}>
         <ScrollView>
           {/* Search feature */}
           <View style={{flexDirection: 'row', flex: 1}}>
@@ -187,6 +187,13 @@ const styles = StyleSheet.create({
   image: {
     marginVertical: 10, borderRadius: 5, flex: 1, width: 140, height: 200, 
     resizeMode: 'stretch', marginRight: 10, marginTop: 10
+  },
+  droidSafeArea: {
+    flex: 1,
+    // backgroundColor: npLBlue,
+    paddingTop: Platform.OS === 'android' ? 25 : 0,
+    backgroundColor: '#1b1b1c', 
+    flexDirection: 'column', paddingHorizontal: 10
   },
 });
 

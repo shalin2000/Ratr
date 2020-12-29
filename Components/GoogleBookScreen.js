@@ -2,9 +2,9 @@ import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, ScrollView, 
         Image, TouchableOpacity, Linking, Modal, TextInput } from "react-native";
 import Stars from 'react-native-stars';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ReadMore from 'react-native-read-more-text';
 import { FAB } from 'react-native-paper';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 import firebase from 'firebase'
 require('firebase/auth')
@@ -102,6 +102,8 @@ class GoogleBookScreen extends React.Component {
   }
 
 	render() {    
+    const closeIcon = <Icon name="close" size={20} color="grey" />
+
 		return (
       <View style={styles.container}>
         <ScrollView style={styles.container}>
@@ -171,27 +173,34 @@ class GoogleBookScreen extends React.Component {
         <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <Text>{this.state.book.title}</Text>
-              <Text>{this.state.author}</Text>
-              <TextInput style={styles.modalText} placeholder="Enter number between 1-10" 
-              onChangeText={userRating => this.setState({userRating: userRating})} defaultValue={this.state.userRating}
-              />
-              <TextInput style={styles.modalText} placeholder="Enter your comment about the book" 
-              onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
-              />
-              <TextInput style={styles.modalText} placeholder="Enter Completed or currently reading" 
-              onChangeText={userProgress => this.setState({userProgress: userProgress})} defaultValue={this.state.userProgress}
-              />
-              <View style={{flexDirection: 'row'}}>
-                <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                  onPress={() => {this.setState({userComment: '', userRating: '', userProgress: ''})}}>
-                  <Text style={styles.textStyle}>Clear</Text>
-                </TouchableOpacity>
+              <TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible)}}>
+                <View style={{marginRight: -20, marginTop: 5, alignSelf: 'flex-end'}}> 
+                  {closeIcon}
+                </View>
+              </TouchableOpacity>
+              <View style={{alignItems: "center", marginTop: 10}}>
+                <Text>{this.state.book.title}</Text>
+                <Text>{this.state.author}</Text>
+                <TextInput style={styles.modalText} placeholder="Enter number between 1-10" 
+                onChangeText={userRating => this.setState({userRating: userRating})} defaultValue={this.state.userRating}
+                />
+                <TextInput style={styles.modalText} placeholder="Enter your comment about the book" 
+                onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
+                />
+                <TextInput style={styles.modalText} placeholder="Enter Completed or currently reading" 
+                onChangeText={userProgress => this.setState({userProgress: userProgress})} defaultValue={this.state.userProgress}
+                />
+                <View style={{flexDirection: 'row'}}>
+                  <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                    onPress={() => {this.setState({userComment: '', userRating: '', userProgress: ''})}}>
+                    <Text style={styles.textStyle}>Clear</Text>
+                  </TouchableOpacity>
 
-                <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                  onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}>
-                  <Text style={styles.textStyle}>Add To List</Text>
-                </TouchableOpacity>
+                  <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                    onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}>
+                    <Text style={styles.textStyle}>Add To List</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             </View>
           </View>
@@ -259,8 +268,11 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
+    // padding: 35,
+    paddingLeft: 35,
+    paddingBottom: 35,
+    paddingRight: 35,
+    // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

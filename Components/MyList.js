@@ -34,6 +34,18 @@ export default class MyList extends React.Component {
       user: []
     }
   }
+  fetchDataFromApi = ()  => {
+    const url = "http://127.0.0.1:8000/api/list/";
+    fetch(url)
+      .then(res => res.json())
+      .then(res => {
+        console.log(res)
+
+      })
+      .catch(error => {
+        console.log(error)
+      })
+  };
 
   componentDidMount(){
     // listens for when the tab is selected as MyList
@@ -48,7 +60,8 @@ export default class MyList extends React.Component {
           console.log('user is logged in ', user.email)
           this.setState({user: user, loggedOut: false})
         }
-      });    
+      });
+      this.fetchDataFromApi()
     });
   }
   

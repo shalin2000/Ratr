@@ -1,9 +1,12 @@
 import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, 
-        ScrollView, Image, Linking, TouchableOpacity } from "react-native";
+        ScrollView, Image, Linking, TouchableOpacity, Modal, TextInput } from "react-native";
 import { FAB } from 'react-native-paper';
 import ReadMore from 'react-native-read-more-text';
 import RNPickerSelect from 'react-native-picker-select';
+
+import firebase from 'firebase'
+require('firebase/auth')
 
 class NYBookScreen extends React.Component {
 	constructor(props){
@@ -17,7 +20,12 @@ class NYBookScreen extends React.Component {
       BooksAMillion: '',
       Bookshop: '',
       Indiebound: '',
-      placeholder: 'Select option'
+      placeholder: 'Select option',
+      modalVisible: false,
+      userRating: '',
+      userComment: '',
+      userProgress: '',
+      user: []
     };
     this.getBuyLinkurl = this.getBuyLinkurl.bind(this);
 	}
@@ -28,6 +36,21 @@ class NYBookScreen extends React.Component {
       buyLink: this.props.route.params.book.buy_links
     });
     this.getBuyLinkurl(this.props.route.params.book.buy_links)
+
+    // listens for when the tab is selected as MyList
+    this.focusListener = this.props.navigation.addListener("focus", () => {      
+      firebase.auth().onAuthStateChanged((user) => {
+        if (!user) {
+          console.log('user is logged out')
+          this.setState({user: null})
+        }
+        else{
+          // console.log(user)
+          console.log('user is logged in ', user.email)
+          this.setState({user: user})
+        }
+      });
+    });
 	}
 
   // gets the links and stores them into the state if there exist those buy links
@@ -53,6 +76,34 @@ class NYBookScreen extends React.Component {
         this.setState({Indiebound: buyLink[x].url})
       }
     } 
+  }
+
+  // it will post to the api with the correct info that user enters
+  postToAPI(){
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: this.state.user.email,
+        book_name: this.state.NYBook.title,
+        book_author: this.state.NYBook.author,
+        book_url: this.state.NYBook.book_image,
+        user_rating: this.state.userRating,
+        user_comment: this.state.userComment,
+        user_progress: this.state.userProgress,
+      }),
+    };
+    fetch('http://192.168.1.74:8000/api/list/', requestOptions)
+      .then(response => response.json())
+      .then(data => console.log(data));
+  }
+
+  // makes the modal visible when user clicks the plus button
+  setModalVisible = (visible,txt) => {
+    if (txt === 'submit'){
+      this.postToAPI()
+    }
+    this.setState({ modalVisible: visible });
   }
 
 	render() {
@@ -114,12 +165,41 @@ class NYBookScreen extends React.Component {
 
         </ScrollView>
 
+        <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text>{this.state.NYBook.title}</Text>
+              <Text>{this.state.NYBook.author}</Text>
+              <TextInput style={styles.modalText} placeholder="Enter number between 1-10" 
+              onChangeText={userRating => this.setState({userRating: userRating})} defaultValue={this.state.userRating}
+              />
+              <TextInput style={styles.modalText} placeholder="Enter your comment about the book" 
+              onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
+              />
+              <TextInput style={styles.modalText} placeholder="Enter Completed or currently reading" 
+              onChangeText={userProgress => this.setState({userProgress: userProgress})} defaultValue={this.state.userProgress}
+              />
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {this.setState({userComment: '', userRating: '', userProgress: ''})}}>
+                  <Text style={styles.textStyle}>Clear</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}>
+                  <Text style={styles.textStyle}>Add To List</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
         <FAB
         style={styles.fab}
         small
         icon="plus"
         color="yellow"
-        onPress={() => console.log('Pressed')}
+        onPress={() => this.state.user !== null ? this.setModalVisible(true) : alert("Please log in before adding to list")}
         />
 
       </View>
@@ -152,6 +232,42 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute', margin: 16, right: 0, bottom: 0,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
 });
 
 export default NYBookScreen;

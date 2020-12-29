@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Button, Text, ScrollView, StyleSheet, Switch} from 'react-native'
+import {View, Button, Text, ScrollView, StyleSheet, Switch, SafeAreaView} from 'react-native'
 import Constants from 'expo-constants';
 import firebase from 'firebase'
 require('firebase/auth')
@@ -7,6 +7,9 @@ require('firebase/auth')
 let id = 0
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   listContainer: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -31,20 +34,22 @@ export default class MyList extends React.Component {
     this.state = {
       lists: [],
       loggedOut: false,
-      user: []
+      user: [],
+      myListData: [],
     }
   }
-  fetchDataFromApi = ()  => {
-    const url = "http://127.0.0.1:8000/api/list/";
-    fetch(url)
-      .then(res => res.json())
-      .then(res => {
-        console.log(res)
 
-      })
-      .catch(error => {
-        console.log(error)
-      })
+  // gets the data from the django backend
+  fetchDataFromApi = () => {
+    const url = "http://192.168.1.74:8000/api/list/";
+    fetch(url).then(res => res.json())
+    .then(res => {
+      console.log(res)
+      this.setState({myListData: res})
+    })
+    .catch(error => {
+      console.log(error)
+    })
   };
 
   componentDidMount(){
@@ -58,10 +63,10 @@ export default class MyList extends React.Component {
         else{
           // console.log(user)
           console.log('user is logged in ', user.email)
+          this.fetchDataFromApi()
           this.setState({user: user, loggedOut: false})
         }
       });
-      this.fetchDataFromApi()
     });
   }
   
@@ -98,22 +103,20 @@ export default class MyList extends React.Component {
   render() {
     return (
       this.state.loggedOut === true ? 
-      <View><Text>Login in first to access your list</Text>
+      <View>
+        <Text>Login in first to access your list</Text>
       </View>
       :
-      <View style={[styles.appContainer, styles.fill]}>
-        <Text>List count: {this.state.lists.length}</Text>
-        <Text>Unchecked List count: {this.state.lists.filter(item => !item.checked).length}</Text>
-        <Button onPress={() => this.addlist()} title="Add to List" />
-        <ScrollView style={styles.fill}>
-          {this.state.lists.map(item => (
-            <List
-              onToggle={() => this.togglelist(item.id)}
-              onDelete={() => this.removelist(item.id)}
-              item={item}
-            />
-          ))}
-        </ScrollView>
+      <View style={styles.container}>
+        <Text> MY LIST: </Text>
+        {this.state.myListData.map((element,key) => {
+          return element.email === this.state.user.email ? 
+            <View key={key} style={{margin: 10}}>
+              <Text>{element.book_name}</Text>
+              <Text>{element.book_author}</Text>
+            </View> 
+            : null}
+          )}
       </View>
     )
   }

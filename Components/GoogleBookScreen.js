@@ -1,10 +1,13 @@
 import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, ScrollView, 
-        Image, TouchableOpacity, Linking } from "react-native";
+        Image, TouchableOpacity, Linking, Modal, TextInput } from "react-native";
 import Stars from 'react-native-stars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ReadMore from 'react-native-read-more-text';
 import { FAB } from 'react-native-paper';
+
+import firebase from 'firebase'
+require('firebase/auth')
 
 class GoogleBookScreen extends React.Component {
 	constructor(props){
@@ -14,6 +17,11 @@ class GoogleBookScreen extends React.Component {
       bookImg: '',
       author: '',
       isbn: '',
+      modalVisible: false,
+      userRating: '',
+      userComment: '',
+      userProgress: '',
+      user: []
     };
     this.getAuthors = this.getAuthors.bind(this);
 	}
@@ -27,6 +35,20 @@ class GoogleBookScreen extends React.Component {
       
     });
     this.getAuthors(this.props.route.params.book.authors)
+    // listens for when the tab is selected as MyList
+    this.focusListener = this.props.navigation.addListener("focus", () => {      
+      firebase.auth().onAuthStateChanged((user) => {
+        if (!user) {
+          console.log('user is logged out')
+          this.setState({user: null})
+        }
+        else{
+          // console.log(user)
+          console.log('user is logged in ', user.email)
+          this.setState({user: user})
+        }
+      });
+    });
   }
 
   // gets the author and adds "AND" between multiple authors if there is
@@ -49,6 +71,34 @@ class GoogleBookScreen extends React.Component {
     this.setState({
       author: combined
     });
+  }
+
+  // it will post to the api with the correct info that user enters
+  postToAPI(){
+    const requestOptions = {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: this.state.user.email,
+        book_name: this.state.book.title,
+        book_author: this.state.author,
+        book_url: this.state.bookImg,
+        user_rating: this.state.userRating,
+        user_comment: this.state.userComment,
+        user_progress: this.state.userProgress,
+      }),
+    };
+    fetch('http://192.168.1.74:8000/api/list/', requestOptions)
+      .then(response => response.json())
+      .then(data => console.log(data));
+  }
+
+  // makes the modal visible when user clicks the plus button
+  setModalVisible = (visible,txt) => {
+    if (txt === 'submit'){
+      this.postToAPI()
+    }
+    this.setState({ modalVisible: visible });
   }
 
 	render() {    
@@ -118,12 +168,41 @@ class GoogleBookScreen extends React.Component {
 
         </ScrollView>
 
+        <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <Text>{this.state.book.title}</Text>
+              <Text>{this.state.author}</Text>
+              <TextInput style={styles.modalText} placeholder="Enter number between 1-10" 
+              onChangeText={userRating => this.setState({userRating: userRating})} defaultValue={this.state.userRating}
+              />
+              <TextInput style={styles.modalText} placeholder="Enter your comment about the book" 
+              onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
+              />
+              <TextInput style={styles.modalText} placeholder="Enter Completed or currently reading" 
+              onChangeText={userProgress => this.setState({userProgress: userProgress})} defaultValue={this.state.userProgress}
+              />
+              <View style={{flexDirection: 'row'}}>
+                <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {this.setState({userComment: '', userRating: '', userProgress: ''})}}>
+                  <Text style={styles.textStyle}>Clear</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}>
+                  <Text style={styles.textStyle}>Add To List</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
+
         <FAB
         style={styles.fab}
         small
         icon="plus"
         color="yellow"
-        onPress={() => console.log('Pressed')}
+        onPress={() => this.state.user !== null ? this.setModalVisible(true) : alert("Please log in before adding to list")}
         />
       </View>
       
@@ -170,6 +249,42 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute', margin: 16, right: 0, bottom: 0,
   },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
+  }
 });
 
 export default GoogleBookScreen;

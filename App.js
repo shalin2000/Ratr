@@ -18,7 +18,7 @@ const Stack = createStackNavigator();
 
 function TabAScreen() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="NYBook" component={NYBookScreen} />
       <Stack.Screen name="Search" component={SearchScreen} />
@@ -29,7 +29,7 @@ function TabAScreen() {
 
 function TabBScreen() {
   return (
-    <Stack.Navigator>
+    <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignUp" component={SignUp} />
       <Stack.Screen name="ForgetPassword" component={ForgotPassword} />

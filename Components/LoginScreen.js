@@ -37,8 +37,21 @@ class LoginScreen extends React.Component {
       this.Login = this.Login.bind(this)
   }
 
-  setModalVisible = (visible) => {
-      this.setState({ modalVisible: visible });
+  // updates the users name on the firebase auth system
+  updateName(){
+    const update = {
+      displayName: this.state.userName,
+      photoURL: null,
+    };
+    firebase.auth().currentUser.updateProfile(update);
+  }
+
+  // makes the modal visibal when user presses the edit button and if they click done then it will update their name
+  setModalVisible = (visible,txt) => {
+    if (txt === 'submit'){
+      this.updateName()
+    }
+    this.setState({ modalVisible: visible });
   }
   
   componentDidMount(){
@@ -53,14 +66,6 @@ class LoginScreen extends React.Component {
         this.setState({user: user})
       }
     });
-  }
-
-  updateName(){
-    const update = {
-      displayName: this.state.userName,
-      photoURL: null,
-    };
-    firebase.auth().currentUser.updateProfile(update);
   }
 
   // logout
@@ -95,7 +100,6 @@ class LoginScreen extends React.Component {
 
   render(){
     const editIcon = <Icon name="edit" size={20} color="white" />
-    const checkIcon = <Icon name="check" size={20} color="white" />
 
     return (
       this.state.loggedOut === true ? 
@@ -156,7 +160,7 @@ class LoginScreen extends React.Component {
               onChangeText={userName => this.setState({userName: userName})} defaultValue={this.state.userName}
               onSubmitEditing = {() => {this.setModalVisible(!this.state.modalVisible)} } />
               <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
+                onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}
               >
                 <Text style={styles.textStyle}>Done</Text>
               </TouchableOpacity>
@@ -177,9 +181,6 @@ class LoginScreen extends React.Component {
           <TouchableOpacity style={{marginLeft: 10, marginTop: 7}} onPress={() => {this.setModalVisible(true)}}>
             {editIcon}
           </TouchableOpacity> 
-          <TouchableOpacity style={{marginLeft: 10, marginTop: 7}} onPress={this.updateName.bind(this)}>
-            {checkIcon}
-          </TouchableOpacity>
           
         </View>
 

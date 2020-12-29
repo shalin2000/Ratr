@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image, ScrollView, FlatList, 
-      ActivityIndicator, TouchableHighlight, TouchableOpacity } from 'react-native';
+      ActivityIndicator, TouchableHighlight, TouchableOpacity, SafeAreaView } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 
 class HomeScreen extends React.Component {
@@ -117,44 +117,46 @@ class HomeScreen extends React.Component {
     
     // returns loading screen for 1 sec and then displays the genre after rendering                                       
     return this.state.isLoading ? 
-      <ScrollView style={styles.container}>
-        {/* Search feature */}
-        <View style={{flexDirection: 'row', flex: 1}}>
-          <Text style = {styles.title}>Ratr</Text>
-          <Searchbar style={{flex: 1}}
-            placeholder="Search Books"
-            onChangeText={this.searchChange}
-            value={this.state.searchQuery}
-            onSubmitEditing={() => {
-              this.props.navigation.navigate('Search', {
-                search: this.state.searchQuery
-              });
-            }}
-          />
-        </View>
-        
-        <Text style={styles.subPara}> New York Times Best Sellers </Text>
-        {/* <Text style={styles.subPara}>Authoritatively ranked lists of books sold in the United States, 
-          sorted by format and genre.</Text> */}
-        {/* displays the best seller books */}
-        {flat(this.state.ficBS, 'Fiction')}
-        {flat(this.state.nonficBS, 'Non-Fiction')}
-        {flat(this.state.adultBS, 'Young Adult')}
-        {flat(this.state.middleGradeBS, 'Middle Grade')}
-        {flat(this.state.graphicBS, 'Graphic/Manga')}
-        {flat(this.state.seriesBS, 'Series')}
-        {flat(this.state.audioficBS, 'Audio Fiction')}
-        {flat(this.state.audioNonficBS, 'Audio Non-Fiction')}
-        {flat(this.state.adviceBS, 'Advice, How-To and Miscellaneous')}
-      </ScrollView>
+      <SafeAreaView style={styles.container}>
+        <ScrollView>
+          {/* Search feature */}
+          <View style={{flexDirection: 'row', flex: 1}}>
+            <Text style = {styles.title}>Ratr</Text>
+            <Searchbar style={{flex: 1}}
+              placeholder="Search Books"
+              onChangeText={this.searchChange}
+              value={this.state.searchQuery}
+              onSubmitEditing={() => {
+                this.props.navigation.navigate('Search', {
+                  search: this.state.searchQuery
+                });
+              }}
+            />
+          </View>
+          
+          <Text style={styles.subPara}> New York Times Best Sellers </Text>
+          {/* <Text style={styles.subPara}>Authoritatively ranked lists of books sold in the United States, 
+            sorted by format and genre.</Text> */}
+          {/* displays the best seller books */}
+          {flat(this.state.ficBS, 'Fiction')}
+          {flat(this.state.nonficBS, 'Non-Fiction')}
+          {flat(this.state.adultBS, 'Young Adult')}
+          {flat(this.state.middleGradeBS, 'Middle Grade')}
+          {flat(this.state.graphicBS, 'Graphic/Manga')}
+          {flat(this.state.seriesBS, 'Series')}
+          {flat(this.state.audioficBS, 'Audio Fiction')}
+          {flat(this.state.audioNonficBS, 'Audio Non-Fiction')}
+          {flat(this.state.adviceBS, 'Advice, How-To and Miscellaneous')}
+        </ScrollView>
+      </SafeAreaView>
      :
-      <View>
+      <SafeAreaView>
         <ActivityIndicator
             style={{ height: 80 }}
             color="#C00"
             size="large"
         />
-      </View>
+      </SafeAreaView>
     
   }
 }

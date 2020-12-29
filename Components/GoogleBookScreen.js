@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, ScrollView, 
-        Image, TouchableOpacity, Linking, Modal, TextInput } from "react-native";
+        Image, TouchableOpacity, Linking, Modal, TextInput, Dimensions  } from "react-native";
 import Stars from 'react-native-stars';
 import ReadMore from 'react-native-read-more-text';
 import { FAB } from 'react-native-paper';
@@ -8,6 +8,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import firebase from 'firebase'
 require('firebase/auth')
+
+const windowWidth = Dimensions.get('window').width;
 
 class GoogleBookScreen extends React.Component {
 	constructor(props){
@@ -107,12 +109,12 @@ class GoogleBookScreen extends React.Component {
 		return (
       <SafeAreaView style={styles.droidSafeArea}>
         <View style={styles.container}>
-          <ScrollView style={styles.container}>
+          <ScrollView >
             <View style={{flexDirection: 'row'}}>
-              <View style={{marginTop: 30, marginLeft: 20, marginRight: 10}}>
+              <View style={{marginRight: 10}}>
                 <Image source = {{uri:this.state.bookImg}} style = {styles.image} /> 
               </View>
-              <View style={{marginTop: 30}}>
+              <View >
                 <Text style={styles.title}>{this.state.book.title}</Text>
                 <Text style={styles.author}>{this.state.author}</Text>
                 {this.state.isbn !== 'undefined' ? <Text style={styles.isbnAndPage}>ISBN: {this.state.isbn}</Text> : null }
@@ -120,7 +122,7 @@ class GoogleBookScreen extends React.Component {
               </View>
             </View>
 
-            <View style={{flexDirection: 'row', marginLeft: 20, marginTop: 10, alignItems:'center'}}>
+            <View style={{flexDirection: 'row', marginTop: 10, alignItems:'center'}}>
               <Stars
                 default={this.state.book.averageRating}
                 count={5}
@@ -139,7 +141,7 @@ class GoogleBookScreen extends React.Component {
               <Text style={styles.description}>
                 Description
               </Text>
-              <View style={{marginLeft: 20}}>
+              <View >
                 <ReadMore 
                 numberOfLines={5} 
                 renderTruncatedFooter={this._renderTruncatedFooter}
@@ -152,7 +154,7 @@ class GoogleBookScreen extends React.Component {
               </View>
             </View>
 
-            <View style={{marginLeft: 20, marginTop: 25}}>
+            <View style={{marginTop: 25}}>
               {typeof this.state.book.infoLink !== 'undefined' ? <TouchableOpacity onPress={()=> {Linking.openURL(this.state.book.infoLink)}}>
                 <View style={{flexDirection: 'row', alignItems:'center'}}>
                   <Image source={require('../Images/moreInfo.png')} style={{width: 20, height: 20, resizeMode: 'contain'}} /> 
@@ -223,25 +225,25 @@ class GoogleBookScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1, backgroundColor: '#1b1b1c',
+    paddingHorizontal: 15, paddingTop: 15,
   },
   image: {
     width: 150, height: 200, resizeMode: 'stretch'
   },
   title: {
-    color: 'lightblue', fontSize: 28, flexWrap: 'wrap', width: 175
+    color: 'lightblue', fontSize: 28, flexWrap: 'wrap', width: windowWidth-190
   },
 	author: {
-    color: '#ebe4d3', fontSize: 18, flexWrap: 'wrap', width: 175
+    color: '#ebe4d3', fontSize: 18, flexWrap: 'wrap', width: windowWidth-190
   },
   isbnAndPage: {
     color: '#ebe4d3', fontSize: 12, marginTop: 5, flexWrap: 'wrap'
   },
   secondView:{
     margin: 5, marginTop: 5, fontSize: 25, fontWeight: '800', color: 'grey',
-
   },
   description: {
-    color: 'lightblue', fontSize: 20, marginLeft:20, marginBottom: 15, marginTop: 20
+    color: 'lightblue', fontSize: 20, marginBottom: 15, marginTop: 20
   },
   descriptionText: {
     color: '#ebe4d3', fontSize: 15

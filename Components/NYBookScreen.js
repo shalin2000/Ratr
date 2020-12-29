@@ -113,12 +113,12 @@ class NYBookScreen extends React.Component {
 		return (
       <SafeAreaView style={styles.droidSafeArea}>
         <View style={styles.container}>
-          <ScrollView style={styles.container}>
+          <ScrollView >
             <View style={{flexDirection: 'row'}}>
-              <View style={{marginTop: 30, marginLeft: 20, marginRight: 10}}>
+              <View style={{marginRight: 10}}>
                 <Image source = {{uri:this.state.NYBook.book_image}} style = {styles.image} /> 
               </View>
-              <View style={{marginTop: 30}}>
+              <View >
                 <Text style={styles.title}>{this.state.NYBook.title}</Text>
                 <Text style={styles.author}>{this.state.NYBook.author}</Text>
                 {this.state.NYBook.primary_isbn13 !== '' ? <Text style={styles.isbn}>ISBN 13: {this.state.NYBook.primary_isbn13}</Text> : null}
@@ -131,7 +131,7 @@ class NYBookScreen extends React.Component {
               <Text style={styles.description}>
                 Description
               </Text>
-              <View style={{marginLeft: 20}}>
+              <View >
                 <ReadMore 
                 numberOfLines={5} 
                 renderTruncatedFooter={this._renderTruncatedFooter}
@@ -148,10 +148,10 @@ class NYBookScreen extends React.Component {
               <Text style={styles.description}>
                 Buy Links
               </Text>
-              <View style={{marginLeft: 20}}>
+              <View >
                 <RNPickerSelect
                   placeholder={{
-                      label: 'Select a Store   ▾',
+                      label: 'Select a Store',
                       value: 'undefined',
                   }}
                   onValueChange={(value) => value !== 'undefined' ? Linking.openURL(value) : null}
@@ -222,6 +222,7 @@ class NYBookScreen extends React.Component {
 const styles = StyleSheet.create({
 	container: {
     flex: 1, backgroundColor: '#1b1b1c',
+    paddingHorizontal: 15, paddingTop: 15,
   },
   image: {
     width: 140, height: 200, resizeMode: 'stretch'
@@ -236,7 +237,7 @@ const styles = StyleSheet.create({
     color: '#ebe4d3', fontSize: 12, marginTop: 5, flexWrap: 'wrap'
   },
 	description: {
-    color: 'lightblue', fontSize: 20, marginLeft:20, marginBottom: 15, marginTop: 20
+    color: 'lightblue', fontSize: 20, marginBottom: 15, marginTop: 20
   },
   descriptionText: {
     color: '#ebe4d3', fontSize: 15

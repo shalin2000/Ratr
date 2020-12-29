@@ -231,10 +231,10 @@ const styles = StyleSheet.create({
     width: 140, height: 200, resizeMode: 'stretch'
   },
   title: {
-    color: 'lightblue', fontSize: 28, flexWrap: 'wrap', width: windowWidth-140
+    color: 'lightblue', fontSize: 28, flexWrap: 'wrap', width: windowWidth-180
   },
 	author: {
-    color: '#ebe4d3', fontSize: 18, flexWrap: 'wrap', width: windowWidth-140
+    color: '#ebe4d3', fontSize: 18, flexWrap: 'wrap', width: windowWidth-180
   },
   isbn: {
     color: '#ebe4d3', fontSize: 12, marginTop: 5, flexWrap: 'wrap'

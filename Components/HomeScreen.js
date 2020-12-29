@@ -118,7 +118,7 @@ class HomeScreen extends React.Component {
     // returns loading screen for 1 sec and then displays the genre after rendering                                       
     return this.state.isLoading ? 
       <SafeAreaView style={styles.droidSafeArea}>
-        <ScrollView>
+        <ScrollView style={styles.container}>
           {/* Search feature */}
           <View style={{flexDirection: 'row', flex: 1}}>
             <Text style = {styles.title}>Ratr</Text>
@@ -150,7 +150,7 @@ class HomeScreen extends React.Component {
         </ScrollView>
       </SafeAreaView>
      :
-      <SafeAreaView>
+      <SafeAreaView style={styles.droidSafeArea}>
         <ActivityIndicator
             style={{ height: 80 }}
             color="#C00"
@@ -190,10 +190,8 @@ const styles = StyleSheet.create({
   },
   droidSafeArea: {
     flex: 1,
-    // backgroundColor: npLBlue,
-    paddingTop: Platform.OS === 'android' ? 25 : 0,
-    backgroundColor: '#1b1b1c', 
-    flexDirection: 'column', paddingHorizontal: 10
+    backgroundColor: 'azure',
+    paddingTop: Platform.OS === 'android' ? 25 : 0
   },
 });
 

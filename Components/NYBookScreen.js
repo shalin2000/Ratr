@@ -124,7 +124,7 @@ class NYBookScreen extends React.Component {
               {this.state.NYBook.primary_isbn10 !== '' ? <Text style={styles.isbn}>ISBN 10: {this.state.NYBook.primary_isbn10}</Text> : null}
             </View>
           </View>
-                  
+          
           {this.state.NYBook.description !== '' ? 
           <View>
             <Text style={styles.description}>
@@ -171,9 +171,11 @@ class NYBookScreen extends React.Component {
         <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <View style={{alignItems: "right"}}> 
-                {closeIcon} 
-              </View>
+              <TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible)}}>
+                <View style={{marginRight: -20, marginTop: 5, alignSelf: 'flex-end'}}> 
+                  {closeIcon}
+                </View>
+              </TouchableOpacity>
               <View style={{alignItems: "center", marginTop: 10}}>
                 <Text>{this.state.NYBook.title}</Text>
                 <Text>{this.state.NYBook.author}</Text>

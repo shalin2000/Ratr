@@ -73,9 +73,12 @@ class SearchScreen extends React.Component {
     // Makes the flatlist for the resultFound from search
     const flat = (list) => <View>
                               <FlatList
+                                columnWrapperStyle={{flex: 1, justifyContent: "space-around"}}
                                 numColumns={2}
+                                // contentContainerStyle={{flexGrow: 1, justifyContent: 'center'}}
                                 data={list}
                                 renderItem={({item}) => (
+                                  <View style={{ flexDirection: "column", margin: 1}}>
                                   <TouchableOpacity 
                                     onPress={() => {
                                       this.props.navigation.navigate('GoogleBook', {
@@ -84,10 +87,12 @@ class SearchScreen extends React.Component {
                                         isbn: item.volumeInfo.industryIdentifiers.length > 1 ? item.volumeInfo.industryIdentifiers[1].identifier : 'undefined'
                                       });
                                     }}
-                                  >
+                                  > 
+
                                     <Image source = {{uri:item.volumeInfo.imageLinks.thumbnail}}
                                       style = {styles.image} />
                                   </TouchableOpacity>
+                                  </View>
                                 )}
                                 keyExtractor={(item,key) => key.toString()}
                               />
@@ -108,22 +113,17 @@ const styles = StyleSheet.create({
 	container: {
     flex: 1,
     backgroundColor: '#1b1b1c',
+    paddingHorizontal: 10, paddingTop: 10,
 	},
 	text: {
     color: '#ebe4d3',
     fontSize: 20,
     textAlign: "center",
-    marginTop: 10,
   },
 	image: {
     width: 150, height: 200, resizeMode: 'stretch',
 		marginVertical: 10,
     borderRadius: 3,
-    marginLeft: 15,
-		// flex: 1,
-		// width: 165,
-		// height: 180,
-		// resizeMode: 'contain',
 	}
 });
 

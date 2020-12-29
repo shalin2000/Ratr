@@ -128,7 +128,7 @@ class GoogleBookScreen extends React.Component {
                 // starSize={20}
                 disabled={true}
                 fullStar={<Icon name={'star'} style={[styles.myStarStyle]}/>}
-                emptyStar={<Icon name={'star-outline'} style={[styles.myStarStyle, styles.myEmptyStarStyle]}/>}
+                emptyStar={<Icon name={'star-o'} style={[styles.myStarStyle, styles.myEmptyStarStyle]}/>}
                 halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]}/>}
               />
               {typeof this.state.book.ratingsCount !== 'undefined' ? <Text style={{color: 'white', fontSize: 12, flexWrap: 'wrap', margin: 5}}>- {this.state.book.ratingsCount} Ratings</Text> 

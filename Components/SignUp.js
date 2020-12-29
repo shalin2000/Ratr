@@ -1,5 +1,6 @@
 import * as React from "react";
-import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity, ScrollView } from "react-native";
+import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity, 
+        ScrollView, SafeAreaView } from "react-native";
 import firebase from 'firebase'
 require('firebase/auth')
 
@@ -67,54 +68,55 @@ class SignUp extends React.Component {
   
   render(){
     return (
-      <View style={styles.container}>
-        <Text style = {styles.title}>Ratr</Text>
-        <Text style = {styles.secondary} > Rate. Log. Track.</Text>
+      <SafeAreaView style={styles.droidSafeArea}>
+        <View style={styles.container}>
+          <Text style = {styles.title}>Ratr</Text>
+          <Text style = {styles.secondary} > Rate. Log. Track.</Text>
 
-        <View>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Email"
-            placeholderTextColor="#003f5c"
-            onChangeText={(email) => this.setState({email})}
-          />
+          <View>
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Email"
+              placeholderTextColor="#003f5c"
+              onChangeText={(email) => this.setState({email})}
+            />
+          </View>
+    
+          <View >
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Password"
+              placeholderTextColor="#003f5c"
+              secureTextEntry={true}
+              onChangeText={(password) => this.setState({password})}
+            />
+          </View>
+
+          <View >
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Confirm Password"
+              placeholderTextColor="#003f5c"
+              secureTextEntry={true}
+              onChangeText={(confirmPassword) => this.setState({confirmPassword})}
+            />
+          </View>
+
+          <Separator />
+          <Button title="Register Account" onPress={() => this.SignUp(this.state.email, this.state.password)}/>
+          
+          <Text style={styles.secondary}>{this.state.errorMessage}</Text>
+
         </View>
-  
-        <View >
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Password"
-            placeholderTextColor="#003f5c"
-            secureTextEntry={true}
-            onChangeText={(password) => this.setState({password})}
-          />
-        </View>
-
-        <View >
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Confirm Password"
-            placeholderTextColor="#003f5c"
-            secureTextEntry={true}
-            onChangeText={(confirmPassword) => this.setState({confirmPassword})}
-          />
-        </View>
-
-        <Separator />
-        <Button title="Register Account" onPress={() => this.SignUp(this.state.email, this.state.password)}/>
-        
-        <Text style={styles.secondary}>{this.state.errorMessage}</Text>
-
-      </View>
+      </SafeAreaView>
     );
   }
 }
  
 const styles = StyleSheet.create({
-
   container: {
     flex: 1,
-    backgroundColor: "#282828",
+    backgroundColor: "#1b1b1c",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -144,6 +146,11 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: 'azure',
     textAlign: 'center',
+  },
+  droidSafeArea: {
+    flex: 1,
+    backgroundColor: Platform.OS === 'android' ? 'gray' : '#1b1b1c',
+    paddingTop: Platform.OS === 'android' ? 25 : 0
   },
 });
 

@@ -190,7 +190,7 @@ const styles = StyleSheet.create({
   },
   droidSafeArea: {
     flex: 1,
-    backgroundColor: 'azure',
+    backgroundColor: Platform.OS === 'android' ? 'gray' : '#1b1b1c',
     paddingTop: Platform.OS === 'android' ? 25 : 0
   },
 });

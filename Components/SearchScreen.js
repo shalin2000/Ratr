@@ -71,7 +71,7 @@ class SearchScreen extends React.Component {
 
 	render() {
     // Makes the flatlist for the resultFound from search
-    const flat = (list) => <View>
+    const flat = (list) => <View style={styles.container}>
                               <FlatList
                                 columnWrapperStyle={{flex: 1, justifyContent: "space-around"}}
                                 numColumns={2}
@@ -98,13 +98,13 @@ class SearchScreen extends React.Component {
                               />
                           </View>
 		return (
-			<View style={styles.container}>
-				<Text style={styles.text}>Searched Result... {this.state.search}</Text>
-        
-        {/* shows the results that was found by the search */}
-        {this.state.resultFound.length !== 0 ? flat(this.state.resultFound) : <Text style={styles.text}>NO BOOKS FOUND!!!</Text>}
-
-			</View>
+      <SafeAreaView style={styles.droidSafeArea}>
+        <View style={styles.container}>
+          <Text style={styles.text}>Searched Result... {this.state.search}</Text>
+          {/* shows the results that was found by the search */}
+          {this.state.resultFound.length !== 0 ? flat(this.state.resultFound) : <Text style={styles.text}>NO BOOKS FOUND!!!</Text>}
+        </View>
+      </SafeAreaView>
 		);
 	}
 }
@@ -124,7 +124,12 @@ const styles = StyleSheet.create({
     width: 150, height: 200, resizeMode: 'stretch',
 		marginVertical: 10,
     borderRadius: 3,
-	}
+  },
+  droidSafeArea: {
+    flex: 1,
+    backgroundColor: Platform.OS === 'android' ? 'gray' : '#1b1b1c',
+    paddingTop: Platform.OS === 'android' ? 25 : 0
+  },
 });
 
 export default SearchScreen;

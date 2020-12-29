@@ -1,5 +1,6 @@
 import * as React from "react";
-import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity, ScrollView } from "react-native";
+import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity, ScrollView,
+        SafeAreaView } from "react-native";
 import firebase from 'firebase'
 require('firebase/auth')
 
@@ -50,34 +51,36 @@ class SignUp extends React.Component {
   
   render(){
     return (
-      <View style={styles.container}>
-        <Text style = {styles.title}>Ratr</Text>
-        <Text style = {styles.secondary} > Rate. Log. Track.</Text>
+      <SafeAreaView style={styles.droidSafeArea}>
+        <View style={styles.container}>
+          <Text style = {styles.title}>Ratr</Text>
+          <Text style = {styles.secondary} > Rate. Log. Track.</Text>
 
-        <View>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Email"
-            placeholderTextColor="#003f5c"
-            onChangeText={(email) => this.setState({email})}
-          />
-        </View>
-  
-        <Separator />
-
-        <View>
-          {this.state.linkSent === false ? <Button title="Send link" onPress={() => this.forgotPassword(this.state.email)}/> 
-          : 
-          <Button title="Resend link" onPress={() => this.forgotPassword(this.state.email)}/>}
-        
+          <View>
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Email"
+              placeholderTextColor="#003f5c"
+              onChangeText={(email) => this.setState({email})}
+            />
+          </View>
+    
           <Separator />
-        
-          <Button title="Back to Login" onPress={() => this.props.navigation.navigate('Login')}/>
+
+          <View>
+            {this.state.linkSent === false ? <Button title="Send link" onPress={() => this.forgotPassword(this.state.email)}/> 
+            : 
+            <Button title="Resend link" onPress={() => this.forgotPassword(this.state.email)}/>}
+          
+            <Separator />
+          
+            <Button title="Back to Login" onPress={() => this.props.navigation.navigate('Login')}/>
+          </View>
+
+          <Text style={styles.secondary}>{this.state.errorMessage}</Text>
+
         </View>
-
-        <Text style={styles.secondary}>{this.state.errorMessage}</Text>
-
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -86,7 +89,7 @@ const styles = StyleSheet.create({
 
   container: {
     flex: 1,
-    backgroundColor: "#282828",
+    backgroundColor: "#1b1b1c",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -116,6 +119,11 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: 'azure',
     textAlign: 'center',
+  },
+  droidSafeArea: {
+    flex: 1,
+    backgroundColor: Platform.OS === 'android' ? 'gray' : '#1b1b1c',
+    paddingTop: Platform.OS === 'android' ? 25 : 0
   },
 });
 

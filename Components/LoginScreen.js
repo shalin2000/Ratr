@@ -1,6 +1,6 @@
 import * as React from "react";
 import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity, Image, 
-  TouchableHighlight, Modal} from "react-native";
+  TouchableHighlight, Modal, SafeAreaView} from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 import firebase from 'firebase'
@@ -103,98 +103,98 @@ class LoginScreen extends React.Component {
 
     return (
       this.state.loggedOut === true ? 
-      <View style={styles.container}>
-        <Text style = {styles.title}>Ratr</Text>
-        <Text style = {styles.secondary} > Rate. Log. Track.</Text>
-        <View style={styles.inputView}>
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Enter Email"
-            placeholderTextColor="#003f5c"
-            onChangeText={(email) => this.setState({email})}
-          />
-        </View>
-  
-        <View >
-          <TextInput
-            style={styles.TextInput}
-            placeholder="Enter Password"
-            placeholderTextColor="#003f5c"
-            secureTextEntry={true}
-            onChangeText={(password) => this.setState({password})}
-          />
-        </View>
-        
-        <View style={styles.row}>
-          <Text>
-            {/* OnPress for Forgot Pass */}
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgetPassword')}> 
-              <Text style={styles.forgot_button}> Forgot Password? </Text>
-            </TouchableOpacity>
-          </Text>
-        </View>
-        
-        <TouchableOpacity style={{marginTop: 8}}>
-          <Button  
-            title="LOGIN"
-            onPress={() => this.Login(this.state.email, this.state.password)}
-          />
-          <Separator />
-          <Button 
-            title="SIGN UP"
-            onPress={() => this.props.navigation.navigate('SignUp')}  
-          />
-        </TouchableOpacity>
-        
-        <Text style={styles.secondary}>{this.state.errorMessage}</Text>
-      </View> 
+      <SafeAreaView style={styles.droidSafeArea}>
+        <View style={styles.container}>
+          <Text style = {styles.title}>Ratr</Text>
+          <Text style = {styles.secondary} > Rate. Log. Track.</Text>
+          <View style={styles.inputView}>
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Enter Email"
+              placeholderTextColor="#003f5c"
+              onChangeText={(email) => this.setState({email})}
+            />
+          </View>
+    
+          <View >
+            <TextInput
+              style={styles.TextInput}
+              placeholder="Enter Password"
+              placeholderTextColor="#003f5c"
+              secureTextEntry={true}
+              onChangeText={(password) => this.setState({password})}
+            />
+          </View>
+          
+          <View style={styles.row}>
+            <Text>
+              {/* OnPress for Forgot Pass */}
+              <TouchableOpacity onPress={() => this.props.navigation.navigate('ForgetPassword')}> 
+                <Text style={styles.forgot_button}> Forgot Password? </Text>
+              </TouchableOpacity>
+            </Text>
+          </View>
+          
+          <TouchableOpacity style={{marginTop: 8}}>
+            <Button  
+              title="LOGIN"
+              onPress={() => this.Login(this.state.email, this.state.password)}
+            />
+            <Separator />
+            <Button 
+              title="SIGN UP"
+              onPress={() => this.props.navigation.navigate('SignUp')}  
+            />
+          </TouchableOpacity>
+          
+          <Text style={styles.secondary}>{this.state.errorMessage}</Text>
+        </View> 
+      </SafeAreaView>
       : 
       // if user is logged in then display this
-      <View style={{flex: 1, backgroundColor: "#282828", alignItems: "center",}}>
-        
-        {/* brings up the edit username popup */}
-        <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <TextInput style={styles.modalText} placeholder="Edit User Name" 
-              onChangeText={userName => this.setState({userName: userName})} defaultValue={this.state.userName}
-              onSubmitEditing = {() => {this.setModalVisible(!this.state.modalVisible)} } />
-              <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}
-              >
-                <Text style={styles.textStyle}>Done</Text>
-              </TouchableOpacity>
-
+      <SafeAreaView style={styles.droidSafeArea}>
+        <View style={{flex: 1, backgroundColor: "#1b1b1c", alignItems: "center",}}>
+          {/* brings up the edit username popup */}
+          <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <TextInput style={styles.modalText} placeholder="Edit User Name" 
+                onChangeText={userName => this.setState({userName: userName})} defaultValue={this.state.userName}
+                onSubmitEditing = {() => {this.setModalVisible(!this.state.modalVisible)} } />
+                <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                  onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}
+                >
+                  <Text style={styles.textStyle}>Done</Text>
+                </TouchableOpacity>
+              </View>
             </View>
+          </Modal>
+
+          {/* userImage */}
+          <Image source={require('../Images/anon.png')} style={{width: 150, height: 150, resizeMode: 'contain', marginTop: 25}} /> 
+          
+          <Text style={styles.secondary}>Welcome {this.state.userName !== '' ? this.state.userName : this.state.user.displayName !== null ? this.state.user.displayName : null}</Text>
+          <View style={{flexDirection: 'row'}}>
+            <Text style={styles.secondary}>
+              UserName: {this.state.userName !== '' ? this.state.userName : this.state.user.displayName !== null ? this.state.user.displayName : "Enter User Name"}
+            </Text> 
+            
+            <TouchableOpacity style={{marginLeft: 10, marginTop: 7}} onPress={() => {this.setModalVisible(true)}}>
+              {editIcon}
+            </TouchableOpacity> 
           </View>
-        </Modal>
 
-        {/* userImage */}
-        <Image source={require('../Images/anon.png')} style={{width: 150, height: 150, resizeMode: 'contain', marginTop: 25}} /> 
-        
-        <Text style={styles.secondary}>Welcome {this.state.userName !== '' ? this.state.userName : this.state.user.displayName !== null ? this.state.user.displayName : null}</Text>
-        <View style={{flexDirection: 'row'}}>
-          <Text style={styles.secondary}>
-            UserName: {this.state.userName !== '' ? this.state.userName : this.state.user.displayName !== null ? this.state.user.displayName : "Enter User Name"}
-          </Text> 
-          
-          <TouchableOpacity style={{marginLeft: 10, marginTop: 7}} onPress={() => {this.setModalVisible(true)}}>
-            {editIcon}
-          </TouchableOpacity> 
-          
+          <Text style={styles.secondary}>Email: {this.state.user.email}</Text>
+
+          {/* log out button */}
+          <TouchableOpacity style={{marginTop: 8}}>
+            <Button  
+              title="LOG OUT"
+              onPress={this.logout}
+            />
+          </TouchableOpacity>
         </View>
-
-        <Text style={styles.secondary}>Email: {this.state.user.email}</Text>
-
-        {/* log out button */}
-        <TouchableOpacity style={{marginTop: 8}}>
-          <Button  
-            title="LOG OUT"
-            onPress={this.logout}
-          />
-        </TouchableOpacity>
-
-      </View>
+      </SafeAreaView>
     );
   }
 }
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "#282828",
+    backgroundColor: "#1b1b1c",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -279,7 +279,12 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
-  }
+  },
+  droidSafeArea: {
+    flex: 1,
+    backgroundColor: Platform.OS === 'android' ? 'gray' : '#1b1b1c',
+    paddingTop: Platform.OS === 'android' ? 25 : 0
+  },
 });
 
 export default LoginScreen;

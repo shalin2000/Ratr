@@ -105,116 +105,117 @@ class GoogleBookScreen extends React.Component {
     const closeIcon = <Icon name="close" size={20} color="grey" />
 
 		return (
-      <View style={styles.container}>
-        <ScrollView style={styles.container}>
-          <View style={{flexDirection: 'row'}}>
-            <View style={{marginTop: 30, marginLeft: 20, marginRight: 10}}>
-              <Image source = {{uri:this.state.bookImg}} style = {styles.image} /> 
-            </View>
-            <View style={{marginTop: 30}}>
-              <Text style={styles.title}>{this.state.book.title}</Text>
-              <Text style={styles.author}>{this.state.author}</Text>
-              {this.state.isbn !== 'undefined' ? <Text style={styles.isbnAndPage}>ISBN: {this.state.isbn}</Text> : null }
-              {typeof this.state.book.pageCount !== 'undefined' ? <Text style={styles.isbnAndPage}>Page Count: {this.state.book.pageCount}</Text> : null }
-            </View>
-          </View>
-
-          <View style={{flexDirection: 'row', marginLeft: 20, marginTop: 10, alignItems:'center'}}>
-            <Stars
-              default={this.state.book.averageRating}
-              count={5}
-              half={true}
-              // starSize={20}
-              disabled={true}
-              fullStar={<Icon name={'star'} style={[styles.myStarStyle]}/>}
-              emptyStar={<Icon name={'star-outline'} style={[styles.myStarStyle, styles.myEmptyStarStyle]}/>}
-              halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]}/>}
-            />
-            {typeof this.state.book.ratingsCount !== 'undefined' ? <Text style={{color: 'white', fontSize: 12, flexWrap: 'wrap', margin: 5}}>- {this.state.book.ratingsCount} Ratings</Text> 
-            : <Text style={{color: 'white', fontSize: 12, flexWrap: 'wrap', margin: 5}}>- 0 Ratings</Text>}
-          </View>
-          
-          <View>
-            <Text style={styles.description}>
-              Description
-            </Text>
-            <View style={{marginLeft: 20}}>
-              <ReadMore 
-              numberOfLines={5} 
-              renderTruncatedFooter={this._renderTruncatedFooter}
-              renderRevealedFooter={this._renderRevealedFooter}
-              onReady={this._handleTextReady}>
-                <Text style={styles.descriptionText}>
-                  {this.state.book.description}
-                </Text>
-              </ReadMore>
-            </View>
-          </View>
-
-          <View style={{marginLeft: 20, marginTop: 25}}>
-            {typeof this.state.book.infoLink !== 'undefined' ? <TouchableOpacity onPress={()=> {Linking.openURL(this.state.book.infoLink)}}>
-              <View style={{flexDirection: 'row', alignItems:'center'}}>
-                <Image source={require('../Images/moreInfo.png')} style={{width: 20, height: 20, resizeMode: 'contain'}} /> 
-                <Text style={{color: '#ebe4d3', fontSize: 18}}>  More Info</Text>
+      <SafeAreaView style={styles.droidSafeArea}>
+        <View style={styles.container}>
+          <ScrollView style={styles.container}>
+            <View style={{flexDirection: 'row'}}>
+              <View style={{marginTop: 30, marginLeft: 20, marginRight: 10}}>
+                <Image source = {{uri:this.state.bookImg}} style = {styles.image} /> 
               </View>
-            </TouchableOpacity>
-            : null}
-            {typeof this.state.book.previewLink !== 'undefined' ? <TouchableOpacity onPress={()=> {Linking.openURL(this.state.book.previewLink)}}>
-              <View style={{flexDirection: 'row', alignItems:'center', marginTop: 10}}>
-                <Image source={require('../Images/preview.webp')} style={{width: 20, height: 25, resizeMode: 'contain'}} /> 
-                <Text style={{color: '#ebe4d3', fontSize: 18, paddingLeft: 5}}> Preview</Text>
+              <View style={{marginTop: 30}}>
+                <Text style={styles.title}>{this.state.book.title}</Text>
+                <Text style={styles.author}>{this.state.author}</Text>
+                {this.state.isbn !== 'undefined' ? <Text style={styles.isbnAndPage}>ISBN: {this.state.isbn}</Text> : null }
+                {typeof this.state.book.pageCount !== 'undefined' ? <Text style={styles.isbnAndPage}>Page Count: {this.state.book.pageCount}</Text> : null }
               </View>
-            </TouchableOpacity>
-            : null}
-          </View>
+            </View>
 
-        </ScrollView>
+            <View style={{flexDirection: 'row', marginLeft: 20, marginTop: 10, alignItems:'center'}}>
+              <Stars
+                default={this.state.book.averageRating}
+                count={5}
+                half={true}
+                // starSize={20}
+                disabled={true}
+                fullStar={<Icon name={'star'} style={[styles.myStarStyle]}/>}
+                emptyStar={<Icon name={'star-outline'} style={[styles.myStarStyle, styles.myEmptyStarStyle]}/>}
+                halfStar={<Icon name={'star-half'} style={[styles.myStarStyle]}/>}
+              />
+              {typeof this.state.book.ratingsCount !== 'undefined' ? <Text style={{color: 'white', fontSize: 12, flexWrap: 'wrap', margin: 5}}>- {this.state.book.ratingsCount} Ratings</Text> 
+              : <Text style={{color: 'white', fontSize: 12, flexWrap: 'wrap', margin: 5}}>- 0 Ratings</Text>}
+            </View>
+            
+            <View>
+              <Text style={styles.description}>
+                Description
+              </Text>
+              <View style={{marginLeft: 20}}>
+                <ReadMore 
+                numberOfLines={5} 
+                renderTruncatedFooter={this._renderTruncatedFooter}
+                renderRevealedFooter={this._renderRevealedFooter}
+                onReady={this._handleTextReady}>
+                  <Text style={styles.descriptionText}>
+                    {this.state.book.description}
+                  </Text>
+                </ReadMore>
+              </View>
+            </View>
 
-        <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
-          <View style={styles.centeredView}>
-            <View style={styles.modalView}>
-              <TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
-                style={{marginRight: -20, marginTop: 5, alignSelf: 'flex-end'}}
-              >
-                {closeIcon}
+            <View style={{marginLeft: 20, marginTop: 25}}>
+              {typeof this.state.book.infoLink !== 'undefined' ? <TouchableOpacity onPress={()=> {Linking.openURL(this.state.book.infoLink)}}>
+                <View style={{flexDirection: 'row', alignItems:'center'}}>
+                  <Image source={require('../Images/moreInfo.png')} style={{width: 20, height: 20, resizeMode: 'contain'}} /> 
+                  <Text style={{color: '#ebe4d3', fontSize: 18}}>  More Info</Text>
+                </View>
               </TouchableOpacity>
-              <View style={{alignItems: "center", marginTop: 10}}>
-                <Text>{this.state.book.title}</Text>
-                <Text>{this.state.author}</Text>
-                <TextInput style={styles.modalText} placeholder="Enter number between 1-10" 
-                onChangeText={userRating => this.setState({userRating: userRating})} defaultValue={this.state.userRating}
-                />
-                <TextInput style={styles.modalText} placeholder="Enter your comment about the book" 
-                onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
-                />
-                <TextInput style={styles.modalText} placeholder="Enter Completed or currently reading" 
-                onChangeText={userProgress => this.setState({userProgress: userProgress})} defaultValue={this.state.userProgress}
-                />
-                <View style={{flexDirection: 'row'}}>
-                  <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                    onPress={() => {this.setState({userComment: '', userRating: '', userProgress: ''})}}>
-                    <Text style={styles.textStyle}>Clear</Text>
-                  </TouchableOpacity>
+              : null}
+              {typeof this.state.book.previewLink !== 'undefined' ? <TouchableOpacity onPress={()=> {Linking.openURL(this.state.book.previewLink)}}>
+                <View style={{flexDirection: 'row', alignItems:'center', marginTop: 10}}>
+                  <Image source={require('../Images/preview.webp')} style={{width: 20, height: 25, resizeMode: 'contain'}} /> 
+                  <Text style={{color: '#ebe4d3', fontSize: 18, paddingLeft: 5}}> Preview</Text>
+                </View>
+              </TouchableOpacity>
+              : null}
+            </View>
 
-                  <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                    onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}>
-                    <Text style={styles.textStyle}>Add To List</Text>
-                  </TouchableOpacity>
+          </ScrollView>
+
+          <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
+            <View style={styles.centeredView}>
+              <View style={styles.modalView}>
+                <TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
+                  style={{marginRight: -20, marginTop: 5, alignSelf: 'flex-end'}}
+                >
+                  {closeIcon}
+                </TouchableOpacity>
+                <View style={{alignItems: "center", marginTop: 10}}>
+                  <Text>{this.state.book.title}</Text>
+                  <Text>{this.state.author}</Text>
+                  <TextInput style={styles.modalText} placeholder="Enter number between 1-10" 
+                  onChangeText={userRating => this.setState({userRating: userRating})} defaultValue={this.state.userRating}
+                  />
+                  <TextInput style={styles.modalText} placeholder="Enter your comment about the book" 
+                  onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
+                  />
+                  <TextInput style={styles.modalText} placeholder="Enter Completed or currently reading" 
+                  onChangeText={userProgress => this.setState({userProgress: userProgress})} defaultValue={this.state.userProgress}
+                  />
+                  <View style={{flexDirection: 'row'}}>
+                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                      onPress={() => {this.setState({userComment: '', userRating: '', userProgress: ''})}}>
+                      <Text style={styles.textStyle}>Clear</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                      onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}>
+                      <Text style={styles.textStyle}>Add To List</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </View>
-          </View>
-        </Modal>
+          </Modal>
 
-        <FAB
-        style={styles.fab}
-        small
-        icon="plus"
-        color="yellow"
-        onPress={() => this.state.user !== null ? this.setModalVisible(true) : alert("Please log in before adding to list")}
-        />
-      </View>
-      
+          <FAB
+          style={styles.fab}
+          small
+          icon="plus"
+          color="yellow"
+          onPress={() => this.state.user !== null ? this.setModalVisible(true) : alert("Please log in before adding to list")}
+          />
+        </View>
+      </SafeAreaView>
 		);
 	}
 }
@@ -296,7 +297,12 @@ const styles = StyleSheet.create({
   modalText: {
     marginBottom: 15,
     textAlign: "center"
-  }
+  },
+  droidSafeArea: {
+    flex: 1,
+    backgroundColor: Platform.OS === 'android' ? 'gray' : '#1b1b1c',
+    paddingTop: Platform.OS === 'android' ? 25 : 0
+  },
 });
 
 export default GoogleBookScreen;

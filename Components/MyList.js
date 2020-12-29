@@ -6,20 +6,6 @@ require('firebase/auth')
 
 let id = 0
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  listContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  appContainer: {paddingTop: Constants.statusBarHeight}
-  // fill: {
-  //   flex: 1,
-  // }
-})
-
 const List = props => (
   <View style={styles.listContainer}>
     <Switch value={props.item.checked} onValueChange={props.onToggle} />
@@ -103,21 +89,49 @@ export default class MyList extends React.Component {
   render() {
     return (
       this.state.loggedOut === true ? 
-      <View>
-        <Text>Login in first to access your list</Text>
-      </View>
+      <SafeAreaView style={styles.droidSafeArea}>
+        <View style={styles.container}>
+          <Text style={styles.textStyle}>Login in first to access your list</Text>
+        </View>
+      </SafeAreaView>
       :
-      <View style={styles.container}>
-        <Text> MY LIST: </Text>
-        {this.state.myListData.map((element,key) => {
-          return element.email === this.state.user.email ? 
-            <View key={key} style={{margin: 10}}>
-              <Text>{element.book_name}</Text>
-              <Text>{element.book_author}</Text>
-            </View> 
-            : null}
-          )}
-      </View>
+      <SafeAreaView style={styles.droidSafeArea}>
+        <View style={styles.container}>
+          <Text style={styles.textStyle}> MY LIST: </Text>
+          {this.state.myListData.map((element,key) => {
+            return element.email === this.state.user.email ? 
+              <View key={key} style={{margin: 10}}>
+                <Text style={styles.textStyle}>{element.book_name}</Text>
+                <Text style={styles.textStyle}>{element.book_author}</Text>
+              </View> 
+              : null}
+            )}
+        </View>
+      </SafeAreaView>
     )
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#1b1b1c'
+  },
+  listContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  appContainer: {
+    paddingTop: Constants.statusBarHeight
+  },
+  droidSafeArea: {
+    flex: 1,
+    backgroundColor: Platform.OS === 'android' ? 'gray' : '#1b1b1c',
+    paddingTop: Platform.OS === 'android' ? 25 : 0
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+})

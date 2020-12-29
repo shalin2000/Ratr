@@ -173,10 +173,10 @@ class GoogleBookScreen extends React.Component {
         <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
-              <TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible)}}>
-                <View style={{marginRight: -20, marginTop: 5, alignSelf: 'flex-end'}}> 
-                  {closeIcon}
-                </View>
+              <TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
+                style={{marginRight: -20, marginTop: 5, alignSelf: 'flex-end'}}
+              >
+                {closeIcon}
               </TouchableOpacity>
               <View style={{alignItems: "center", marginTop: 10}}>
                 <Text>{this.state.book.title}</Text>

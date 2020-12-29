@@ -168,13 +168,12 @@ const styles = StyleSheet.create({
   },
   subPara: {
     color: 'azure', fontSize: 23, marginTop: 10, textAlign: 'center',
-    fontWeight: 'bold', textDecorationLine: 'underline',
-    fontStyle: 'italic',
+    fontWeight: 'bold'
   },
   text: {
     color: '#ebe4d3', fontSize: 20, marginTop: 10,
     fontWeight: 'bold', textAlign: 'center',
-    fontStyle: 'italic',
+    
   },
   title: {
     paddingRight: 10,

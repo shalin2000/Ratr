@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, 
-        ScrollView, Image, Linking, TouchableOpacity, Modal, TextInput, TouchableWithoutFeedback } from "react-native";
+        ScrollView, Image, Linking, TouchableOpacity, Modal, TextInput, 
+        TouchableWithoutFeedback, Dimensions } from "react-native";
 import { FAB } from 'react-native-paper';
 import ReadMore from 'react-native-read-more-text';
 import RNPickerSelect from 'react-native-picker-select';
@@ -8,6 +9,8 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 
 import firebase from 'firebase'
 require('firebase/auth')
+
+const windowWidth = Dimensions.get('window').width;
 
 class NYBookScreen extends React.Component {
 	constructor(props){
@@ -228,10 +231,10 @@ const styles = StyleSheet.create({
     width: 140, height: 200, resizeMode: 'stretch'
   },
   title: {
-    color: 'lightblue', fontSize: 28, flexWrap: 'wrap', width: 175
+    color: 'lightblue', fontSize: 28, flexWrap: 'wrap', width: windowWidth-140
   },
 	author: {
-    color: '#ebe4d3', fontSize: 18, flexWrap: 'wrap', width: 175
+    color: '#ebe4d3', fontSize: 18, flexWrap: 'wrap', width: windowWidth-140
   },
   isbn: {
     color: '#ebe4d3', fontSize: 12, marginTop: 5, flexWrap: 'wrap'

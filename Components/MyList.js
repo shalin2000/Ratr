@@ -106,7 +106,7 @@ export default class MyList extends React.Component {
             {/* <Text style={styles.textStyle}> MY LIST: </Text> */}
             {this.state.myListData.map((element,key) => {
               return element.email === this.state.user.email ? 
-                <View key={key} style={{margin: 10, width: 140, height: 255, backgroundColor: 'tomato'}}>
+                <View key={key} style={{marginBottom: 10}}>
                   <ImageBackground source={{ uri:element.book_url }}
                     style={{ width: 140, height: 220, position: 'relative', top: 0, left: 0 }} >
                     {element.user_rating !== 'N/A' ? 
@@ -118,8 +118,12 @@ export default class MyList extends React.Component {
                       </Text>
                     }
                   </ImageBackground>
-                  <View style={{flexDirection: 'row'}}>
-                    {element.book_name.length <= 30 ? <Text style={styles.textStyle}>{element.book_name}</Text> : <Text style={styles.textStyle}>{element.book_name.substring(0,30)}...</Text> }
+                  <View style={{flexDirection: 'row', width: 140, height: 35, backgroundColor: 'tomato', justifyContent: 'center', alignItems: 'center'}}>
+                    {element.book_name.length <= 30 ? 
+                    <Text style={styles.textStyle}>{element.book_name}</Text> 
+                    : 
+                    <Text style={styles.textStyle}>{element.book_name.substring(0,27)}...</Text> 
+                    }
                     {dotsIcon}
                   </View>
                 </View> 
@@ -135,7 +139,8 @@ export default class MyList extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1b1b1c'
+    backgroundColor: '#1b1b1c',
+    paddingHorizontal: 15, paddingTop: 15,
   },
   listContainer: {
     flexDirection: 'row',
@@ -153,6 +158,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     width: 120,
+    marginLeft: 5
   },
   image: {
     width: 140, height: 200, resizeMode: 'stretch'

@@ -8,6 +8,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Stars from 'react-native-stars';
 import { Rating, AirbnbRating } from 'react-native-ratings';
+import { Ionicons, FontAwesome, Feather, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import firebase from 'firebase'
 require('firebase/auth')
@@ -31,7 +32,8 @@ class NYBookScreen extends React.Component {
       userRating: '',
       userComment: '',
       userProgress: '',
-      user: []
+      user: [],
+      selectedReading: false, selectedDone: false, selectedBookmark: false
     };
     this.getBuyLinkurl = this.getBuyLinkurl.bind(this);
 	}
@@ -112,8 +114,33 @@ class NYBookScreen extends React.Component {
     this.setState({ modalVisible: visible });
   }
 
+  // sets the state of the selected icon which shows the progess of the book
+  changeIcon = (icon) => {
+    if (icon === 'reading'){
+      this.setState({selectedReading: true, selectedDone: false, selectedBookmark: false, userProgress: 'Reading'})
+    }
+    if (icon === 'done'){
+      this.setState({selectedReading: false, selectedDone: true, selectedBookmark: false, userProgress: 'Completed'})
+    }
+    if (icon === 'bookmark'){
+      this.setState({selectedReading: false, selectedDone: false, selectedBookmark: true, userProgress: 'Read Later'})
+    }
+  }
+
+  // when rating has been done it will set state to store for backend
+  ratingCompleted = (rating) => {
+    this.setState({userRating: rating.toString()})
+  }
+
 	render() {
     const closeIcon = <Icon name="close" size={20} color="grey" />
+
+    const readingOutlineIcon = <MaterialCommunityIcons name="book-open-variant" size={35} color="black" />
+    const readingFilledIcon = <MaterialCommunityIcons name="book-open-page-variant" size={35} color="tomato" />
+    const doneOutlineIcon = <Ionicons name="ios-checkmark-circle-outline" size={35} color="black" />
+    const doneFilledIcon = <Ionicons name="ios-checkmark-circle" size={35} color="tomato" />
+    const bookmarkOutlineIcon = <MaterialCommunityIcons name="bookmark-multiple-outline" size={35} color="black" />
+    const bookmarkFilledIcon = <MaterialCommunityIcons name="bookmark-multiple" size={35} color="tomato" />
 
 		return (
       <SafeAreaView style={styles.droidSafeArea}>
@@ -178,16 +205,23 @@ class NYBookScreen extends React.Component {
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
                 <TouchableOpacity style={{marginRight: -20, marginTop: 5, alignSelf: 'flex-end'}} 
-                  onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
-                >
+                  onPress={() => {this.setModalVisible(!this.state.modalVisible)}}>
                   {closeIcon}
                 </TouchableOpacity>
                 <View style={{alignItems: "center", marginTop: 10}}>
                   <Text>Add to your list</Text>
-                  {/* <Text>{this.state.NYBook.author}</Text> */}
-                  <TextInput style={styles.modalText} placeholder="Enter number between 1-10" 
-                  onChangeText={userRating => this.setState({userRating: userRating})} defaultValue={this.state.userRating}
-                  />
+                  <View style={{flexDirection: 'row', marginTop: 10}}>
+                    <TouchableOpacity style={{marginRight: 20}} onPress={() => {this.changeIcon('reading')}}>
+                      {this.state.selectedReading ? readingFilledIcon : readingOutlineIcon}
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{marginRight: 20}} onPress={() => {this.changeIcon('done')}}>
+                      {this.state.selectedDone ? doneFilledIcon : doneOutlineIcon}
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{marginRight: 20}} onPress={() => {this.changeIcon('bookmark')}}>
+                      {this.state.selectedBookmark ? bookmarkFilledIcon : bookmarkOutlineIcon}
+                    </TouchableOpacity>
+                  </View>
+
                   <Rating
                     type='custom'
                     fractions
@@ -198,14 +232,12 @@ class NYBookScreen extends React.Component {
                     showRating
                     onFinishRating={this.ratingCompleted}
                   />
+
                   <TextInput style={styles.modalText} placeholder="Enter your comment about the book" 
                   onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
                   />
-                  <TextInput style={styles.modalText} placeholder="Enter Completed or currently reading" 
-                  onChangeText={userProgress => this.setState({userProgress: userProgress})} defaultValue={this.state.userProgress}
-                  />
+
                   <View style={{flexDirection: 'row'}}>
-                    <View>
                     <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                       onPress={() => {this.setState({userComment: '', userRating: '', userProgress: ''})}}>
                       <Text style={styles.textStyle}>Clear</Text>
@@ -215,7 +247,6 @@ class NYBookScreen extends React.Component {
                       onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}>
                       <Text style={styles.textStyle}>Add To List</Text>
                     </TouchableOpacity>
-                    </View>
                   </View>
                 </View>
               </View>

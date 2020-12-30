@@ -6,6 +6,8 @@ import { FAB } from 'react-native-paper';
 import ReadMore from 'react-native-read-more-text';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import Stars from 'react-native-stars';
+import { Rating, AirbnbRating } from 'react-native-ratings';
 
 import firebase from 'firebase'
 require('firebase/auth')
@@ -97,7 +99,7 @@ class NYBookScreen extends React.Component {
         user_progress: this.state.userProgress,
       }),
     };
-    fetch('http://192.168.1.74:8000/api/list/', requestOptions)
+    fetch('http://192.168.0.13:8000/api/list/', requestOptions)
       .then(response => response.json())
       .then(data => console.log(data));
   }
@@ -181,10 +183,20 @@ class NYBookScreen extends React.Component {
                   {closeIcon}
                 </TouchableOpacity>
                 <View style={{alignItems: "center", marginTop: 10}}>
-                  <Text>{this.state.NYBook.title}</Text>
-                  <Text>{this.state.NYBook.author}</Text>
+                  <Text>Add to your list</Text>
+                  {/* <Text>{this.state.NYBook.author}</Text> */}
                   <TextInput style={styles.modalText} placeholder="Enter number between 1-10" 
                   onChangeText={userRating => this.setState({userRating: userRating})} defaultValue={this.state.userRating}
+                  />
+                  <Rating
+                    type='custom'
+                    fractions
+                    type='star'
+                    startingValue={0}
+                    ratingCount={5}
+                    imageSize={35}
+                    showRating
+                    onFinishRating={this.ratingCompleted}
                   />
                   <TextInput style={styles.modalText} placeholder="Enter your comment about the book" 
                   onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
@@ -193,6 +205,7 @@ class NYBookScreen extends React.Component {
                   onChangeText={userProgress => this.setState({userProgress: userProgress})} defaultValue={this.state.userProgress}
                   />
                   <View style={{flexDirection: 'row'}}>
+                    <View>
                     <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
                       onPress={() => {this.setState({userComment: '', userRating: '', userProgress: ''})}}>
                       <Text style={styles.textStyle}>Clear</Text>
@@ -202,6 +215,7 @@ class NYBookScreen extends React.Component {
                       onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}>
                       <Text style={styles.textStyle}>Add To List</Text>
                     </TouchableOpacity>
+                    </View>
                   </View>
                 </View>
               </View>

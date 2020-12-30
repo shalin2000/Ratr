@@ -209,7 +209,7 @@ class NYBookScreen extends React.Component {
                   {closeIcon}
                 </TouchableOpacity>
                 <View style={{alignItems: "center", marginTop: 10}}>
-                  <Text>Add to your list</Text>
+                  <Text >Add to your list</Text>
 
                   <View style={{flexDirection: 'row', marginTop: 10}}>
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
@@ -232,7 +232,7 @@ class NYBookScreen extends React.Component {
                     </View>
                   </View>
                   
-                  <Text style={{marginTop: 10, marginBottom: 10}}>_________________</Text>
+                  <Text style={{marginVertical: 10}}>_________________</Text>
 
                   <Rating
                     type='custom'
@@ -245,9 +245,10 @@ class NYBookScreen extends React.Component {
                     onFinishRating={this.ratingCompleted}
                   />
 
-                  <Text style={{marginTop: 10, marginBottom: 10}}>_________________</Text>
+                  <Text style={{marginVertical: 10}} >_________________</Text>
 
-                  <TextInput style={styles.modalText} placeholder="Enter your comment about the book" 
+                  <TextInput style={styles.modalText} multiline = {true} placeholder="Enter your comment about the book" 
+                  maxLength = {280}
                   onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
                   />
 

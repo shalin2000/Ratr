@@ -5,6 +5,8 @@ import Stars from 'react-native-stars';
 import ReadMore from 'react-native-read-more-text';
 import { FAB } from 'react-native-paper';
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Rating, AirbnbRating } from 'react-native-ratings';
+import { Ionicons, FontAwesome, Feather, FontAwesome5, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import firebase from 'firebase'
 require('firebase/auth')
@@ -23,7 +25,8 @@ class GoogleBookScreen extends React.Component {
       userRating: '',
       userComment: '',
       userProgress: '',
-      user: []
+      user: [],
+      selectedReading: false, selectedDone: false, selectedBookmark: false
     };
     this.getAuthors = this.getAuthors.bind(this);
 	}
@@ -103,8 +106,35 @@ class GoogleBookScreen extends React.Component {
     this.setState({ modalVisible: visible });
   }
 
+  // sets the state of the selected icon which shows the progess of the book
+  changeIcon = (icon) => {
+    if (icon === 'reading'){
+      this.setState({selectedReading: true, selectedDone: false, selectedBookmark: false, userProgress: 'Reading'})
+    }
+    if (icon === 'done'){
+      this.setState({selectedReading: false, selectedDone: true, selectedBookmark: false, userProgress: 'Completed'})
+    }
+    if (icon === 'bookmark'){
+      this.setState({selectedReading: false, selectedDone: false, selectedBookmark: true, userProgress: 'Read Later', 
+                      userRating: 'N/A',
+                    })
+    }
+  }
+
+  // when rating has been done it will set state to store for backend
+  ratingCompleted = (rating) => {
+    this.setState({userRating: rating.toString()})
+  }
+
 	render() {    
     const closeIcon = <Icon name="close" size={20} color="grey" />
+
+    const readingOutlineIcon = <MaterialCommunityIcons name="book-open-variant" size={35} color="black" />
+    const readingFilledIcon = <MaterialCommunityIcons name="book-open-page-variant" size={35} color="tomato" />
+    const doneOutlineIcon = <Ionicons name="ios-checkmark-circle-outline" size={35} color="black" />
+    const doneFilledIcon = <Ionicons name="ios-checkmark-circle" size={35} color="tomato" />
+    const bookmarkOutlineIcon = <MaterialCommunityIcons name="bookmark-multiple-outline" size={35} color="black" />
+    const bookmarkFilledIcon = <MaterialCommunityIcons name="bookmark-multiple" size={35} color="tomato" />
 
 		return (
       <SafeAreaView style={styles.droidSafeArea}>
@@ -176,30 +206,62 @@ class GoogleBookScreen extends React.Component {
           <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
             <View style={styles.centeredView}>
               <View style={styles.modalView}>
-                <TouchableOpacity onPress={() => {this.setModalVisible(!this.state.modalVisible)}}
-                  style={{marginRight: -20, marginTop: 5, alignSelf: 'flex-end'}}
-                >
+                <TouchableOpacity style={{marginRight: -20, marginTop: 5, alignSelf: 'flex-end'}} 
+                  onPress={() => {this.setModalVisible(!this.state.modalVisible)}}>
                   {closeIcon}
                 </TouchableOpacity>
                 <View style={{alignItems: "center", marginTop: 10}}>
-                  <Text>{this.state.book.title}</Text>
-                  <Text>{this.state.author}</Text>
-                  <TextInput style={styles.modalText} placeholder="Enter number between 1-10" 
-                  onChangeText={userRating => this.setState({userRating: userRating})} defaultValue={this.state.userRating}
+                  <Text >Add to your list</Text>
+
+                  <View style={{flexDirection: 'row', marginTop: 10}}>
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                      <TouchableOpacity onPress={() => {this.changeIcon('done')}}>
+                        {this.state.selectedDone ? doneFilledIcon : doneOutlineIcon}
+                      </TouchableOpacity>
+                      <Text style={{fontSize: 7}}>Completed</Text>
+                    </View>
+                    <View style={{marginLeft: 20, marginRight: 20, justifyContent: 'center', alignItems: 'center'}}>
+                      <TouchableOpacity onPress={() => {this.changeIcon('reading')}}>
+                        {this.state.selectedReading ? readingFilledIcon : readingOutlineIcon}
+                      </TouchableOpacity>
+                      <Text style={{fontSize: 7}}>In-Progess</Text>
+                    </View>
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                      <TouchableOpacity onPress={() => {this.changeIcon('bookmark')}}>
+                        {this.state.selectedBookmark ? bookmarkFilledIcon : bookmarkOutlineIcon}
+                      </TouchableOpacity>
+                      <Text style={{fontSize: 7}}>Bookmark</Text>
+                    </View>
+                  </View>
+                  
+                  <Text style={{marginVertical: 10}}>_________________</Text>
+
+                  <Rating
+                    type='custom'
+                    fractions
+                    type='star'
+                    startingValue={0}
+                    ratingCount={5}
+                    imageSize={35}
+                    showRating
+                    readonly={this.state.selectedBookmark}
+                    onFinishRating={this.ratingCompleted}
                   />
-                  <TextInput style={styles.modalText} placeholder="Enter your comment about the book" 
+
+                  <Text style={{marginVertical: 10}} >_________________</Text>
+
+                  <TextInput style={styles.modalText} multiline = {true} placeholder="Enter your comment about the book" 
+                  maxLength = {280}
                   onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
                   />
-                  <TextInput style={styles.modalText} placeholder="Enter Completed or currently reading" 
-                  onChangeText={userProgress => this.setState({userProgress: userProgress})} defaultValue={this.state.userProgress}
-                  />
+
                   <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3", flex: 1 }}
                       onPress={() => {this.setState({userComment: '', userRating: '', userProgress: ''})}}>
                       <Text style={styles.textStyle}>Clear</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3", flex: 1, marginLeft: 10 }}
                       onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}>
                       <Text style={styles.textStyle}>Add To List</Text>
                     </TouchableOpacity>

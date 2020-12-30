@@ -33,7 +33,7 @@ class NYBookScreen extends React.Component {
       userComment: '',
       userProgress: '',
       user: [],
-      selectedReading: false, selectedDone: false, selectedBookmark: false
+      selectedReading: false, selectedDone: false, selectedBookmark: false,
     };
     this.getBuyLinkurl = this.getBuyLinkurl.bind(this);
 	}
@@ -123,7 +123,9 @@ class NYBookScreen extends React.Component {
       this.setState({selectedReading: false, selectedDone: true, selectedBookmark: false, userProgress: 'Completed'})
     }
     if (icon === 'bookmark'){
-      this.setState({selectedReading: false, selectedDone: false, selectedBookmark: true, userProgress: 'Read Later'})
+      this.setState({selectedReading: false, selectedDone: false, selectedBookmark: true, userProgress: 'Read Later', 
+                      userRating: 'N/A',
+                    })
     }
   }
 
@@ -233,7 +235,7 @@ class NYBookScreen extends React.Component {
                   </View>
                   
                   <Text style={{marginVertical: 10}}>_________________</Text>
-
+                  
                   <Rating
                     type='custom'
                     fractions
@@ -242,23 +244,24 @@ class NYBookScreen extends React.Component {
                     ratingCount={5}
                     imageSize={35}
                     showRating
+                    readonly={this.state.selectedBookmark}
                     onFinishRating={this.ratingCompleted}
                   />
 
                   <Text style={{marginVertical: 10}} >_________________</Text>
-
-                  <TextInput style={styles.modalText} multiline = {true} placeholder="Enter your comment about the book" 
+                  
+                  <TextInput style={styles.modalText} multiline = {true} placeholder="Enter your comment about the book"
                   maxLength = {280}
                   onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
                   />
 
                   <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
-                      onPress={() => {this.setState({userComment: '', userRating: '', userProgress: ''})}}>
+                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3", flex: 1 }}
+                      onPress={() => {this.setState({userComment: ''})}}>
                       <Text style={styles.textStyle}>Clear</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3", marginLeft: 10 }}
+                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3", flex: 1, marginLeft: 10 }}
                       onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}>
                       <Text style={styles.textStyle}>Add To List</Text>
                     </TouchableOpacity>

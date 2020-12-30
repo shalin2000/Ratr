@@ -2,7 +2,7 @@ import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, 
         ScrollView, Image, Linking, TouchableOpacity, Modal, TextInput, 
         TouchableWithoutFeedback, Dimensions } from "react-native";
-import { FAB } from 'react-native-paper';
+import { FAB, Divider } from 'react-native-paper';
 import ReadMore from 'react-native-read-more-text';
 import RNPickerSelect from 'react-native-picker-select';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -222,7 +222,7 @@ class NYBookScreen extends React.Component {
                       <TouchableOpacity onPress={() => {this.changeIcon('reading')}}>
                         {this.state.selectedReading ? readingFilledIcon : readingOutlineIcon}
                       </TouchableOpacity>
-                      <Text style={{fontSize: 7}}>In Progess</Text>
+                      <Text style={{fontSize: 7}}>In-Progess</Text>
                     </View>
                     <View style={{justifyContent: 'center', alignItems: 'center'}}>
                       <TouchableOpacity onPress={() => {this.changeIcon('bookmark')}}>
@@ -231,6 +231,8 @@ class NYBookScreen extends React.Component {
                       <Text style={{fontSize: 7}}>Bookmark</Text>
                     </View>
                   </View>
+                  
+                  <Text style={{marginTop: 10, marginBottom: 10}}>_________________</Text>
 
                   <Rating
                     type='custom'
@@ -242,6 +244,8 @@ class NYBookScreen extends React.Component {
                     showRating
                     onFinishRating={this.ratingCompleted}
                   />
+
+                  <Text style={{marginTop: 10, marginBottom: 10}}>_________________</Text>
 
                   <TextInput style={styles.modalText} placeholder="Enter your comment about the book" 
                   onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}

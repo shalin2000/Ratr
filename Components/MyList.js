@@ -140,7 +140,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#1b1b1c',
-    paddingHorizontal: 15, paddingTop: 15,
+    paddingHorizontal: 15, paddingTop: 9,
   },
   listContainer: {
     flexDirection: 'row',
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     color: "white",
     fontWeight: "bold",
     width: 120,
-    marginLeft: 5
+    textAlign: 'center'
   },
   image: {
     width: 140, height: 200, resizeMode: 'stretch'

@@ -129,12 +129,12 @@ class GoogleBookScreen extends React.Component {
 	render() {    
     const closeIcon = <Icon name="close" size={20} color="grey" />
 
-    const readingOutlineIcon = <MaterialCommunityIcons name="book-open-variant" size={35} color="black" />
-    const readingFilledIcon = <MaterialCommunityIcons name="book-open-page-variant" size={35} color="tomato" />
-    const doneOutlineIcon = <Ionicons name="ios-checkmark-circle-outline" size={35} color="black" />
-    const doneFilledIcon = <Ionicons name="ios-checkmark-circle" size={35} color="tomato" />
-    const bookmarkOutlineIcon = <MaterialCommunityIcons name="bookmark-multiple-outline" size={35} color="black" />
-    const bookmarkFilledIcon = <MaterialCommunityIcons name="bookmark-multiple" size={35} color="tomato" />
+    const readingOutlineIcon = <MaterialCommunityIcons name="book-open-variant" size={50} color="black" />
+    const readingFilledIcon = <MaterialCommunityIcons name="book-open-page-variant" size={50} color="tomato" />
+    const doneOutlineIcon = <Ionicons name="ios-checkmark-circle-outline" size={50} color="black" />
+    const doneFilledIcon = <Ionicons name="ios-checkmark-circle" size={50} color="tomato" />
+    const bookmarkOutlineIcon = <MaterialCommunityIcons name="bookmark-multiple-outline" size={50} color="black" />
+    const bookmarkFilledIcon = <MaterialCommunityIcons name="bookmark-multiple" size={50} color="tomato" />
 
 		return (
       <SafeAreaView style={styles.droidSafeArea}>
@@ -256,12 +256,12 @@ class GoogleBookScreen extends React.Component {
                   />
 
                   <View style={{flexDirection: 'row'}}>
-                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3", flex: 1 }}
+                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "tomato", flex: 1 }}
                       onPress={() => {this.setState({userComment: '', userRating: '', userProgress: ''})}}>
                       <Text style={styles.textStyle}>Clear</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "#2196F3", flex: 1, marginLeft: 10 }}
+                    <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "tomato", flex: 1, marginLeft: 10 }}
                       onPress={() => {this.setModalVisible(!this.state.modalVisible,'submit')}}>
                       <Text style={styles.textStyle}>Add To List</Text>
                     </TouchableOpacity>
@@ -275,7 +275,7 @@ class GoogleBookScreen extends React.Component {
           style={styles.fab}
           small
           icon="plus"
-          color="yellow"
+          color="white"
           onPress={() => this.state.user !== null ? this.setModalVisible(true) : alert("Please log in before adding to list")}
           />
         </View>
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
     color: '#de0b2b',
   },
   fab: {
-    position: 'absolute', margin: 16, right: 0, bottom: 0,
+    position: 'absolute', margin: 16, right: 0, bottom: 0, backgroundColor: 'tomato'
   },
   centeredView: {
     flex: 1,

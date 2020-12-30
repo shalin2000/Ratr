@@ -101,7 +101,7 @@ class NYBookScreen extends React.Component {
         user_progress: this.state.userProgress,
       }),
     };
-    fetch('http://192.168.0.13:8000/api/list/', requestOptions)
+    fetch('http://192.168.1.74:8000/api/list/', requestOptions)
       .then(response => response.json())
       .then(data => console.log(data));
   }
@@ -210,16 +210,26 @@ class NYBookScreen extends React.Component {
                 </TouchableOpacity>
                 <View style={{alignItems: "center", marginTop: 10}}>
                   <Text>Add to your list</Text>
+
                   <View style={{flexDirection: 'row', marginTop: 10}}>
-                    <TouchableOpacity style={{marginRight: 20}} onPress={() => {this.changeIcon('reading')}}>
-                      {this.state.selectedReading ? readingFilledIcon : readingOutlineIcon}
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{marginRight: 20}} onPress={() => {this.changeIcon('done')}}>
-                      {this.state.selectedDone ? doneFilledIcon : doneOutlineIcon}
-                    </TouchableOpacity>
-                    <TouchableOpacity style={{marginRight: 20}} onPress={() => {this.changeIcon('bookmark')}}>
-                      {this.state.selectedBookmark ? bookmarkFilledIcon : bookmarkOutlineIcon}
-                    </TouchableOpacity>
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                      <TouchableOpacity onPress={() => {this.changeIcon('done')}}>
+                        {this.state.selectedDone ? doneFilledIcon : doneOutlineIcon}
+                      </TouchableOpacity>
+                      <Text style={{fontSize: 7}}>Completed</Text>
+                    </View>
+                    <View style={{marginLeft: 20, marginRight: 20, justifyContent: 'center', alignItems: 'center'}}>
+                      <TouchableOpacity onPress={() => {this.changeIcon('reading')}}>
+                        {this.state.selectedReading ? readingFilledIcon : readingOutlineIcon}
+                      </TouchableOpacity>
+                      <Text style={{fontSize: 7}}>In Progess</Text>
+                    </View>
+                    <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                      <TouchableOpacity onPress={() => {this.changeIcon('bookmark')}}>
+                        {this.state.selectedBookmark ? bookmarkFilledIcon : bookmarkOutlineIcon}
+                      </TouchableOpacity>
+                      <Text style={{fontSize: 7}}>Bookmark</Text>
+                    </View>
                   </View>
 
                   <Rating

@@ -1,6 +1,9 @@
 import React from 'react';
-import {View, Button, Text, ScrollView, StyleSheet, Switch, SafeAreaView} from 'react-native'
+import {View, Button, Text, ScrollView, StyleSheet, Switch, SafeAreaView, 
+        StatusBar, Image, ImageBackground} from 'react-native'
 import Constants from 'expo-constants';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+
 import firebase from 'firebase'
 require('firebase/auth')
 
@@ -87,6 +90,8 @@ export default class MyList extends React.Component {
   }
 
   render() {
+    const dotsIcon = <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
+
     return (
       this.state.loggedOut === true ? 
       <SafeAreaView style={styles.droidSafeArea}>
@@ -96,17 +101,32 @@ export default class MyList extends React.Component {
       </SafeAreaView>
       :
       <SafeAreaView style={styles.droidSafeArea}>
-        <View style={styles.container}>
-          <Text style={styles.textStyle}> MY LIST: </Text>
-          {this.state.myListData.map((element,key) => {
-            return element.email === this.state.user.email ? 
-              <View key={key} style={{margin: 10}}>
-                <Text style={styles.textStyle}>{element.book_name}</Text>
-                <Text style={styles.textStyle}>{element.book_author}</Text>
-              </View> 
-              : null}
-            )}
-        </View>
+        <ScrollView style={styles.container}>
+          <View>
+            {/* <Text style={styles.textStyle}> MY LIST: </Text> */}
+            {this.state.myListData.map((element,key) => {
+              return element.email === this.state.user.email ? 
+                <View key={key} style={{margin: 10, width: 140, height: 255, backgroundColor: 'tomato'}}>
+                  <ImageBackground source={{ uri:element.book_url }}
+                    style={{ width: 140, height: 220, position: 'relative', top: 0, left: 0 }} >
+                    {element.user_rating !== 'N/A' ? 
+                      <Text style={styles.overlayRatingText} >
+                        {element.user_rating}/5
+                      </Text> : 
+                      <Text style={styles.overlayRatingText} >
+                        -/5
+                      </Text>
+                    }
+                  </ImageBackground>
+                  <View style={{flexDirection: 'row'}}>
+                    {element.book_name.length <= 30 ? <Text style={styles.textStyle}>{element.book_name}</Text> : <Text style={styles.textStyle}>{element.book_name.substring(0,30)}...</Text> }
+                    {dotsIcon}
+                  </View>
+                </View> 
+                : null}
+              )}
+          </View>
+        </ScrollView>
       </SafeAreaView>
     )
   }
@@ -132,6 +152,13 @@ const styles = StyleSheet.create({
   textStyle: {
     color: "white",
     fontWeight: "bold",
-    textAlign: "center"
+    width: 120,
   },
+  image: {
+    width: 140, height: 200, resizeMode: 'stretch'
+  },
+  overlayRatingText: {
+    backgroundColor: 'rgba(52, 52, 52, 0.7)', fontWeight: 'bold', color: 'white', 
+    position: 'absolute', top: 0, right: 0, fontSize: 22
+  }
 })

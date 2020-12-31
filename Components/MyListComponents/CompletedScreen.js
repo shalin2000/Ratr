@@ -147,6 +147,22 @@ export default class CompletedScreen extends React.Component {
                           : null
                         }
                     </ImageBackground>
+                    <View style={{flexDirection: 'row', width: 140, height: 35, backgroundColor: 'tomato', justifyContent: 'center', alignItems: 'center'}}>
+                      {item.book_name.length <= 30 ? 
+                      <Text style={styles.textStyle}>{item.book_name}</Text> : 
+                      <Text style={styles.textStyle}>{item.book_name.substring(0,27)}...</Text> 
+                      }
+                      <Menu>
+                        <MenuTrigger>
+                          {dotsIcon}
+                        </MenuTrigger>
+                        <MenuOptions>
+                          <MenuOption onSelect={() => alert(`Save`)} text='Save' />
+                          <MenuOption onSelect={() => alert(`Delete`)} text='Delete' />
+                          <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled' />
+                        </MenuOptions>
+                      </Menu>
+                    </View>
                     <View style={styles.centeredView}>
                       <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
                         <View style={styles.centeredView}>
@@ -164,22 +180,6 @@ export default class CompletedScreen extends React.Component {
                           </View>
                         </View>
                       </Modal>
-                    </View>
-                    <View style={{flexDirection: 'row', width: 140, height: 35, backgroundColor: 'tomato', justifyContent: 'center', alignItems: 'center'}}>
-                      {item.book_name.length <= 30 ? 
-                      <Text style={styles.textStyle}>{item.book_name}</Text> : 
-                      <Text style={styles.textStyle}>{item.book_name.substring(0,27)}...</Text> 
-                      }
-                      <Menu>
-                        <MenuTrigger>
-                          {dotsIcon}
-                        </MenuTrigger>
-                        <MenuOptions>
-                          <MenuOption onSelect={() => alert(`Save`)} text='Save' />
-                          <MenuOption onSelect={() => alert(`Delete`)} text='Delete' />
-                          <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled' />
-                        </MenuOptions>
-                      </Menu>
                     </View>
                   </View> 
                 )}

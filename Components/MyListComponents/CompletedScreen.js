@@ -147,6 +147,7 @@ export default class CompletedScreen extends React.Component {
                           : null
                         }
                     </ImageBackground>
+                    
                     <View style={{flexDirection: 'row', width: 140, height: 35, backgroundColor: 'tomato', justifyContent: 'center', alignItems: 'center'}}>
                       {item.book_name.length <= 30 ? 
                       <Text style={styles.textStyle}>{item.book_name}</Text> : 
@@ -163,6 +164,8 @@ export default class CompletedScreen extends React.Component {
                         </MenuOptions>
                       </Menu>
                     </View>
+                    
+                    {/* modal for the comment */}
                     <View style={styles.centeredView}>
                       <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
                         <View style={styles.centeredView}>
@@ -175,13 +178,15 @@ export default class CompletedScreen extends React.Component {
                                 this.setModalVisible(!this.state.modalVisible,[]);
                               }}
                             >
-                              <Text style={styles.textStyle}>Hide Modal</Text>
+                              <Text style={styles.modalTextStyle}>Hide Modal</Text>
                             </TouchableOpacity>
                           </View>
                         </View>
                       </Modal>
                     </View>
+
                   </View> 
+
                 )}
                 keyExtractor={item => item.book_name}
               />
@@ -255,7 +260,7 @@ const styles = StyleSheet.create({
     padding: 10,
     elevation: 2
   },
-  textStyle: {
+  modalTextStyle: {
     color: "white",
     fontWeight: "bold",
     textAlign: "center"

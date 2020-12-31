@@ -4,19 +4,23 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { createStackNavigator} from '@react-navigation/stack';
 import { Ionicons } from '@expo/vector-icons';
 
-import LoginScreen from './Components/LoginScreen';
-import MyList from './Components/MyList';
-import SignUp from './Components/SignUp'
+import LoginScreen from './Components/MyProfileComponent/LoginScreen';
+import SignUp from './Components/MyProfileComponent/SignUp'
+import ForgotPassword from './Components/MyProfileComponent/ForgetPassword'
+
+import CompletedScreen from './Components/MyListComponents/CompletedScreen';
+import InProgressScreen from './Components/MyListComponents/InProgressScreen';
+import BookmarkScreen from './Components/MyListComponents/BookmarkScreen';
+
 import HomeScreen from './Components/HomeScreen';
 import NYBookScreen from './Components/NYBookScreen';
 import SearchScreen from './Components/SearchScreen';
 import GoogleBookScreen from './Components/GoogleBookScreen';
-import ForgotPassword from './Components/ForgetPassword'
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
 
-function TabAScreen() {
+function HomeTabScreen() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Home" component={HomeScreen} />
@@ -27,7 +31,17 @@ function TabAScreen() {
   );
 }
 
-function TabBScreen() {
+function ListTabScreen() {
+  return (
+    <Stack.Navigator screenOptions={{headerShown: false}}>
+      <Stack.Screen name="Completed" component={CompletedScreen} />
+      <Stack.Screen name="InProgress" component={InProgressScreen} />
+      <Stack.Screen name="Bookmark" component={BookmarkScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function ProfileTabScreen() {
   return (
     <Stack.Navigator screenOptions={{headerShown: false}}>
       <Stack.Screen name="Login" component={LoginScreen} />
@@ -64,9 +78,9 @@ function TabScreen() {
       inactiveTintColor: 'gray',
       }}
     >
-      <Tab.Screen name="Home" component={TabAScreen} />
-      <Tab.Screen name="My List" component={MyList} />
-      <Tab.Screen name="My Profile" component={TabBScreen} />
+      <Tab.Screen name="Home" component={HomeTabScreen} />
+      <Tab.Screen name="My List" component={ListTabScreen} />
+      <Tab.Screen name="My Profile" component={ProfileTabScreen} />
     </Tab.Navigator>
   );
 }

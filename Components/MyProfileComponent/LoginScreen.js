@@ -63,13 +63,13 @@ class LoginScreen extends React.Component {
       else{
         // console.log(user)
         console.log('user is logged in ', user.email)
-        this.setState({user: user})
+        this.setState({user: user, loggedOut: false})
       }
     });
   }
 
   // logout
-  logout(){
+  logout = () => {
     firebase.auth().signOut().then(() => console.log('User signed out!'));
   }
 
@@ -171,7 +171,7 @@ class LoginScreen extends React.Component {
           </Modal>
 
           {/* userImage */}
-          <Image source={require('../Images/anon.png')} style={{width: 150, height: 150, resizeMode: 'contain', marginTop: 25}} /> 
+          <Image source={require('../../Images/anon.png')} style={{width: 150, height: 150, resizeMode: 'contain', marginTop: 25}} /> 
           
           <Text style={styles.secondary}>Welcome {this.state.userName !== '' ? this.state.userName : this.state.user.displayName !== null ? this.state.user.displayName : null}</Text>
           <View style={{flexDirection: 'row'}}>

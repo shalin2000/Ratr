@@ -238,7 +238,7 @@ class NYBookScreen extends React.Component {
                   
                   <Rating
                     type='custom'
-                    fractions
+                    fractions={1}
                     type='star'
                     startingValue={0}
                     ratingCount={5}

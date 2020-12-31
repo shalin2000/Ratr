@@ -10,16 +10,6 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import firebase from 'firebase'
 require('firebase/auth')
 
-// let id = 0
-
-// const List = props => (
-//   <View style={styles.listContainer}>
-//     <Switch value={props.item.checked} onValueChange={props.onToggle} />
-//     <Button onPress={props.onDelete} title="delete" />
-//     <Text>{props.item.text}</Text>
-//   </View>
-// )
-
 export default class CompletedScreen extends React.Component {
   _isMounted = false;
 
@@ -74,36 +64,6 @@ export default class CompletedScreen extends React.Component {
     };
   }
 
-  // addlist() {
-  //   id++
-  //   const text = `List number ${id}`
-  //   this.setState({
-  //     lists: [
-  //       ...this.state.lists,
-  //       {id: id, text: text, checked: false},
-  //     ], 
-  //   })
-  // }
-
-  // removelist(id) {
-  //   this.setState({
-  //     lists: this.state.lists.filter(item => item.id !== id)
-  //   })
-  // }
-
-  // togglelist(id) {
-  //   this.setState({
-  //     lists: this.state.lists.map(item => {
-  //       if (item.id !== id) return item
-  //       return {
-  //         id: item.id,
-  //         text: item.text,
-  //         checked: !item.checked,
-  //       }
-  //     })
-  //   })
-  // }
-
   // helps to refresh the screen
   forceRemount = () => {
     this.setState(({ uniqueValue }) => ({
@@ -127,7 +87,7 @@ export default class CompletedScreen extends React.Component {
     const dotsIcon = <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
 
     // gets only the data that belongs to the current user that is logged in
-    var userData = this.state.myListData.filter(x => (x.email === this.state.user.email) && (x.user_progress === 'Completed'));
+    var userData = this.state.user !== null ? this.state.myListData.filter(x => (x.email === this.state.user.email) && (x.user_progress === 'Completed')) : null;
 
     return (
       this.state.loggedOut === true ? 
@@ -139,7 +99,7 @@ export default class CompletedScreen extends React.Component {
       :
       <SafeAreaView style={styles.droidSafeArea}>
         {/* <ScrollView style={styles.container}> */}
-          <View style={styles.container} key={this.state.uniqueValue}>
+          <View style={styles.container}>
             <DropDownPicker
                 items={[
                     {label: 'Completed', value: 'Completed'},
@@ -186,7 +146,6 @@ export default class CompletedScreen extends React.Component {
                           <MenuOption onSelect={() => alert(`Delete`)} text='Delete' />
                           <MenuOption onSelect={() => alert(`Not called`)} disabled={true} text='Disabled' />
                         </MenuOptions>
-                        
                       </Menu>
                     </View>
                   </View> 

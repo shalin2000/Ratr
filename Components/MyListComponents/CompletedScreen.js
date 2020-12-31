@@ -99,7 +99,7 @@ export default class CompletedScreen extends React.Component {
       :
       <SafeAreaView style={styles.droidSafeArea}>
         {/* <ScrollView style={styles.container}> */}
-          <View style={styles.container}>
+          <View style={styles.container} key={this.state.uniqueValue}>
             <DropDownPicker
                 items={[
                     {label: 'Completed', value: 'Completed'},

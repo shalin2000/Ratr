@@ -99,7 +99,7 @@ export default class InProgressScreen extends React.Component {
       :
       <SafeAreaView style={styles.droidSafeArea}>
         {/* <ScrollView style={styles.container}> */}
-          <View style={styles.container}>
+          <View style={styles.container} key={this.state.uniqueValue}>
             <DropDownPicker
                 items={[
                     {label: 'In-Progress', value: 'In-Progress'},

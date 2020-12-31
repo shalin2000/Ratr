@@ -23,6 +23,8 @@ const Separator = () => (
 );
 
 class LoginScreen extends React.Component {
+  _isMounted = false;
+
   constructor(props){
     super(props);
       this.state = {
@@ -55,6 +57,7 @@ class LoginScreen extends React.Component {
   }
   
   componentDidMount(){
+    this._isMounted = true;
     firebase.auth().onAuthStateChanged((user) => {
       if (!user) {
         console.log('user is logged out')
@@ -66,6 +69,14 @@ class LoginScreen extends React.Component {
         this.setState({user: user, loggedOut: false})
       }
     });
+  }
+
+  // unmounts the component to avoid any leaks
+  componentWillUnmount() {
+    this._isMounted = false;
+    this.setState = (state,callback)=>{
+      return;
+    };
   }
 
   // logout

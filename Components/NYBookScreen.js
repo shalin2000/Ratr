@@ -183,8 +183,8 @@ class NYBookScreen extends React.Component {
               <Text style={styles.description}>
                 Buy Links
               </Text>
-              <View >
-                {/* <RNPickerSelect
+              <View>
+                <RNPickerSelect
                   placeholder={{
                       label: 'Select a Store',
                       value: 'undefined',
@@ -198,22 +198,6 @@ class NYBookScreen extends React.Component {
                       { label: 'Bookshop', value: this.state.Bookshop },
                       { label: 'Indiebound', value: this.state.Indiebound },
                   ]}
-                /> */}
-                <DropDownPicker
-                  items={[
-                    { label: 'Amazon', value: this.state.Amazon },
-                    { label: 'Apple Books', value: this.state.AppleBooks },
-                    { label: 'Barnes and Noble', value: this.state.BarnesandNoble },
-                    { label: 'Books-A-Million', value: this.state.BooksAMillion },
-                    { label: 'Bookshop', value: this.state.Bookshop },
-                    { label: 'Indiebound', value: this.state.Indiebound },
-                  ]}
-                  placeholder='Select a Store'
-                  containerStyle={{ height: 40 }}
-                  style={{ backgroundColor: '#fafafa' }}
-                  itemStyle={{ justifyContent: 'flex-start' }}
-                  dropDownStyle={{backgroundColor: '#fafafa'}}
-                  onChangeItem={item => Linking.openURL(item.value)}
                 />
               </View>
             </View>

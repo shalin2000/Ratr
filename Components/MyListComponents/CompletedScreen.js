@@ -92,7 +92,7 @@ export default class CompletedScreen extends React.Component {
 
   render() {
     const dotsIcon = <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
-    const commentIcon = <FontAwesome name="comment" size={24} color="black" />
+    const commentIcon = <FontAwesome name="comment-o" size={24} color="white" />
 
     // gets only the data that belongs to the current user that is logged in
     var userData = this.state.user !== null ? this.state.myListData.filter(x => (x.email === this.state.user.email) && (x.user_progress === 'Completed')) : null;
@@ -226,12 +226,12 @@ const styles = StyleSheet.create({
     width: 140, height: 200, resizeMode: 'stretch'
   },
   overlayRatingText: {
-    backgroundColor: 'rgba(52, 52, 52, 0.7)', fontWeight: 'bold', color: 'white', 
+    backgroundColor: 'rgba(52, 52, 52, 0.7)', color: 'white', 
     position: 'absolute', top: 0, right: 0, fontSize: 22
   },
   overlayCommentIcon: {
     backgroundColor: 'rgba(52, 52, 52, 0.7)',
-    position: 'absolute', bottom: 0, right: 0,
+    position: 'absolute', bottom: 2, right: 2,
   },
   centeredView: {
     flex: 1,

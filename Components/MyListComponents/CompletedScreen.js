@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Button, Text, ScrollView, StyleSheet, Switch, SafeAreaView, 
-        StatusBar, Image, ImageBackground, FlatList, TouchableOpacity} from 'react-native'
+        StatusBar, Image, ImageBackground, FlatList, TouchableOpacity, Modal} from 'react-native'
 import Constants from 'expo-constants';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { MaterialCommunityIcons, FontAwesome } from '@expo/vector-icons';
 import { MenuProvider, Menu, MenuTrigger, MenuOptions, MenuOption,} from 'react-native-popup-menu';
 import {Picker} from '@react-native-picker/picker';
 import DropDownPicker from 'react-native-dropdown-picker';
@@ -21,7 +21,9 @@ export default class CompletedScreen extends React.Component {
       user: [],
       myListData: [], userData: [],
       progress: 'Completed',
-      uniqueValue: 1
+      uniqueValue: 1,
+      modalVisible: false,
+      selectedItem: []
     }
   }
 
@@ -83,8 +85,14 @@ export default class CompletedScreen extends React.Component {
     }
   }
 
+  setModalVisible = (visible, item) => {
+    this.setState({ modalVisible: visible, selectedItem: item});
+  }
+
+
   render() {
     const dotsIcon = <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
+    const commentIcon = <FontAwesome name="comment" size={24} color="black" />
 
     // gets only the data that belongs to the current user that is logged in
     var userData = this.state.user !== null ? this.state.myListData.filter(x => (x.email === this.state.user.email) && (x.user_progress === 'Completed')) : null;
@@ -130,8 +138,33 @@ export default class CompletedScreen extends React.Component {
                             -/5
                           </Text>
                         }
+                        {item.user_comment !== '' ? 
+                          <TouchableOpacity style={styles.overlayCommentIcon}
+                          onPress={() => { this.setModalVisible(true, item)}}
+                          >
+                            {commentIcon}
+                          </TouchableOpacity>
+                          : null
+                        }
                     </ImageBackground>
+                    <View style={styles.centeredView}>
+                      <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
+                        <View style={styles.centeredView}>
+                          <View style={styles.modalView}>
+                            <Text style={styles.modalText}>{this.state.selectedItem.user_comment}</Text>
 
+                            <TouchableOpacity
+                              style={{ ...styles.openButton, backgroundColor: "#2196F3" }}
+                              onPress={() => {
+                                this.setModalVisible(!this.state.modalVisible,[]);
+                              }}
+                            >
+                              <Text style={styles.textStyle}>Hide Modal</Text>
+                            </TouchableOpacity>
+                          </View>
+                        </View>
+                      </Modal>
+                    </View>
                     <View style={{flexDirection: 'row', width: 140, height: 35, backgroundColor: 'tomato', justifyContent: 'center', alignItems: 'center'}}>
                       {item.book_name.length <= 30 ? 
                       <Text style={styles.textStyle}>{item.book_name}</Text> : 
@@ -190,5 +223,45 @@ const styles = StyleSheet.create({
   overlayRatingText: {
     backgroundColor: 'rgba(52, 52, 52, 0.7)', fontWeight: 'bold', color: 'white', 
     position: 'absolute', top: 0, right: 0, fontSize: 22
+  },
+  overlayCommentIcon: {
+    backgroundColor: 'rgba(52, 52, 52, 0.7)',
+    position: 'absolute', bottom: 0, right: 0,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 22
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
+  },
+  openButton: {
+    backgroundColor: "#F194FF",
+    borderRadius: 20,
+    padding: 10,
+    elevation: 2
+  },
+  textStyle: {
+    color: "white",
+    fontWeight: "bold",
+    textAlign: "center"
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: "center"
   }
 })

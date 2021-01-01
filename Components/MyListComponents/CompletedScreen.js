@@ -29,7 +29,7 @@ export default class CompletedScreen extends React.Component {
 
   // gets the data from the django backend
   fetchDataFromApi = () => {
-    const url = "http://192.168.0.13:8000/api/list/";
+    const url = "http://192.168.1.23:8000/api/list/";
     fetch(url).then(res => res.json())
     .then(res => {
       this.setState({myListData: res})

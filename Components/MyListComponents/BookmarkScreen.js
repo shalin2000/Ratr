@@ -29,7 +29,7 @@ export default class BookmarkScreen extends React.Component {
 
   // gets the data from the django backend
   fetchDataFromApi = () => {
-    const url = "http://192.168.1.74:8000/api/list/";
+    const url = "http://192.168.0.13:8000/api/list/";
     fetch(url).then(res => res.json())
     .then(res => {
       this.setState({myListData: res})
@@ -126,7 +126,7 @@ export default class BookmarkScreen extends React.Component {
                 columnWrapperStyle={{flex: 1, justifyContent: "space-around"}}
                 numColumns={2}
                 renderItem={({ item }) => (
-                  <View style={{marginBottom: 10, marginRight: 10}}>
+                  <View style={{marginBottom: -10, marginRight: 10}}>
                     <ImageBackground source={{ uri:item.book_url }}
                         style={{ width: 140, height: 220, position: 'relative', top: 0, left: 0 }} >
                         {item.user_rating !== 'N/A' ? 
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
     position: 'absolute', top: 0, right: 0, fontSize: 22
   },
   overlayCommentIcon: {
-    backgroundColor: 'rgba(52, 52, 52, 0.7)',
+    backgroundColor: 'rgba(52, 52, 52, 0.3)',
     position: 'absolute', bottom: 2, right: 2,
   },
   centeredView: {

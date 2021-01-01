@@ -60,7 +60,7 @@ export default class CompletedScreen extends React.Component {
         else{
           console.log('user is logged in ', user.email)
           this.fetchDataFromApi()
-          this.setState({user: user, loggedOut: false, progress: 'Completed', selectedDone: true})
+          this.setState({user: user, loggedOut: false, progress: 'Completed', selectedDone: true, userProgress: 'Completed'})
         }
       });
     });
@@ -112,9 +112,6 @@ export default class CompletedScreen extends React.Component {
 
   // it will post to the api with the correct info that user enters
   updateToAPI(item){
-    console.log(item.book_name)
-    console.log(item.book_author)
-    console.log(item.book_url)
     const data = { 
       email: this.state.user.email,
       book_name: item.book_name,
@@ -139,23 +136,6 @@ export default class CompletedScreen extends React.Component {
     .catch((error) => {
       console.error('Error:', error);
     });
-
-  //   const requestOptions = {
-  //     method: 'PUT',
-  //     headers: { 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({
-  //       email: this.state.user.email,
-  //       book_name: item.book_name,
-  //       book_author: item.book_author,
-  //       book_url: item.book_image,
-  //       user_rating: this.state.userRating,
-  //       user_comment: this.state.userComment,
-  //       user_progress: this.state.userProgress,
-  //     }),
-  //   };
-  //   fetch('http://192.168.1.74:8000/api/list/', requestOptions)
-  //     .then(response => response.json())
-  //     .then(data => console.log(data));
   }
 
   // when rating has been done it will set state to store for backend
@@ -350,7 +330,7 @@ export default class CompletedScreen extends React.Component {
                               </TouchableOpacity>
 
                               <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "tomato", flex: 1, marginLeft: 10 }}
-                                onPress={() => {this.setUpdateModalVisible(!this.state.updateModalVisible,item,'submit')}}>
+                                onPress={() => {this.setUpdateModalVisible(!this.state.updateModalVisible,this.state.selectedItem,'submit')}}>
                                 <Text style={styles.textStyle}>Update</Text>
                               </TouchableOpacity>
                             </View>

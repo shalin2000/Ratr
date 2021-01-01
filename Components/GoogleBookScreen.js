@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, ScrollView, 
-        Image, TouchableOpacity, Linking, Modal, TextInput, Dimensions  } from "react-native";
+        Image, TouchableOpacity, Linking, Modal, TextInput, Dimensions, KeyboardAvoidingView, 
+        Platform, Keyboard  } from "react-native";
 import Stars from 'react-native-stars';
 import ReadMore from 'react-native-read-more-text';
 import { FAB } from 'react-native-paper';
@@ -26,7 +27,8 @@ class GoogleBookScreen extends React.Component {
       userComment: '',
       userProgress: '',
       user: [],
-      selectedReading: false, selectedDone: false, selectedBookmark: false
+      selectedReading: false, selectedDone: false, selectedBookmark: false,
+      keyboard: false,
     };
     this.getAuthors = this.getAuthors.bind(this);
 	}
@@ -54,6 +56,21 @@ class GoogleBookScreen extends React.Component {
         }
       });
     });
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow,);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide,);
+  }
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow = () => {
+    this.setState({keyboard: true})
+  }
+
+  _keyboardDidHide = () => {
+    this.setState({keyboard: false})
   }
 
   // gets the author and adds "AND" between multiple authors if there is
@@ -204,7 +221,7 @@ class GoogleBookScreen extends React.Component {
           </ScrollView>
 
           <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
-            <View style={styles.centeredView}>
+            <View style={this.state.keyboard ? styles.topView : styles.centeredView}>
               <View style={styles.modalView}>
                 <TouchableOpacity style={{marginRight: -20, marginTop: 5, alignSelf: 'flex-end'}} 
                   onPress={() => {this.setModalVisible(!this.state.modalVisible)}}>
@@ -322,6 +339,12 @@ const styles = StyleSheet.create({
   },
   fab: {
     position: 'absolute', margin: 16, right: 0, bottom: 0, backgroundColor: 'tomato'
+  },
+  topView: {
+    flex: 1,
+    justifyContent: Platform.OS === 'android' ? 'center' : 'flex-start',
+    alignItems: "center",
+    marginTop: 22
   },
   centeredView: {
     flex: 1,

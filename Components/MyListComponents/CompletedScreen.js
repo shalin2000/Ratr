@@ -178,7 +178,7 @@ export default class CompletedScreen extends React.Component {
                                 this.setModalVisible(!this.state.modalVisible,[]);
                               }}
                             >
-                              <Text style={styles.modalTextStyle}>Hide Modal</Text>
+                              <Text style={styles.modalTextStyle}>Hide Comment</Text>
                             </TouchableOpacity>
                           </View>
                         </View>

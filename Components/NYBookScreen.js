@@ -1,7 +1,7 @@
 import * as React from "react";
 import { StyleSheet, Button, View, SafeAreaView, Text, Alert, 
         ScrollView, Image, Linking, TouchableOpacity, Modal, TextInput, 
-        TouchableWithoutFeedback, Dimensions } from "react-native";
+        TouchableWithoutFeedback, Dimensions, KeyboardAvoidingView, Platform, Keyboard } from "react-native";
 import { FAB, Divider } from 'react-native-paper';
 import ReadMore from 'react-native-read-more-text';
 import RNPickerSelect from 'react-native-picker-select';
@@ -35,6 +35,7 @@ class NYBookScreen extends React.Component {
       userProgress: '',
       user: [],
       selectedReading: false, selectedDone: false, selectedBookmark: false,
+      keyboard: false,
     };
     this.getBuyLinkurl = this.getBuyLinkurl.bind(this);
 	}
@@ -60,7 +61,22 @@ class NYBookScreen extends React.Component {
         }
       });
     });
+    this.keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', this._keyboardDidShow,);
+    this.keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', this._keyboardDidHide,);
 	}
+
+  componentWillUnmount() {
+    this.keyboardDidShowListener.remove();
+    this.keyboardDidHideListener.remove();
+  }
+
+  _keyboardDidShow = () => {
+    this.setState({keyboard: true})
+  }
+
+  _keyboardDidHide = () => {
+    this.setState({keyboard: false})
+  }
 
   // gets the links and stores them into the state if there exist those buy links
   getBuyLinkurl(buyLink){
@@ -203,9 +219,9 @@ class NYBookScreen extends React.Component {
             </View>
 
           </ScrollView>
-
+          
           <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
-            <View style={styles.centeredView}>
+            <View style={this.state.keyboard ? styles.topView : styles.centeredView}>
               <View style={styles.modalView}>
                 <TouchableOpacity style={{marginRight: -20, marginTop: 5, alignSelf: 'flex-end'}} 
                   onPress={() => {this.setModalVisible(!this.state.modalVisible)}}>
@@ -252,7 +268,7 @@ class NYBookScreen extends React.Component {
                   <Text style={{marginVertical: 10}} >_________________</Text>
                   
                   <TextInput style={styles.modalText} multiline = {true} placeholder="Enter your comment about the book"
-                  maxLength = {280}
+                  maxLength = {280} onSubmitEditing={()=>Keyboard.dismiss()}
                   onChangeText={userComment => this.setState({userComment: userComment})} defaultValue={this.state.userComment}
                   />
 
@@ -312,6 +328,12 @@ const styles = StyleSheet.create({
   fab: {
     position: 'absolute', margin: 16, right: 0, bottom: 0, 
     backgroundColor: 'tomato',
+  },
+  topView: {
+    flex: 1,
+    justifyContent: Platform.OS === 'android' ? 'center' : 'flex-start',
+    alignItems: "center",
+    marginTop: 22
   },
   centeredView: {
     flex: 1,

@@ -32,7 +32,7 @@ export default class BookmarkScreen extends React.Component {
       updateModalVisible: false,
       userRating: '', userComment: '', userProgress: '',
       selectedReading: false, selectedDone: false, selectedBookmark: false,
-      keyboard: false,
+      keyboard: false, refreshing: false
     }
   }
 
@@ -87,7 +87,7 @@ export default class BookmarkScreen extends React.Component {
     const url = "http://192.168.1.74:8000/api/list/";
     fetch(url).then(res => res.json())
     .then(res => {
-      this.setState({myListData: res})
+      this.setState({myListData: res, refreshing: false})
     })
     .catch(error => {
       console.log(error)
@@ -197,6 +197,15 @@ export default class BookmarkScreen extends React.Component {
     }
   }
 
+  // refreshes the screen and calls api when pull down
+  handleRefresh = () => {
+    this.setState({
+      refreshing: true
+    }, () => {
+      this.fetchDataFromApi()
+    })
+  }
+
   render() {
     const dotsIcon = <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
     const commentIcon = <FontAwesome name="comment-o" size={24} color="gold" />
@@ -286,7 +295,7 @@ export default class BookmarkScreen extends React.Component {
                     <View style={styles.centeredView}>
                       <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
                         <View style={styles.centeredView}>
-                          <View style={styles.modalView}>
+                          <View style={styles.modalViewComment}>
                             <Text style={styles.modalText}>{this.state.selectedItem.user_comment}</Text>
 
                             <TouchableOpacity
@@ -375,6 +384,8 @@ export default class BookmarkScreen extends React.Component {
 
                 )}
                 keyExtractor={item => item.id}
+                refreshing={this.state.refreshing}
+                onRefresh={this.handleRefresh}
               />
             </MenuProvider>
           </View>
@@ -424,6 +435,21 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginTop: 22
+  },
+  modalViewComment: {
+    margin: 20,
+    backgroundColor: "white",
+    borderRadius: 20,
+    padding: 35,
+    alignItems: "center",
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5
   },
   modalView: {
     margin: 20,

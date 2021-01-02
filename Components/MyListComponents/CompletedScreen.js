@@ -84,7 +84,7 @@ export default class CompletedScreen extends React.Component {
 
   // gets the data from the django backend
   fetchDataFromApi = () => {
-    const url = "http://192.168.1.74:8000/api/list/";
+    const url = "http://192.168.0.13:8000/api/list/";
     fetch(url).then(res => res.json())
     .then(res => {
       this.setState({myListData: res, refreshing: false})
@@ -106,7 +106,7 @@ export default class CompletedScreen extends React.Component {
       user_progress: this.state.userProgress, 
     };
 
-    fetch('http://192.168.1.74:8000/api/list/'+item.id+'/', {
+    fetch('http://192.168.0.13:8000/api/list/'+item.id+'/', {
       method: 'PUT', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ export default class CompletedScreen extends React.Component {
 
   // Make the Delete call using fetch api
   deleteFromAPI(item){
-    fetch('http://192.168.1.74:8000/api/list/'+item.id+'/', {
+    fetch('http://192.168.0.13:8000/api/list/'+item.id+'/', {
      method: 'DELETE',
      headers: {
       'Content-type': 'application/json'
@@ -208,7 +208,7 @@ export default class CompletedScreen extends React.Component {
 
   render() {
     const dotsIcon = <MaterialCommunityIcons name="dots-vertical" size={24} color="black" />
-    const commentIcon = <FontAwesome name="comment-o" size={24} color="gold" />
+    const commentIcon = <FontAwesome name="comment-o" size={24} color="#FFEBCD" />
 
     const closeIcon = <Icon name="close" size={20} color="grey" />
 
@@ -250,12 +250,12 @@ export default class CompletedScreen extends React.Component {
               <FlatList
                 data={userData}
                 extraData={this.state.uniqueValue}
-                columnWrapperStyle={{flex: 1, justifyContent: "space-around", borderRadius: 5,}}
+                columnWrapperStyle={{flex: 1, justifyContent: "space-around"}}
                 numColumns={2}
                 renderItem={({ item }) => (
-                  <View style={{ marginRight: 10, margin:5, borderWidth: 3, borderColor: '#E9967A', borderRadius: 5}}>
+                  <View style={{marginBottom: -10}}>
                     <ImageBackground source={{ uri:item.book_url }}
-                        style={{ width: 140, height: 220, position: 'relative', top: 0, left: 0 ,}} >
+                        style={{ width: 140, height: 200, position: 'relative', top: 0, left: 0 ,}} >
                         {item.user_rating !== '' ? 
                           <Text style={styles.overlayRatingText}>
                             {item.book_name === this.state.selectedItem.book_name ? 
@@ -275,7 +275,8 @@ export default class CompletedScreen extends React.Component {
                         }
                     </ImageBackground>
                     
-                    <View style={{flexDirection: 'row', width: 140, height: 35, backgroundColor: 'tomato', justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{flexDirection: 'row', width: 140, height: 35, backgroundColor: '#7d606f', 
+                    justifyContent: 'center', alignItems: 'center'}}>
                       {item.book_name.length <= 30 ? 
                       <Text style={styles.textStyle}>{item.book_name}</Text> : 
                       <Text style={styles.textStyle}>{item.book_name.substring(0,27)}...</Text> 
@@ -424,7 +425,7 @@ const styles = StyleSheet.create({
   overlayRatingText: {
     backgroundColor: 'rgba(52, 52, 52, 0.7)', color: '#FFEBCD', 
     borderRadius: 5, borderWidth: 1, padding: 2, borderColor: "#696969",
-    position: 'absolute', top: 0, right: 0, fontSize: 20
+    position: 'absolute', top: 2, right: 2, fontSize: 20
   },
   overlayCommentIcon: {
     backgroundColor: 'rgba(52, 52, 52, 0.3)', color: '#FFEBCD',

@@ -84,7 +84,7 @@ export default class InProgressScreen extends React.Component {
 
   // gets the data from the django backend
   fetchDataFromApi = () => {
-    const url = "http://192.168.0.13:8000/api/list/";
+    const url = "http://192.168.1.74:8000/api/list/";
     fetch(url).then(res => res.json())
     .then(res => {
       this.setState({myListData: res, refreshing: false})
@@ -106,7 +106,7 @@ export default class InProgressScreen extends React.Component {
       user_progress: this.state.userProgress, 
     };
 
-    fetch('http://192.168.0.13:8000/api/list/'+item.id+'/', {
+    fetch('http://192.168.1.74:8000/api/list/'+item.id+'/', {
       method: 'PUT', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ export default class InProgressScreen extends React.Component {
 
   // Make the Delete call using fetch api
   deleteFromAPI(item){
-    fetch('http://192.168.0.13:8000/api/list/'+item.id+'/', {
+    fetch('http://192.168.1.74:8000/api/list/'+item.id+'/', {
      method: 'DELETE',
      headers: {
       'Content-type': 'application/json'

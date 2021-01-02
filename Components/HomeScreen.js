@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View, Button, Image, ScrollView, FlatList, 
-      ActivityIndicator, TouchableHighlight, TouchableOpacity, SafeAreaView, Platform } from 'react-native';
+      ActivityIndicator, TouchableHighlight, TouchableOpacity, SafeAreaView, Platform, Linking } from 'react-native';
 import { Searchbar } from 'react-native-paper';
 
 class HomeScreen extends React.Component {
@@ -147,6 +147,14 @@ class HomeScreen extends React.Component {
           {flat(this.state.audioficBS, 'Audio Fiction')}
           {flat(this.state.audioNonficBS, 'Audio Non-Fiction')}
           {flat(this.state.adviceBS, 'Advice, How-To and Miscellaneous')}
+          
+         
+          <TouchableOpacity onPress={() => {Linking.openURL('https://developer.nytimes.com/');}} style={{flex: 1, flexDirection: 'row', justifyContent: 'center', alignItems: 'center', marginBottom: 20,}}>
+            <Text style={styles.nyText}>Data provided by The New York Times </Text>
+            <Image source={require('../Images/ny_times_logo.png')} /> 
+          </TouchableOpacity>
+          
+
         </ScrollView>
       </SafeAreaView>
      :
@@ -173,7 +181,10 @@ const styles = StyleSheet.create({
   text: {
     color: '#ebe4d3', fontSize: 20, marginTop: 10,
     fontWeight: 'bold', textAlign: 'center',
-    
+  },
+  nyText: {
+    color: '#ebe4d3', fontSize: 12, marginRight: 5,
+    fontWeight: 'bold', textAlign: 'center',
   },
   title: {
     paddingRight: 10,

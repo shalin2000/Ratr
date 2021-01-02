@@ -356,12 +356,12 @@ export default class InProgressScreen extends React.Component {
                             />
 
                             <View style={{flexDirection: 'row'}}>
-                              <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "tomato", flex: 1 }}
+                              <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "tomato" }}
                                 onPress={() => {this.setState({userComment: ''})}}>
                                 <Text style={styles.textStyle}>Clear</Text>
                               </TouchableOpacity>
 
-                              <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "tomato", flex: 1, marginLeft: 10 }}
+                              <TouchableOpacity style={{ ...styles.openButton, backgroundColor: "tomato", marginLeft: 10 }}
                                 onPress={() => {this.setUpdateModalVisible(!this.state.updateModalVisible,this.state.selectedItem,'submit')}}>
                                 <Text style={styles.textStyle}>Update</Text>
                               </TouchableOpacity>
@@ -429,8 +429,11 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: "white",
     borderRadius: 20,
-    padding: 35,
-    alignItems: "center",
+    // padding: 35,
+    paddingLeft: 35,
+    paddingBottom: 35,
+    paddingRight: 35,
+    // alignItems: "center",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

@@ -30,7 +30,7 @@ export default class CompletedScreen extends React.Component {
       modalVisible: false,
       selectedItem: [],
       updateModalVisible: false,
-      userRating: '', userComment: '', userProgress: '',
+      userRating: '', userComment: '', userProgress: '', userCommentForModal: '',
       selectedReading: false, selectedDone: false, selectedBookmark: false,
       keyboard: false, refreshing: false
     }
@@ -154,7 +154,7 @@ export default class CompletedScreen extends React.Component {
 
   // view comment modal
   setModalVisible = (visible, item) => {
-    this.setState({ modalVisible: visible, selectedItem: item});
+    this.setState({ modalVisible: visible, userCommentForModal: item});
   }
 
   // makes the modal visible when user clicks the plus button
@@ -267,7 +267,7 @@ export default class CompletedScreen extends React.Component {
                         }
                         {item.user_comment !== '' ? 
                           <TouchableOpacity style={styles.overlayCommentIcon}
-                          onPress={() => { this.setModalVisible(true, item)}}
+                          onPress={() => { this.setModalVisible(true, item.user_comment)}}
                           >
                             {commentIcon}
                           </TouchableOpacity>
@@ -296,7 +296,7 @@ export default class CompletedScreen extends React.Component {
                       <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
                         <View style={styles.centeredView}>
                           <View style={styles.modalViewComment}>
-                            <Text style={styles.modalText}>{this.state.selectedItem.user_comment}</Text>
+                            <Text style={styles.modalText}>{this.state.userCommentForModal}</Text>
 
                             <TouchableOpacity
                               style={{ ...styles.openButton, backgroundColor: "#2196F3" }}

@@ -164,7 +164,7 @@ class LoginScreen extends React.Component {
       : 
       // if user is logged in then display this
       <SafeAreaView style={styles.droidSafeArea}>
-        <View style={{flex: 1, backgroundColor: "#1b1b1c", alignItems: "center",}}>
+        <View style={styles.container}>
           {/* brings up the edit username popup */}
           <Modal animationType="slide" transparent={true} visible={this.state.modalVisible}>
             <View style={styles.centeredView}>

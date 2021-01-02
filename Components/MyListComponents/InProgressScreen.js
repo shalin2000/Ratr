@@ -175,12 +175,13 @@ export default class InProgressScreen extends React.Component {
       }
     }
     if (txt === 'close'){
-      this.setState({ selectedDone: false, selectedBookmark: false, selectedReading: true, isLoading: true })
+      this.setState({ selectedDone: false, selectedBookmark: false, selectedReading: true })
     }
     if (txt === 'open'){
       this.setState({userRating: item.user_rating})
     }
-    this.setState({ updateModalVisible: visible, selectedItem: item, userComment: item.user_comment });
+    this.setState({ updateModalVisible: visible, selectedItem: item, userComment: item.user_comment,
+                    selectedDone: false, selectedBookmark: false, selectedReading: true });
   }
 
   // sets the state of the selected icon which shows the progess of the book

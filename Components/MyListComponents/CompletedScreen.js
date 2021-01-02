@@ -175,12 +175,13 @@ export default class CompletedScreen extends React.Component {
       }
     }
     if (txt === 'close'){
-      this.setState({ selectedDone: true, selectedBookmark: false, selectedReading: false, isLoading: true })
+      this.setState({ selectedDone: true, selectedBookmark: false, selectedReading: false })
     }
     if (txt === 'open'){
       this.setState({userRating: item.user_rating})
     }
-    this.setState({ updateModalVisible: visible, selectedItem: item, userComment: item.user_comment });
+    this.setState({ updateModalVisible: visible, selectedItem: item, userComment: item.user_comment,
+                    selectedDone: true, selectedBookmark: false, selectedReading: false });
   }
 
   // sets the state of the selected icon which shows the progess of the book

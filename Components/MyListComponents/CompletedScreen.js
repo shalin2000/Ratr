@@ -32,20 +32,9 @@ export default class CompletedScreen extends React.Component {
       updateModalVisible: false,
       userRating: '', userComment: '', userProgress: '',
       selectedReading: false, selectedDone: false, selectedBookmark: false,
+      keyboard: false,
     }
   }
-
-  // gets the data from the django backend
-  fetchDataFromApi = () => {
-    const url = "http://192.168.1.23:8000/api/list/";
-    fetch(url).then(res => res.json())
-    .then(res => {
-      this.setState({myListData: res})
-    })
-    .catch(error => {
-      console.log(error)
-    })
-  };
 
   // when component mounts, it will check for focus on myList and call the API
   componentDidMount(){
@@ -93,22 +82,17 @@ export default class CompletedScreen extends React.Component {
     }))
   }
 
-  // when item in the picker is selected it will naviagte 
-  itemSelected = (item) => {
-    if (item.value === 'In-Progress'){
-      this.forceRemount()
-      this.props.navigation.navigate('InProgress')
-    }
-    if (item.value === 'Bookmark'){
-      this.forceRemount()
-      this.props.navigation.navigate('Bookmark')
-    }
-  }
-
-  // view comment modal
-  setModalVisible = (visible, item) => {
-    this.setState({ modalVisible: visible, selectedItem: item});
-  }
+  // gets the data from the django backend
+  fetchDataFromApi = () => {
+    const url = "http://192.168.1.74:8000/api/list/";
+    fetch(url).then(res => res.json())
+    .then(res => {
+      this.setState({myListData: res})
+    })
+    .catch(error => {
+      console.log(error)
+    })
+  };
 
   // it will post to the api with the correct info that user enters
   updateToAPI(item){
@@ -122,7 +106,7 @@ export default class CompletedScreen extends React.Component {
       user_progress: this.state.userProgress, 
     };
 
-    fetch('http://192.168.1.23:8000/api/list/'+item.id+'/', {
+    fetch('http://192.168.1.74:8000/api/list/'+item.id+'/', {
       method: 'PUT', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
@@ -138,18 +122,63 @@ export default class CompletedScreen extends React.Component {
     });
   }
 
+  // Make the Delete call using fetch api
+  deleteFromAPI(item){
+    fetch('http://192.168.1.74:8000/api/list/'+item.id+'/', {
+     method: 'DELETE',
+     headers: {
+      'Content-type': 'application/json'
+     },
+    }) 
+    .then(response => response.json())
+    .then(data => console.log(data)) 
+    .catch(err => console.log(err)) 
+  }
+
+  // when item in the picker is selected it will naviagte 
+  itemSelected = (item) => {
+    if (item.value === 'In-Progress'){
+      this.forceRemount()
+      this.props.navigation.navigate('InProgress')
+    }
+    if (item.value === 'Bookmark'){
+      this.forceRemount()
+      this.props.navigation.navigate('Bookmark')
+    }
+  }
+  
   // when rating has been done it will set state to store for backend
   ratingCompleted = (rating) => {
     this.setState({userRating: rating.toString()})
+  }
+
+  // view comment modal
+  setModalVisible = (visible, item) => {
+    this.setState({ modalVisible: visible, selectedItem: item});
   }
 
   // makes the modal visible when user clicks the plus button
   setUpdateModalVisible = (visible,item,txt) => {
     if (txt === 'submit'){
       this.updateToAPI(item)
+      if (this.state.userProgress === 'Completed'){
+        this.fetchDataFromApi()
+        this.forceRemount()
+      }
+      if (this.state.userProgress === 'Reading'){
+        this.forceRemount()
+        this.props.navigation.navigate('InProgress')
+      }
+      if (this.state.userProgress === 'Read Later'){
+        this.forceRemount()
+        this.props.navigation.navigate('Bookmark')
+      }
     }
     if (txt === 'close'){
-      this.setState({ selectedDone: true, selectedBookmark: false, selectedReading: false })
+      this.setState({ selectedDone: true, selectedBookmark: false, selectedReading: false, isLoading: true })
+    }
+    if (txt === 'open'){
+      this.setState({userRating: item.user_rating})
     }
     this.setState({ updateModalVisible: visible, selectedItem: item, userComment: item.user_comment });
   }
@@ -210,15 +239,17 @@ export default class CompletedScreen extends React.Component {
             <MenuProvider style={styles.container} /*style = {{backgroundColor: 'yellow'}}*/>
               <FlatList
                 data={userData}
+                extraData={this.state.uniqueValue}
                 columnWrapperStyle={{flex: 1, justifyContent: "space-around", borderRadius: 5,}}
                 numColumns={2}
                 renderItem={({ item }) => (
                   <View style={{ marginRight: 10, margin:5, borderWidth: 3, borderColor: '#E9967A', borderRadius: 5}}>
                     <ImageBackground source={{ uri:item.book_url }}
                         style={{ width: 140, height: 220, position: 'relative', top: 0, left: 0 ,}} >
-                        {item.user_rating !== 'N/A' ? 
-                          <Text style={styles.overlayRatingText} >
-                            {item.user_rating}/5
+                        {item.user_rating !== '' ? 
+                          <Text style={styles.overlayRatingText}>
+                            {item.book_name === this.state.selectedItem.book_name ? 
+                              <Text>{this.state.userRating}/5</Text> : <Text>{item.user_rating}/5</Text>}
                           </Text> : 
                           <Text style={styles.overlayRatingText} >
                             -/5
@@ -244,8 +275,8 @@ export default class CompletedScreen extends React.Component {
                           {dotsIcon}
                         </MenuTrigger>
                         <MenuOptions>
-                          <MenuOption onSelect={() => this.setUpdateModalVisible(true,item)} text='Update' />
-                          <MenuOption onSelect={() => alert(`Delete`)} text='Delete' />
+                          <MenuOption onSelect={() => this.setUpdateModalVisible(true,item,'open')} text='Update' />
+                          <MenuOption onSelect={() => this.deleteFromAPI(item)} text='Delete' />
                         </MenuOptions>
                       </Menu>
                     </View>
@@ -308,7 +339,7 @@ export default class CompletedScreen extends React.Component {
                               type='custom'
                               fractions={1}
                               type='star'
-                              startingValue={this.state.selectedItem.user_rating}
+                              startingValue={this.state.selectedItem.user_rating !== '' ? Number(this.state.selectedItem.user_rating) : Number(item.user_rating)}
                               ratingCount={5}
                               imageSize={35}
                               showRating
@@ -341,7 +372,7 @@ export default class CompletedScreen extends React.Component {
                   </View> 
 
                 )}
-                keyExtractor={item => item.book_name}
+                keyExtractor={item => item.id}
               />
             </MenuProvider>
           </View>

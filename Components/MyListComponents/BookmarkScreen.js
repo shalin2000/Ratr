@@ -49,7 +49,7 @@ export default class BookmarkScreen extends React.Component {
         else{
           console.log('user is logged in ', user.email)
           this.fetchDataFromApi()
-          this.setState({user: user, loggedOut: false, progress: 'Bookmark', selectedBookmark: true, userProgress: 'Bookmark'})
+          this.setState({user: user, loggedOut: false, progress: 'Bookmark', selectedBookmark: true, userProgress: 'Read Later'})
         }
       });
     });

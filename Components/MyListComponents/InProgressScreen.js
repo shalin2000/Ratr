@@ -49,7 +49,7 @@ export default class InProgressScreen extends React.Component {
         else{
           console.log('user is logged in ', user.email)
           this.fetchDataFromApi()
-          this.setState({user: user, loggedOut: false, progress: 'In-Progress', selectedReading: true, userProgress: 'In-Progress'})
+          this.setState({user: user, loggedOut: false, progress: 'In-Progress', selectedReading: true, userProgress: 'Reading'})
         }
       });
     });

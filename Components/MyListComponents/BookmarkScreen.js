@@ -275,7 +275,7 @@ export default class BookmarkScreen extends React.Component {
                         }
                     </ImageBackground>
                     
-                    <View style={{flexDirection: 'row', width: 140, height: 35, backgroundColor: '7d606f', justifyContent: 'center', alignItems: 'center'}}>
+                    <View style={{flexDirection: 'row', width: 140, height: 35, backgroundColor: '#7d606f', justifyContent: 'center', alignItems: 'center'}}>
                       {item.book_name.length <= 30 ? 
                       <Text style={styles.textStyle}>{item.book_name}</Text> : 
                       <Text style={styles.textStyle}>{item.book_name.substring(0,27)}...</Text> 

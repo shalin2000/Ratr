@@ -118,7 +118,7 @@ class NYBookScreen extends React.Component {
         user_progress: this.state.userProgress,
       }),
     };
-    fetch('http://192.168.1.74:8000/api/list/', requestOptions)
+    fetch('http://192.168.1.23:8000/api/list/', requestOptions)
       .then(response => response.json())
       .then(data => console.log(data));
   }

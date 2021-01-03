@@ -84,7 +84,7 @@ export default class InProgressScreen extends React.Component {
 
   // gets the data from the django backend
   fetchDataFromApi = () => {
-    const url = "http://192.168.1.74:8000/api/list/";
+    const url = "http://192.168.0.13:8000/api/list/";
     fetch(url).then(res => res.json())
     .then(res => {
       this.setState({myListData: res, refreshing: false})
@@ -106,7 +106,7 @@ export default class InProgressScreen extends React.Component {
       user_progress: this.state.userProgress, 
     };
 
-    fetch('http://192.168.1.74:8000/api/list/'+item.id+'/', {
+    fetch('http://192.168.0.13:8000/api/list/'+item.id+'/', {
       method: 'PUT', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',
@@ -124,7 +124,7 @@ export default class InProgressScreen extends React.Component {
 
   // Make the Delete call using fetch api
   deleteFromAPI(item){
-    fetch('http://192.168.1.74:8000/api/list/'+item.id+'/', {
+    fetch('http://192.168.0.13:8000/api/list/'+item.id+'/', {
      method: 'DELETE',
      headers: {
       'Content-type': 'application/json'
@@ -225,8 +225,9 @@ export default class InProgressScreen extends React.Component {
     return (
       this.state.loggedOut === true ? 
       <SafeAreaView style={styles.droidSafeArea}>
-        <View style={styles.container}>
-          <Text style={styles.textStyle}>Login in first to access your list</Text>
+        <View style={{justifyContent: 'center', alignItems: 'center', flex:1, backgroundColor: '#1b1b1c'}}>
+          <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold', textAlign: 'center'}}>
+            Login to access your list</Text>
         </View>
       </SafeAreaView>
       :
@@ -246,6 +247,7 @@ export default class InProgressScreen extends React.Component {
                 dropDownStyle={{backgroundColor: '#fafafa'}}
                 onChangeItem={item => this.itemSelected(item)}
             />
+            {userData.length !== 0 ? 
             <MenuProvider style={styles.container}>
               <FlatList
                 data={userData}
@@ -388,6 +390,12 @@ export default class InProgressScreen extends React.Component {
                 onRefresh={this.handleRefresh}
               />
             </MenuProvider>
+            :
+          
+            <View style={{justifyContent: 'center', alignItems: 'center', flex:1, backgroundColor: '#1b1b1c'}}>
+              <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold', textAlign: 'center'}}>
+                No Books found. Add books to your currently reading list</Text>
+            </View> }
           </View>
         {/* </ScrollView> */}
       </SafeAreaView>

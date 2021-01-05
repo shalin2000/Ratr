@@ -395,7 +395,8 @@ export default class BookmarkScreen extends React.Component {
           
           <View style={{justifyContent: 'center', alignItems: 'center', flex:1, backgroundColor: '#1b1b1c'}}>
             <Text style={{color: 'white', fontSize: 30, fontWeight: 'bold', textAlign: 'center'}}>
-              No Books found. Add books to your bookmarked list</Text>
+              {this.state.user.displayName !== undefined ? 'Hello ' + this.state.user.displayName + ', n' : 'N'}
+              o books found. Add books to your bookmarked list</Text>
           </View> }
     
           </View>

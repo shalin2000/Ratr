@@ -110,7 +110,7 @@ class GoogleBookScreen extends React.Component {
         user_progress: this.state.userProgress,
       }),
     };
-    fetch('http://192.168.0.13:8000/api/list/', requestOptions)
+    fetch("https://ratr-app21.herokuapp.com/api/list/", requestOptions)
       .then(response => response.json())
       .then(data => console.log(data));
   }

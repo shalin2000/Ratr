@@ -1,7 +1,8 @@
 import * as React from "react";
 import { StyleSheet, TextInput, View, Button, StatusBar, Text, TouchableOpacity, Image, 
-  TouchableHighlight, Modal, SafeAreaView} from "react-native";
+  TouchableHighlight, Modal, SafeAreaView, FlatList} from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { Ionicons, MaterialIcons, MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'; 
 
 import firebase from 'firebase'
 require('firebase/auth')
@@ -39,23 +40,7 @@ class LoginScreen extends React.Component {
       this.Login = this.Login.bind(this)
   }
 
-  // updates the users name on the firebase auth system
-  updateName(){
-    const update = {
-      displayName: this.state.userName,
-      photoURL: null,
-    };
-    firebase.auth().currentUser.updateProfile(update);
-  }
-
-  // makes the modal visibal when user presses the edit button and if they click done then it will update their name
-  setModalVisible = (visible,txt) => {
-    if (txt === 'submit'){
-      this.updateName()
-    }
-    this.setState({ modalVisible: visible });
-  }
-  
+  // when component mounts, it checks if user is logged in or not
   componentDidMount(){
     this._isMounted = true;
     firebase.auth().onAuthStateChanged((user) => {
@@ -77,6 +62,15 @@ class LoginScreen extends React.Component {
     this.setState = (state,callback)=>{
       return;
     };
+  }
+
+  // updates the users name on the firebase auth system
+  updateName(){
+    const update = {
+      displayName: this.state.userName,
+      photoURL: null,
+    };
+    firebase.auth().currentUser.updateProfile(update);
   }
 
   // logout
@@ -109,9 +103,19 @@ class LoginScreen extends React.Component {
     })
   };
 
+  // makes the modal visibal when user presses the edit button and if they click done then it will update their name
+  setModalVisible = (visible,txt) => {
+    if (txt === 'submit'){
+      this.updateName()
+    }
+    this.setState({ modalVisible: visible });
+  }
+  
   render(){
     const editIcon = <Icon name="edit" size={20} color="white" />
 
+    const personIcon = <MaterialIcons name="person-pin" size={120} color="white" />
+              
     return (
       this.state.loggedOut === true ? 
       <SafeAreaView style={styles.droidSafeArea}>
@@ -182,8 +186,8 @@ class LoginScreen extends React.Component {
           </Modal>
 
           {/* userImage */}
-          <Image source={require('../../Images/profile.png')} style={{width: 150, height: 150, resizeMode: 'contain', marginTop: 25}} /> 
-          
+          {/* <Image source={require('../../Images/profile.png')} style={{width: 150, height: 150, resizeMode: 'contain', marginTop: 25}} />  */}
+          {personIcon}
           <Text style={styles.secondary}>Welcome {this.state.userName !== '' ? this.state.userName : this.state.user.displayName !== null ? this.state.user.displayName : null}</Text>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.secondary}>

@@ -7,7 +7,10 @@
       "staticConfigPath": null,
       "packageJsonPath": "/Users/ansar/edu/mobApp/ratr/package.json"
     },
-    "name": "ratr",
+    "name": "Ratr",
+    "description": "Rate, log, and track your favorite books using Ratr",
+    "githubUrl": "https://github.com/ak0625/ratr",
+    "icon": "./Images/ratrIcon.png",
     "slug": "ratr",
     "version": "1.0.0",
     "sdkVersion": "39.0.0",

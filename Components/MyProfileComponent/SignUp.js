@@ -5,13 +5,13 @@ import firebase from 'firebase'
 require('firebase/auth')
 
 var config = { 
-  apiKey: "AIzaSyBRgkmxwN9JAXVy_3xtcJpcbdF1nY4GC0k",
-  authDomain: "ratr-9b78a.firebaseapp.com",
-  projectId: "ratr-9b78a",
-  storageBucket: "ratr-9b78a.appspot.com",
-  messagingSenderId: "63538580742",
-  appId: "1:63538580742:web:decec5c5918f3aaecae287",
-  measurementId: "G-6XCC71P2S4"
+  apiKey: "",
+  authDomain: "",
+  projectId: "",
+  storageBucket: "",
+  messagingSenderId: "",
+  appId: "",
+  measurementId: ""
 };
 
 firebase.initializeApp(config);

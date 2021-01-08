@@ -7,7 +7,7 @@ require('firebase/auth')
 var config = { 
   apiKey: "",
   authDomain: "",
-  projectId: "r",
+  projectId: "",
   storageBucket: "",
   messagingSenderId: "",
   appId: "",

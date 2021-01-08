@@ -36,7 +36,8 @@ class HomeScreen extends React.Component {
 
   // calls the api with the genre parameter which was passed in by the componentdidmount
   callAPI(genre){
-    fetch('https://api.nytimes.com/svc/books/v3/lists/current/'+genre+'.json?api-key=iVMyu76Ghr7mUmgiypvYFsas8A73bA2K', {
+    const key = ''
+    fetch('https://api.nytimes.com/svc/books/v3/lists/current/'+genre+'.json?api-key='+key, {
           method: 'GET'
       })
       .then((response) => response.json())

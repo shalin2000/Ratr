@@ -22,7 +22,8 @@ class SearchScreen extends React.Component {
 	fetchAPI(bookTitle){
     var title = bookTitle.split(' ').join('_');
     var title1 = this.removeStuff(title);
-		fetch('https://www.googleapis.com/books/v1/volumes?q='+title1+'&key=AIzaSyC2uH3lMt5kv43Ys9p34UGWPtJymgOc-Qk', {
+    const key = ''
+		fetch('https://www.googleapis.com/books/v1/volumes?q='+title1+'&key='+key, {
 				method: 'GET'
 		})
 		.then((response) => response.json())

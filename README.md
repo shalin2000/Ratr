@@ -42,3 +42,16 @@ This project can be run from a web browser or the Expo client app. You may find 
 - Learn more about [Universal React](https://docs.expo.io/).
 - See what API and components are [available in the React runtimes](https://docs.expo.io/versions/latest/).
 - Find out more about developing apps and websites: [Guides](https://docs.expo.io/guides/).
+
+## ---------------------------------------------------------------------------------------------------------------------
+
+## How to run app
+
+This project can be run from a web browser using an simulator or using the Expo client app.
+
+- https://expo.io/@shalinp2000/projects/ratr
+- Using the website above you can scan the QR code on your camera if you have the Expo client app installed and it will launch the app for you.
+
+## How to update app
+
+- Expo publish
